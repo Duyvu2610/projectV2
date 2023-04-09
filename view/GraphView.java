@@ -78,7 +78,7 @@ public class GraphView extends JPanel {
 		    public void mouseDragged(MouseEvent e) {
 		        super.mouseDragged(e);
 		        if (dragging && controller.getCodeExcute() == 6 && currentVertex != null) {
-		 
+					
 		        	currentClick = e.getPoint();
 		        	int deltaX = (int)(currentClick.getX() - prevPt.getX());
 		        	int deltaY = (int)(currentClick.getY() - prevPt.getY());

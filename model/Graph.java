@@ -39,7 +39,9 @@ public class Graph{
 	    // Xóa đỉnh này khỏi adjacency list.
 //		System.out.println("vi tri click " + vertex);
 //		System.out.println("vertex list " + adjacencyList.keySet() );
-	    adjacencyList.remove(vertex);
+		Map<Vertex, List<Edge>> subList = new LinkedHashMap<Vertex, List<Edge>>(adjacencyList);
+	    subList.remove(vertex);
+		adjacencyList = new LinkedHashMap<Vertex, List<Edge>>(subList);
 	    // Cập nhật adjacency matrix.
 	    setAdjacencyMatrix();
 	    // Nếu có view hiển thị đồ thị thì cũng cần xóa vertex view tương ứng.
