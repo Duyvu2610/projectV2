@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.GraphController;
@@ -24,9 +25,9 @@ public class FeatureView extends JPanel {
 		setPreferredSize(new Dimension(100, 500));
 
 		// Danh sách các chức nang
-		String[] icon = { "src\\view\\images\\plus.png", "src\\view\\images\\remove.png",
-				"src\\view\\images\\molecular.png", "src\\view\\images\\edit.png", "src\\view\\images\\trash.png",
-				"src\\view\\images\\move.png" };
+		String[] icon = { "view\\images\\plus.png", "view\\images\\remove.png",
+				"view\\images\\molecular.png", "view\\images\\edit.png", "view\\images\\trash.png",
+				"view\\images\\move.png" };
 		String[] desc = { "Thêm đỉnh", "Xóa đỉnh", "Nối đỉnh", "Sửa tên", "Xóa đồ thị", "Di chuyển đồ thị" };
 		int[] codeExcute = { 1, 2, 3, 4, 5, 6 };
 		// Tạo 5 button và thêm vào panel
@@ -47,6 +48,13 @@ public class FeatureView extends JPanel {
 	                
 	                // Xử lý tác vụ khi nút được click
 	                graphController.setCodeExcute(codeExcute[index]);
+					if (graphController.getCodeExcute() == 5) {
+						int isConfirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa không ?", "Xóa đồ thị ?", JOptionPane.YES_NO_OPTION);
+						if (isConfirm == 0) {
+							graphController.removeAllGraph();
+							
+						}
+					}
 	            }
 	        });
 			add(button);

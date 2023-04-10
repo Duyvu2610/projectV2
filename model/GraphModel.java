@@ -62,8 +62,16 @@ public class GraphModel{
 //		notifyObservers();
 	}
 	public void removeVertex(Vertex vertex) {
-		System.out.println("xoa dinh " + vertex.getName() + "tai class graph model");
+	
 		graph.removeVertex(vertex);
+	}
+
+    public void addEdge(Edge edge) {
+		graph.addEdge(edge);
+    }
+
+	public void removeAll() {
+		graph.removeAll();
 	}
 
 	
