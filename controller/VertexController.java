@@ -32,8 +32,10 @@ public class VertexController {
 		return model;
 	}
 	public void updateView(Graphics2D g, Color colorPoint) {
-		view.drawPoint(g, colorPoint, getX(), getY(),model.R, getName());
+		view.drawPoint(g, colorPoint, getX(), getY(),Vertex.R, getName());
 	}
+
+
 	public void move(int x, int y) {
 		model.move(x, y);
 	}

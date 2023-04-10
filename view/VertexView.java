@@ -6,6 +6,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Ellipse2D.Float;
 
 import javax.swing.JPanel;
@@ -39,5 +40,4 @@ public class VertexView extends JPanel{
 		g.drawString(name, xLabel, yLabel);
 	}
 
-    
 }

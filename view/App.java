@@ -26,6 +26,7 @@ public class App extends JFrame implements model.Observer {
 		this.graphController = graphController;
 		graphController.setView(this);
 		graphController.registerObserver(this);
+		
 		init();
 	}
 

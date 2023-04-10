@@ -28,7 +28,7 @@ public class FileView extends JPanel{
 				public void actionPerformed(ActionEvent e) {
 					// show a warning message
 //					data.get(index).search();
-					System.out.println("hihi");
+				
 				}
 			});
 

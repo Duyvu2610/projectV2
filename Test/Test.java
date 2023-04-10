@@ -1,20 +1,20 @@
 package Test;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.awt.List;
+import java.awt.Point;
+import java.util.*;
+
+import model.Vertex;
+import util.VertexComParator;
 
 public class Test {
     public static void main(String[] args) {
-        Map<Location, Integer> m = new LinkedHashMap<Location, Integer>();
-        Location l1 = new Location(1,1);
-        m.put(l1, 1);
-        l1.setX(0);
+       TreeMap<Vertex, Integer> map = new TreeMap<Vertex, Integer>( new VertexComParator());
+       Point p = new Point(0,0);
+       map.put(new Vertex("a", p), 1);
+       map.put(new Vertex("c", p), 1);
+       map.put(new Vertex("b", p), 1);
+       System.out.println(map);
 
-        Map<Location, Integer> m2 = new LinkedHashMap<Location, Integer>(m);
-       
-
-        m2.remove(l1);
-        m = m2;
-        System.out.println(m);
     }
 }

@@ -1,14 +1,13 @@
 package model;
 
 import java.awt.Point;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Vertex {
 	private String name;
 	private Point location;
-	public final int R = 20;
+	public static final int R = 20;
 
 	public Vertex(String name, Point location) {
 		this.name = name;
@@ -58,8 +57,7 @@ public class Vertex {
 		&& (point.y > location.y && point.y < location.y + R*2));
 	}
 	public void move(int x, int y) {
-//		setLocation(new Point((int) (getLocation().getX() + x),(int) (getLocation().getY() + y)));
-		location.setLocation(new Point((int) (getLocation().getX() + x),(int) (getLocation().getY() + y)));
+		setLocation(new Point((int) (getLocation().getX() + x),(int) (getLocation().getY() + y)));
 	}
 
 }
