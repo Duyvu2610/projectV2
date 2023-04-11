@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import controller.EdgeController;
 import controller.GraphController;
+import controller.SubEdgeController;
 import controller.VertexController;
 import model.Edge;
 import model.Graph;
@@ -27,17 +28,16 @@ import model.Vertex;
 public class GraphView extends JPanel implements Observer {
 	private List<VertexController> vertexs;
 	private List<EdgeController> edges;
-	
 	private GraphController controller;
 	private VertexController vertexController;
 	private EdgeController edgeController;
-	
+	private SubEdgeController subEdgeController;
 
 	public GraphView(GraphController controller) {
 		this.controller = controller;
 		this.vertexs = new ArrayList<VertexController>();
 		this.edges = new ArrayList<EdgeController>();
-		
+
 		this.controller.registerObserver(this);
 
 		setLayout(new BorderLayout());
@@ -71,28 +71,30 @@ public class GraphView extends JPanel implements Observer {
 					revalidate();
 					repaint();
 				} else if (controller.getCodeExcute() == 3) {
-					if (beginComp > 2) {
-						beginComp = 0;
-						
-					} else {
-						beginComp++;
-						if (beginComp == 1 ) {
-							prevVertex = controller.findVertex(currentClick);
-							
-						} else if (beginComp == 2) {
-							currentVertex = controller.findVertex(currentClick);
+
+					beginComp++;
+					if (beginComp == 1) {
+						prevVertex = controller.findVertex(currentClick);
+						subEdgeController = new SubEdgeController(null, null);
+						subEdgeController.setModel(prevVertex);
+
+					} else if (beginComp == 2) {
+						currentVertex = controller.findVertex(currentClick);
+						if (currentVertex != null) {
 							controller.handleAddEdge(currentClick, prevVertex);
-							revalidate();
-							repaint();
 						}
+						subEdgeController = null;
+						beginComp = 0;
+						revalidate();
+						repaint();
 					}
 
 				} else if (controller.getCodeExcute() == 4) {
-					System.out.println("hahahahahhaha");
+
 					controller.renameVertex(currentClick);
 					revalidate();
 					repaint();
-				} 
+				}
 
 			}
 
@@ -132,12 +134,14 @@ public class GraphView extends JPanel implements Observer {
 				super.mouseMoved(e);
 				currentClick = e.getPoint();
 				if (controller.getCodeExcute() == 3) {
-					if (beginComp ==1) {
+					if (beginComp == 1) {
+						// System.out.println(subEdgeController);
+						subEdgeController.setPoint(currentClick);
 						revalidate();
 						repaint();
 					}
 				}
-				
+
 			}
 
 			//
@@ -147,7 +151,7 @@ public class GraphView extends JPanel implements Observer {
 				if (controller.getCodeExcute() == 6) {
 					dragging = false;
 					// currentVertex = null;
-					
+
 				}
 
 			}
@@ -161,35 +165,38 @@ public class GraphView extends JPanel implements Observer {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+
 		super.paintComponent(g);
+
 		Graphics2D g2d = (Graphics2D) g;
 		for (Vertex vertex : controller.getVertices()) {
 			vertexController = new VertexController(vertex);
 			vertexController.updateView(g2d, Color.GREEN);
 			vertexs.add(vertexController);
 		}
-		
-		Map<Vertex, List<Edge>> subList = new LinkedHashMap<Vertex, List<Edge>>(controller.getGraph().getAdjacencyList());
-	   
+
+		Map<Vertex, List<Edge>> subList = new LinkedHashMap<Vertex, List<Edge>>(
+				controller.getGraph().getAdjacencyList());
+
 		for (Vertex vertex : subList.keySet()) {
-			for (Edge edge: subList.get(vertex)) {
+			for (Edge edge : subList.get(vertex)) {
 				edgeController = new EdgeController(edge);
-				
+
 				edgeController.updateView(g2d, Color.BLUE);
 				edges.add(edgeController);
 			}
 		}
-		
-		
+		if (subEdgeController != null && subEdgeController.getModel() != null && subEdgeController.getPoint() != null) {
+			subEdgeController = new SubEdgeController(subEdgeController.getModel(), subEdgeController.getPoint());
+			subEdgeController.updateView(g2d, getBackground());
+		}
+
 	}
 
 	@Override
 	public void updateGraph(Graph g) {
-		// TODO Auto-generated method stub
 		revalidate();
 		repaint();
 	}
-
-	
 
 }

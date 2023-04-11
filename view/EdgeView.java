@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import model.Edge;
 
-public class EdgeView extends JPanel{
+public class EdgeView extends JPanel {
 	private Edge model;
 
     public EdgeView(Edge model) {
