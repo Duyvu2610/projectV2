@@ -1,8 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,18 +30,7 @@ public class Graph{
 	}
 	// Xóa 1 đỉnh
 	public void removeVertex(Vertex vertex) {
-	    // Xóa tất cả các cạnh liên quan đến đỉnh này (cả ở adjacency list và adjacency matrix).
-//	    List<Edge> edgesToRemove = new ArrayList<>();
-//	    for (List<Edge> edges : adjacencyList.values()) {
-//	        for (Edge edge : edges) {
-//	            if (edge.connects(vertex)) {
-//	                edgesToRemove.add(edge);
-//	            }
-//	        }
-//	    }
-//	    for (Edge edge : edgesToRemove) {
-//	        removeEdge(edge);
-//	    }
+	   
 	    // Xóa đỉnh này khỏi adjacency list.
 		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
 		subList.putAll(adjacencyList);
@@ -90,6 +77,7 @@ public class Graph{
 			list.put(vertex,  i++);
 		}
 
+	
 		for (Vertex vertex : adjacencyList.keySet()) {
 			for(Edge edge: adjacencyList.get(vertex)) {
 				adjacencyMatrix[list.get(vertex)][list.get(edge.getDestination())] = edge.getWeight();
@@ -108,7 +96,6 @@ public class Graph{
 	}
 	public void removeAll() {
 		adjacencyList.clear();
-		
 		setAdjacencyMatrix();
 	}
 

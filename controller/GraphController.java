@@ -108,11 +108,13 @@ public class GraphController implements Subject {
 	}
 
 	public void handleRemoveVertex(Point location) {
+		
 		for (int i = 0; i < getVertices().size(); i++) {
 			if (getVertices().get(i).isClickAt(location)) {
 				removeVertex(getVertices().get(i));
+				break;
 			}
-			break;
+			
 		}
 	}
 	// public Vertex getVertexAt(Point location) {
