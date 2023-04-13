@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 
 import controller.EdgeController;
 import controller.GraphController;
-import controller.SubEdgeController;
 import controller.VertexController;
 import model.Edge;
 import model.Graph;
@@ -31,7 +30,7 @@ public class GraphView extends JPanel implements Observer {
 	private GraphController controller;
 	private VertexController vertexController;
 	private EdgeController edgeController;
-	private SubEdgeController subEdgeController;
+	Graphics2D g2d;
 
 	public GraphView(GraphController controller) {
 		this.controller = controller;
@@ -53,6 +52,8 @@ public class GraphView extends JPanel implements Observer {
 			Vertex prevVertex;
 			Point currentClick;
 			Point prevPt;
+			Point firstClick;
+			Point lastClick;
 			int beginComp = 0;
 
 			@Override
@@ -61,6 +62,7 @@ public class GraphView extends JPanel implements Observer {
 				super.mouseClicked(e);
 				// lấy tọa độ của chuột
 				currentClick = new Point(e.getX(), e.getY());
+				firstClick = currentClick;
 				// Nếu click vào nút thêm đỉnh mới được thêm
 				if (controller.getCodeExcute() == 1) {
 					controller.handleAddVertex(currentClick);
@@ -75,15 +77,12 @@ public class GraphView extends JPanel implements Observer {
 					beginComp++;
 					if (beginComp == 1) {
 						prevVertex = controller.findVertex(currentClick);
-						subEdgeController = new SubEdgeController(null, null);
-						subEdgeController.setModel(prevVertex);
 
 					} else if (beginComp == 2) {
 						currentVertex = controller.findVertex(currentClick);
 						if (currentVertex != null) {
 							controller.handleAddEdge(currentClick, prevVertex);
 						}
-						subEdgeController = null;
 						beginComp = 0;
 						revalidate();
 						repaint();
@@ -130,13 +129,16 @@ public class GraphView extends JPanel implements Observer {
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				// TODO Auto-generated method stub
 				super.mouseMoved(e);
 				currentClick = e.getPoint();
+				lastClick = currentClick;
 				if (controller.getCodeExcute() == 3) {
 					if (beginComp == 1) {
-						// System.out.println(subEdgeController);
-						subEdgeController.setPoint(currentClick);
+						revalidate();
+						repaint();
+					}
+					if (firstClick != null) {
+						
 						revalidate();
 						repaint();
 					}
@@ -168,7 +170,7 @@ public class GraphView extends JPanel implements Observer {
 
 		super.paintComponent(g);
 
-		Graphics2D g2d = (Graphics2D) g;
+		g2d = (Graphics2D) g;
 		for (Vertex vertex : controller.getVertices()) {
 			vertexController = new VertexController(vertex);
 			vertexController.updateView(g2d, Color.GREEN);
@@ -186,10 +188,8 @@ public class GraphView extends JPanel implements Observer {
 				edges.add(edgeController);
 			}
 		}
-		if (subEdgeController != null && subEdgeController.getModel() != null && subEdgeController.getPoint() != null) {
-			subEdgeController = new SubEdgeController(subEdgeController.getModel(), subEdgeController.getPoint());
-			subEdgeController.updateView(g2d, getBackground());
-		}
+		
+
 
 	}
 

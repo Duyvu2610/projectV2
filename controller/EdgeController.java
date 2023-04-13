@@ -45,6 +45,9 @@ public class EdgeController {
 		
 		view.drawLine(g, colorPoint,stSrcX, stSrcY, desDesX, desDesY, String.valueOf(model.getWeight()));
 	}
+	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, String weight) {
+		view.drawLine(g, colorPoint, stX, stY, desX, desY, weight);
+	}
 	
 
 	

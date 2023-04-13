@@ -21,12 +21,9 @@ public class NotifyView extends JPanel {
 		notifyLabel = new JLabel(notify);
 		notifyLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 0));
 
-		// Tạo text field
-		JTextField inputField = new JTextField();
 
 		// add component
-		add(notifyLabel, BorderLayout.NORTH);
-		add(inputField);
+		add(notifyLabel);
 	}
 	public void updateNotify(String s) {
 		notifyLabel.setText(s);

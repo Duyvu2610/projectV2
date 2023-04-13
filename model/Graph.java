@@ -31,18 +31,27 @@ public class Graph{
 	// Xóa 1 đỉnh
 	public void removeVertex(Vertex vertex) {
 	   
-	    // Xóa đỉnh này khỏi adjacency list.
-		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		subList.putAll(adjacencyList);
-		
-	    subList.remove(vertex);
-		adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		adjacencyList.putAll(subList);
-	    // Cập nhật adjacency matrix.
-		
-	    setAdjacencyMatrix();
-	    // Nếu có view hiển thị đồ thị thì cũng cần xóa vertex view tương ứng.
-	    // ...
+		// Xóa đỉnh này khỏi adjacency list.
+				Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
+				subList.putAll(adjacencyList);
+				
+			    subList.remove(vertex);
+
+				for (Vertex vertexs : subList.keySet()) {
+					for (int i = 0; i < subList.get(vertexs).size(); i++) {
+						if (subList.get(vertexs).get(i).getDestination().equals(vertex)) {
+							subList.get(vertexs).remove(subList.get(vertexs).get(i));
+						}
+					}
+				}
+				
+				adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
+				adjacencyList.putAll(subList);
+			    // Cập nhật adjacency matrix.
+				
+			    setAdjacencyMatrix();
+			    // Nếu có view hiển thị đồ thị thì cũng cần xóa vertex view tương ứng.
+			    // ...
 		
 	}
 
@@ -67,24 +76,27 @@ public class Graph{
 	public void setAdjacencyMatrix() {
 		int size = adjacencyList.size();
 		adjacencyMatrix = new int[size][size];
-		addEdgeMatrix();
-	}
-	
-	private void addEdgeMatrix() {
+		
+		// Thêm trọng số của cạnh vào ma trận liền kề
+		
+		// đánh index cho từng vertex
 		Map<Vertex, Integer> list = new LinkedHashMap<Vertex, Integer>();
 		int i=0;
 		for (Vertex vertex : adjacencyList.keySet()) {
 			list.put(vertex,  i++);
 		}
-
+		Map<Vertex, Integer> subList = new LinkedHashMap<Vertex, Integer>(list);
 	
 		for (Vertex vertex : adjacencyList.keySet()) {
 			for(Edge edge: adjacencyList.get(vertex)) {
-				adjacencyMatrix[list.get(vertex)][list.get(edge.getDestination())] = edge.getWeight();
-				adjacencyMatrix[list.get(edge.getDestination())][list.get(vertex)] = edge.getWeight();
+				if (adjacencyList.containsKey(edge.getDestination())) {
+					
+					// cập nhật trọng số cho vertex nguồn và đich của edge vừa mới được thêm
+					adjacencyMatrix[list.get(vertex)][list.get(edge.getDestination())] = edge.getWeight();
+					adjacencyMatrix[list.get(edge.getDestination())][list.get(vertex)] = edge.getWeight();
+				}
 			}
 		} 
-
 	}
 	
 	public int[][] getAdjacencyMatrix() {
@@ -92,6 +104,7 @@ public class Graph{
 	}
 	public void addEdge(Edge edge) {
 		adjacencyList.get(edge.getSource()).add(edge);
+		System.out.println();
 		setAdjacencyMatrix();
 	}
 	public void removeAll() {

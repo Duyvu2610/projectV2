@@ -12,16 +12,19 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.GraphController;
 import model.Graph;
+import model.Observer;
 import model.Vertex;
 
 public class MatrixView extends JPanel{
-	private Graph graph;
+	private GraphController graphController;
 	private int size;
 	private JLabel label;
 
-	public MatrixView(Graph graph) {
-		this.graph = graph;
+	public MatrixView(GraphController graphController) {
+		this.graphController = graphController;
+		Graph graph = graphController.getGraph();
 		ArrayList<Vertex> vertices = graph.getVertices();
 		int size = vertices.size() + 1;
 		setLayout(new GridLayout(size, size));
@@ -40,7 +43,7 @@ public class MatrixView extends JPanel{
 				else if ((i ==0  && j == 0)) label = new JLabel("");
 				else {
 					label = new JLabel(
-							(graph.getAdjacencyMatrix()[i-1][j-1] == 0) ? "0" : Integer.toString(graph.getAdjacencyMatrix()[i-1][j-1]));
+							(graph.getAdjacencyMatrix()[i-1][j-1] == 0) ? "" : Integer.toString(graph.getAdjacencyMatrix()[i-1][j-1]));
 				}
 				
 				JPanel cell = new JPanel(new BorderLayout());
@@ -51,4 +54,5 @@ public class MatrixView extends JPanel{
 			}
 		}
 	}
+
 }

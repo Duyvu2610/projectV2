@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -10,23 +11,37 @@ import javax.swing.JPanel;
 import controller.GraphController;
 import model.Graph;
 import model.GraphModel;
+import model.Observer;
 
-public class App extends JFrame implements model.Observer {
-	private GraphModel graphModel;
-	private GraphController graphController;
-	private GraphView graphView;
+public class App extends JFrame implements Observer{
+//	private GraphModel graphModel;
+//	private GraphController graphController;
+//	private GraphView graphView;
+//	private MatrixView matrixView;
+//	
+//	private JPanel leftCol;
+//	private NotifyView notify;
+	private MenuView menuView;
+	private FileView fileView;
 	private MatrixView matrixView;
-	
+	private FeatureView featureView;
+	private GraphView graphView;
+	private NotifyView notifyView;
+	private GraphController graphController;
 	private JPanel leftCol;
-	private NotifyView notify;
 
 
-	public App(GraphModel graphModel, GraphController graphController) {
-		this.graphModel = graphModel;
-		this.graphController = graphController;
-		graphController.setView(this);
+
+
+	public App(){
+		this.graphController = new GraphController(new Graph());
+		this.menuView = new MenuView();
+		this.fileView = new FileView();
+		this.matrixView = new MatrixView(graphController);
+		this.featureView = new FeatureView(graphController);
+		this.graphView = new GraphView(graphController);
+		this.notifyView = new NotifyView(getName());
 		graphController.registerObserver(this);
-		
 		init();
 	}
 
@@ -50,23 +65,18 @@ public class App extends JFrame implements model.Observer {
 		JPanel leftJPanel = new JPanel();
 		leftJPanel.setLayout(new BorderLayout());
 		// Menu
-		MenuView menu = new MenuView();
-		menu.setPreferredSize(new Dimension(400, 200));
+		menuView.setPreferredSize(new Dimension(400, 200));
 		// File
-		FileView file = new FileView();
+		fileView.setPreferredSize(new Dimension(400, 150));
+		fileView.setBorder(BorderFactory.createTitledBorder("File"));
 
-		file.setPreferredSize(new Dimension(400, 150));
-		file.setBorder(BorderFactory.createTitledBorder("File"));
-
-		// matrix
-		matrixView = new MatrixView(graphController.getGraph());
 
 		//
 		leftJPanel.setPreferredSize(new Dimension(400, 700));
 
 		// add component
-		leftJPanel.add(menu, BorderLayout.NORTH);
-		leftJPanel.add(file);
+		leftJPanel.add(menuView, BorderLayout.NORTH);
+		leftJPanel.add(fileView);
 		leftJPanel.add(matrixView, BorderLayout.SOUTH);
 		return leftJPanel;
 	}
@@ -76,43 +86,32 @@ public class App extends JFrame implements model.Observer {
 		// Screen
 		JPanel screen = new JPanel(new BorderLayout(5, 0));
 		// node feature
-		FeatureView featureView = new FeatureView(graphController);
 		// show graph
-		graphView = new GraphView(graphController);
 		screen.setPreferredSize(new Dimension((int) rightJPanel.getPreferredSize().getWidth(), 500));
 		screen.add(graphView, BorderLayout.CENTER);
 		screen.add(featureView, BorderLayout.WEST);
 		// Notify
-		notify = new NotifyView("");
 		rightJPanel.setBorder(BorderFactory.createTitledBorder(getTitle()));
 
 		// add component
 		rightJPanel.add(screen);
-		rightJPanel.add(notify, BorderLayout.SOUTH);
+		rightJPanel.add(notifyView, BorderLayout.SOUTH);
 		return rightJPanel;
 	}
 
 	public static void main(String[] args) {
-		Graph graph = new Graph();
-		GraphModel gm = new GraphModel(graph);
-		GraphController gc1 = new GraphController(gm);
-		new App(gm, gc1);
+		new App();
 	}
 
 	@Override
 	public void updateGraph(Graph g) {
 		// TODO Auto-generated method stub
+		graphController = new GraphController(g);
 		leftCol.remove(matrixView);
-		matrixView = new MatrixView(g);
+		matrixView = new MatrixView(graphController);
 		leftCol.add(matrixView, BorderLayout.SOUTH);
-		leftCol.validate();
-		leftCol.repaint();
 	}
 
-	public void updateNotify(String s) {
-		notify.updateNotify(s);
-		
-	}
 
 
 }

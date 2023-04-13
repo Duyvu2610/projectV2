@@ -59,7 +59,7 @@ public class Edge {
 
 	@Override
 	public String toString() {
-		return "Edge [source=" + source + ", destination=" + destination + ", weight=" + weight + "]";
+		return "source=" + source.getName() + ", destination=" + destination.getName() + ", weight=" + weight;
 	}
 
 }

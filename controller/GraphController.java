@@ -17,12 +17,12 @@ import view.App;
 import view.GraphView;
 
 public class GraphController implements Subject {
-	private GraphModel model;
+	private Graph model;
 	private App view;
 	private List<Observer> observers;
 	private int codeExcute;
 
-	public GraphController(GraphModel model) {
+	public GraphController(Graph model) {
 		this.model = model;
 		this.observers = new ArrayList<>();
 	}
@@ -46,9 +46,9 @@ public class GraphController implements Subject {
 	// public List<Vertex> getShortestPath() {
 	// return model.getShortestPath();
 	// }
-	public int[][] getMatrix() {
-		return model.getMatrix();
-	}
+//	public int[][] getMatrix() {
+//		return model.getMatrix();
+//	}
 
 	public List<Vertex> getVertices() {
 		return model.getVertices();
@@ -57,7 +57,7 @@ public class GraphController implements Subject {
 	public void addVertex(Vertex v) {
 		model.addVertex(v);
 		notifyObservers();
-		updateNotify("Nhập tên của đỉnh");
+//		updateNotify("Nhập tên của đỉnh");
 	}
 
 	public void removeVertex(Vertex vertex) {
@@ -76,18 +76,18 @@ public class GraphController implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.updateGraph(model.getGraph());
+			observer.updateGraph(model);
 		}
 
 	}
 
 	public Graph getGraph() {
-		return model.getGraph();
+		return model;
 	}
 
-	public void updateNotify(String s) {
-		view.updateNotify(s);
-	}
+//	public void updateNotify(String s) {
+//		view.updateNotify(s);
+//	}
 
 	public void setCodeExcute(int code) {
 		codeExcute = code;
