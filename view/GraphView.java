@@ -30,6 +30,7 @@ public class GraphView extends JPanel implements Observer {
 	private GraphController controller;
 	private VertexController vertexController;
 	private EdgeController edgeController;
+	private Edge subEdge = null;
 	Graphics2D g2d;
 
 	public GraphView(GraphController controller) {
@@ -77,8 +78,11 @@ public class GraphView extends JPanel implements Observer {
 					beginComp++;
 					if (beginComp == 1) {
 						prevVertex = controller.findVertex(currentClick);
+						// test
+						subEdge = new Edge(prevVertex, null, 1);
 
 					} else if (beginComp == 2) {
+						subEdge = null;
 						currentVertex = controller.findVertex(currentClick);
 						if (currentVertex != null) {
 							controller.handleAddEdge(currentClick, prevVertex);
@@ -131,16 +135,13 @@ public class GraphView extends JPanel implements Observer {
 			public void mouseMoved(MouseEvent e) {
 				super.mouseMoved(e);
 				currentClick = e.getPoint();
-				lastClick = currentClick;
+				
 				if (controller.getCodeExcute() == 3) {
 					if (beginComp == 1) {
+						subEdge.setDestination(new Vertex("test", currentClick));
 						revalidate();
 						repaint();
-					}
-					if (firstClick != null) {
 						
-						revalidate();
-						repaint();
 					}
 				}
 
@@ -189,6 +190,10 @@ public class GraphView extends JPanel implements Observer {
 			}
 		}
 		
+		if (subEdge != null) {
+			EdgeController test = new EdgeController(subEdge);
+			test.updateView(g2d, getBackground());
+		}
 
 
 	}

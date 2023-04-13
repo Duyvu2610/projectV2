@@ -19,6 +19,18 @@ public class Edge {
 		return destination;
 	}
 
+	public void setSource(Vertex source) {
+		this.source = source;
+	}
+
+	public void setDestination(Vertex destination) {
+		this.destination = destination;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
 	public int getWeight() {
 		return weight;
 	}
