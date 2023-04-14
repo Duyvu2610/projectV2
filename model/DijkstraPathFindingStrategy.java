@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class DijkstraPathFindingStrategy implements PathFindingStrategy {
 
-	public List<Vertex> findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
+	public String[] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
 		Map<Vertex, Integer> distances = new HashMap<>();
 		Map<Vertex, Vertex> previousVertices = new HashMap<>();
 		List<Vertex> unvisitedVertices = new ArrayList<>();
@@ -41,7 +41,7 @@ public class DijkstraPathFindingStrategy implements PathFindingStrategy {
 			shortestPath.add(vertex);
 			vertex = previousVertices.get(vertex);
 		}
-		return shortestPath;
+		return null;
 	}
 
 	private Vertex getClosestVertex(List<Vertex> vertices, Map<Vertex, Integer> distances) {

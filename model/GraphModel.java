@@ -7,7 +7,7 @@ public class GraphModel{
 	private Vertex startVertex;
 	private Vertex endVertex;
 	private PathFindingStrategy pathFindingStrategy;
-	private List<Vertex> shortestPath;
+	private String[] shortestPath;
 	
 
 	public GraphModel(Graph graph) {
@@ -37,7 +37,7 @@ public class GraphModel{
 //		notifyObservers();
 	}
 
-	public List<Vertex> getShortestPath() {
+	public String[] getShortestPath() {
 		if (shortestPath == null) {
 			shortestPath = pathFindingStrategy.findShortestPath(graph, startVertex, endVertex);
 		}

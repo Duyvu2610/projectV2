@@ -8,13 +8,10 @@ import javax.swing.JOptionPane;
 
 import model.Edge;
 import model.Graph;
-import model.GraphModel;
 import model.Observer;
-import model.PathFindingStrategy;
 import model.Subject;
 import model.Vertex;
 import view.App;
-import view.GraphView;
 
 public class GraphController implements Subject {
 	private Graph model;

@@ -22,6 +22,14 @@ public class Graph{
 		this.adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
 		this.adjacencyMatrix = new int[0][0];
 	}
+
+	
+	public Graph(Map<Vertex, List<Edge>> adjacencyList, int[][] adjacencyMatrix) {
+		this.adjacencyList = adjacencyList;
+		this.adjacencyMatrix = adjacencyMatrix;
+	}
+
+
 	// them 1 dinh
 	public void addVertex(Vertex vertex) {
 		adjacencyList.put(vertex, new ArrayList<>());
@@ -73,7 +81,43 @@ public class Graph{
 	public ArrayList<Vertex> getVertices() {
 		return new ArrayList<>(adjacencyList.keySet());
 	}
+	
+	// this medthod is used for ungraph
+	public int countEdges() {
+		int res = 0;
+		int sizeMatrix = adjacencyMatrix.length;
+		ArrayList<Integer> exceptList = new ArrayList<Integer>();
+		for (int row = 0; row < sizeMatrix; row++) {
+			for (int column = 0; column < sizeMatrix; column++) {
+				if (adjacencyMatrix[row][column] != 0 && !exceptList.contains(column)) {
+					res++;
+				}
+			}
+			exceptList.add(row);
+		}
+		return res;
+	} 
+
+	// this medthod is used for ungraph
+	public int[][] getEdges() {
+		int[][] res = new int[this.countEdges()][3];
+		int sizeMatrix = adjacencyMatrix.length;
+		ArrayList<Integer> exceptList = new ArrayList<Integer>();
+		int index = 0;
+		for (int row = 0; row < sizeMatrix; row++) {
+			for (int column = 0; column < sizeMatrix; column++) {
+				if (adjacencyMatrix[row][column] != 0 && !exceptList.contains(column)) {
+					int[] edge = {row,column,adjacencyMatrix[row][column]};
+					res[index++] = edge;
+					
+				}
+			}
+			exceptList.add(row);
+		}
+		return res;
+	}
 	public void setAdjacencyMatrix() {
+		
 		int size = adjacencyList.size();
 		adjacencyMatrix = new int[size][size];
 		

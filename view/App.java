@@ -35,7 +35,7 @@ public class App extends JFrame implements Observer{
 
 	public App(){
 		this.graphController = new GraphController(new Graph());
-		this.menuView = new MenuView();
+		this.menuView = new MenuView(graphController);
 		this.fileView = new FileView();
 		this.matrixView = new MatrixView(graphController);
 		this.featureView = new FeatureView(graphController);
