@@ -67,7 +67,7 @@ public class BellmanFordSearch implements PathFindingStrategy{
 			}
 			
 		}
-
+		System.out.println(Arrays.toString(lastRes));
 		return lastRes; 
 	}
 	
