@@ -48,7 +48,7 @@ public class App extends JFrame implements Observer{
 	private void init() {
 		setSize(1200, 700);
 		setLocationRelativeTo(null);
-		setTitle("FlowLayout Example");
+		setTitle("Tìm đường đi ngắn nhất");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		JPanel app = new JPanel(new BorderLayout());
@@ -91,7 +91,7 @@ public class App extends JFrame implements Observer{
 		screen.add(graphView, BorderLayout.CENTER);
 		screen.add(featureView, BorderLayout.WEST);
 		// Notify
-		rightJPanel.setBorder(BorderFactory.createTitledBorder(getTitle()));
+		rightJPanel.setBorder(BorderFactory.createTitledBorder("Graph"));
 
 		// add component
 		rightJPanel.add(screen);
