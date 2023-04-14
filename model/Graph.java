@@ -1,6 +1,8 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,14 +65,6 @@ public class Graph{
 		
 	}
 
-	private void removeEdge(Edge edge) {
-	    Vertex source = edge.getSource();
-	    Vertex destination = edge.getDestination();
-	    adjacencyList.get(source).remove(edge);
-	    adjacencyList.get(destination).remove(edge);
-	}
-	
-
 	public List<Edge> getEdges(Vertex vertex) {
 		return adjacencyList.get(vertex);
 	}
@@ -79,6 +73,7 @@ public class Graph{
 		return adjacencyList;
 	}
 	public ArrayList<Vertex> getVertices() {
+		
 		return new ArrayList<>(adjacencyList.keySet());
 	}
 	
@@ -118,6 +113,7 @@ public class Graph{
 	}
 	public void setAdjacencyMatrix() {
 		
+		
 		int size = adjacencyList.size();
 		adjacencyMatrix = new int[size][size];
 		
@@ -129,26 +125,35 @@ public class Graph{
 		for (Vertex vertex : adjacencyList.keySet()) {
 			list.put(vertex,  i++);
 		}
-		Map<Vertex, Integer> subList = new LinkedHashMap<Vertex, Integer>(list);
-	
-		for (Vertex vertex : adjacencyList.keySet()) {
-			for(Edge edge: adjacencyList.get(vertex)) {
-				if (adjacencyList.containsKey(edge.getDestination())) {
+
+		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
+		subList.putAll(adjacencyList);
+		
+		
+		for (Vertex vertex : subList.keySet()) {
+			
+			for(Edge edge: subList.get(vertex)) {
+				if (subList.containsKey(edge.getDestination())) {
 					
 					// cập nhật trọng số cho vertex nguồn và đich của edge vừa mới được thêm
 					adjacencyMatrix[list.get(vertex)][list.get(edge.getDestination())] = edge.getWeight();
 					adjacencyMatrix[list.get(edge.getDestination())][list.get(vertex)] = edge.getWeight();
 				}
 			}
-		} 
+		}
+		
 	}
 	
 	public int[][] getAdjacencyMatrix() {
+		
 		return adjacencyMatrix;
 	}
 	public void addEdge(Edge edge) {
-		adjacencyList.get(edge.getSource()).add(edge);
-		System.out.println();
+		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
+		subList.putAll(adjacencyList);
+		subList.get(edge.getSource()).add(edge);
+		adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
+		adjacencyList.putAll(subList);
 		setAdjacencyMatrix();
 	}
 	public void removeAll() {

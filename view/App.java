@@ -30,9 +30,6 @@ public class App extends JFrame implements Observer{
 	private GraphController graphController;
 	private JPanel leftCol;
 
-
-
-
 	public App(){
 		this.graphController = new GraphController(new Graph());
 		this.menuView = new MenuView(graphController);

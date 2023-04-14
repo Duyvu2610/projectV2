@@ -60,13 +60,12 @@ public class BellmanFordSearch implements PathFindingStrategy{
 			for (Vertex vertex : graph.getAdjacencyList().keySet()) {
 				list.put(i++, vertex);
 			}
-			System.out.println(list);
+			
 			for (int j = 0; j < result.length; j++) {
 			
 				lastRes[j] = list.get(result[j]).getName();
 			}
-			System.out.println(Arrays.toString(lastRes) + "ok");
-			System.out.println("--------------------------------");
+			
 		}
 
 		return lastRes; 

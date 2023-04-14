@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -16,22 +18,25 @@ import controller.GraphController;
 import model.Graph;
 import model.Observer;
 import model.Vertex;
+import util.VertexComParator;
 
 public class MatrixView extends JPanel{
 	private GraphController graphController;
-	private int size;
 	private JLabel label;
 
 	public MatrixView(GraphController graphController) {
+		
 		this.graphController = graphController;
 		Graph graph = graphController.getGraph();
+		
 		ArrayList<Vertex> vertices = graph.getVertices();
+	
+		
 		int size = vertices.size() + 1;
 		setLayout(new GridLayout(size, size));
 		setPreferredSize(new Dimension(400, 350));
 		setBorder(BorderFactory.createTitledBorder("Adjacency matrix"));
 		
-		int[][] matrix1 = new int[size][size];
 		
 		// Tạo và thêm các ô vào panel
 		for (int i = 0; i < size; i++) {
@@ -43,7 +48,7 @@ public class MatrixView extends JPanel{
 				else if ((i ==0  && j == 0)) label = new JLabel("");
 				else {
 					label = new JLabel(
-							(graph.getAdjacencyMatrix()[i-1][j-1] == 0) ? "" : Integer.toString(graph.getAdjacencyMatrix()[i-1][j-1]));
+							(graph.getAdjacencyMatrix()[i-1][j-1] == 0) ? "0" : Integer.toString(graph.getAdjacencyMatrix()[i-1][j-1]));
 				}
 				
 				JPanel cell = new JPanel(new BorderLayout());
