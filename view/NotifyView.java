@@ -18,7 +18,7 @@ public class NotifyView extends JPanel {
 		this.notify = notify;
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(800, 200));
-		setBorder(BorderFactory.createTitledBorder("Notify"));
+		setBorder(BorderFactory.createTitledBorder("Console"));
 		// tao component
 		notifyLabel = new JLabel();
 		notifyLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 0));
