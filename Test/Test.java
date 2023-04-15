@@ -58,12 +58,7 @@ public class Test {
     //     for(Vertex vertex : graph.getVertices()) {
     //         System.out.println(vertex.getName());
     //     }
-    TreeMap<Vertex, List<Edge>> list = new TreeMap<Vertex, List<Edge>>( new VertexComParator());
-    Point p = new Point(0,0);
-    Vertex a = new Vertex("c", p);
-    Vertex b = new Vertex("b", p);
-    list.put(a, null);
-    list.put(b, null);
+   
    
       
 
