@@ -1,16 +1,23 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.HeadlessException;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import controller.GraphController;
+import controller.NotifyController;
 import model.Graph;
-import model.GraphModel;
 import model.Observer;
 
 public class App extends JFrame implements Observer{
@@ -28,16 +35,18 @@ public class App extends JFrame implements Observer{
 	private GraphView graphView;
 	private NotifyView notifyView;
 	private GraphController graphController;
+	private NotifyController notifyController;
 	private JPanel leftCol;
 
 	public App(){
 		this.graphController = new GraphController(new Graph());
+		this.notifyController = new NotifyController();
 		this.menuView = new MenuView(graphController);
 		this.fileView = new FileView();
 		this.matrixView = new MatrixView(graphController);
 		this.featureView = new FeatureView(graphController);
 		this.graphView = new GraphView(graphController);
-		this.notifyView = new NotifyView(getName());
+		this.notifyView = NotifyView.getInstance();
 		graphController.registerObserver(this);
 		init();
 	}
@@ -48,12 +57,42 @@ public class App extends JFrame implements Observer{
 		setTitle("Tìm đường đi ngắn nhất");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		JPanel app = new JPanel(new BorderLayout());
+		JPanel app = new JPanel(new BorderLayout()) {
+//            @Override
+//            protected void paintComponent(Graphics g) {
+//                super.paintComponent(g);
+//                Graphics2D g2d = (Graphics2D) g;
+//                int width = getWidth();
+//                int height = getHeight();
+//                Random random = new Random();
+//                int r = random.nextInt(256);
+//                int green = random.nextInt(256);
+//                int b = random.nextInt(256);
+//                Color color1 = new Color(r, green, b);
+//                r = random.nextInt(256);
+//                green = random.nextInt(256);
+//                b = random.nextInt(256);
+//                Color color2 = new Color(r,green,b);
+//                GradientPaint gp = new GradientPaint(0, 0, color1, 0, height, color2);
+//                g2d.setPaint(gp);
+//                g2d.fillRect(0, 0, width, height);
+//            }
+        };
 		leftCol = leftCol();
+		leftCol.setOpaque(false);
 		app.setPreferredSize(new Dimension(1200, 700));
 		app.add(leftCol, BorderLayout.WEST);
 		app.add(rightCol());
 		app.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		// Override the paint method of the main JPanel to add a gradient background
+		// Start a timer to update the background colors every 2 seconds
+//        Timer timer = new Timer(2000, new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                app.repaint();
+//            }
+//        });
+//        timer.start();
 		add(app);
 		setVisible(true);
 	}
@@ -80,6 +119,7 @@ public class App extends JFrame implements Observer{
 
 	public JPanel rightCol() {
 		JPanel rightJPanel = new JPanel(new BorderLayout());
+		rightJPanel.setOpaque(false);
 		// Screen
 		JPanel screen = new JPanel(new BorderLayout(5, 0));
 		// node feature

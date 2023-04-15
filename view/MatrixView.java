@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class MatrixView extends JPanel{
 		setLayout(new GridLayout(size, size));
 		setPreferredSize(new Dimension(400, 350));
 		setBorder(BorderFactory.createTitledBorder("Adjacency matrix"));
+		setOpaque(false);
 		
 		
 		// Tạo và thêm các ô vào panel
@@ -43,21 +46,40 @@ public class MatrixView extends JPanel{
 
 			for (int j = 0; j < size; j++) {
 				// In hàng đầu tiên và cột đầu tiên là tên của các đỉnh
-				if ((i == 0 && j > 0)) label = new JLabel(vertices.get(j-1).getName());
-				else if ((i >0  && j == 0)) label = new JLabel(vertices.get(i-1).getName());
-				else if ((i ==0  && j == 0)) label = new JLabel("");
+				if ((i == 0 && j > 0)) { 
+					label = new JLabel(vertices.get(j-1).getName());
+					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
+					}
+				else if ((i >0  && j == 0)) {
+					label = new JLabel(vertices.get(i-1).getName());
+					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
+					}
+				else if ((i ==0  && j == 0)) {
+					label = new JLabel("");
+					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
+				}
 				else {
 					label = new JLabel(
 							(graph.getAdjacencyMatrix()[i-1][j-1] == 0) ? "0" : Integer.toString(graph.getAdjacencyMatrix()[i-1][j-1]));
+					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
 				}
 				
 				JPanel cell = new JPanel(new BorderLayout());
-				cell.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+				cell.setOpaque(false);
+				cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 				label.setHorizontalAlignment(JLabel.CENTER);
 				cell.add(label, BorderLayout.CENTER);
 				add(cell);
 			}
 		}
 	}
+	// Ghi đè phương thức paintComponent để vẽ nền trong suốt
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // Vẽ màu sắc trong suốt
+        g.setColor(new Color(0, 0, 0, 0));
+        g.fillRect(0, 0, getWidth(), getHeight());
+    }
 
 }

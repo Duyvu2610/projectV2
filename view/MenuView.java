@@ -1,24 +1,23 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.GraphController;
+import controller.NotifyController;
 import model.BellmanFordSearch;
-import model.DijkstraPathFindingStrategy;
 import model.Graph;
 import model.Observer;
 import model.PathFindingStrategy;
-import model.Vertex;
 
 public class MenuView extends JPanel implements Observer{
 	ArrayList<PathFindingStrategy> data;
@@ -28,7 +27,6 @@ public class MenuView extends JPanel implements Observer{
 		this.data = new ArrayList<>();
 		
 		this.graphController.registerObserver(this);
-		data.add(new DijkstraPathFindingStrategy());
 		data.add(new BellmanFordSearch());
 		setLayout(new FlowLayout(FlowLayout.LEADING));
 		for (int i = 0; i < data.size(); i++) {
@@ -38,16 +36,17 @@ public class MenuView extends JPanel implements Observer{
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					NotifyController notifyController = new NotifyController();
 					
-					
-					String[] res = data.get(1).findShortestPath(graphController.getGraph(),
+					String[] res = data.get(index).findShortestPath(graphController.getGraph(),
 					 graphController.getVertices().get(0), graphController.getVertices().get(graphController.getGraph().getAdjacencyMatrix().length-1));
-					System.out.println(res);
+					notifyController.setNotify(res);
 				}
 			});
 
 			add(button);
 		}
+		setOpaque(false);
 		setBorder(BorderFactory.createTitledBorder("Menu"));
 	}
 	@Override
@@ -56,4 +55,12 @@ public class MenuView extends JPanel implements Observer{
 		
 
 	}
+	// Ghi đè phương thức paintComponent để vẽ nền trong suốt
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // Vẽ màu sắc trong suốt
+        g.setColor(new Color(0, 0, 0, 0));
+        g.fillRect(0, 0, getWidth(), getHeight());
+    }
 }

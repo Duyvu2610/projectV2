@@ -192,7 +192,10 @@ public class GraphView extends JPanel implements Observer {
 		
 		if (subEdge != null) {
 			EdgeController test = new EdgeController(subEdge);
-			test.updateView(g2d, getBackground());
+			int stSrcX = (int) test.getModel().getSource().getLocation().getX() >= (int) test.getModel().getDestination().getLocation().getX()? (int) test.getModel().getSource().getLocation().getX()  : (int) test.getModel().getSource().getLocation().getX() + 2*Vertex.R;
+			int stSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
+
+			test.drawLine(g2d, getBackground(),stSrcX,stSrcY,(int) test.getModel().getDestination().getLocation().getX(),(int) test.getModel().getDestination().getLocation().getY(), "");
 		}
 
 

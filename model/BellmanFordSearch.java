@@ -43,7 +43,7 @@ public class BellmanFordSearch implements PathFindingStrategy{
 				if (currentNode == rootNode) {
 					resReverseStr.append( currentNode + " " );
 				}
-			} while (currentNode != rootNode);
+			} while (currentNode != rootNode && currentNode != -1);
 
 			String[] resStr = resReverseStr.reverse().substring(1).split(" ");
 			result = new int[resStr.length];
@@ -67,7 +67,8 @@ public class BellmanFordSearch implements PathFindingStrategy{
 			}
 			
 		}
-
+		
+		
 		return lastRes; 
 	}
 	
@@ -78,6 +79,11 @@ public class BellmanFordSearch implements PathFindingStrategy{
 		int size = matrix.length;
 		int[] result = new int[size];
 		int[] pathCostOfNode = new int[size];
+
+		// init parent of node
+		for (int i = 0; i < size; i++) {
+			result[i] = -1;
+		}
 		
 		// find root node
 		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
