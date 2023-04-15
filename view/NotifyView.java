@@ -49,6 +49,6 @@ public class NotifyView extends JPanel {
 			result += i != (s.length - 1) ? (s[i] + " → "):s[i];
 		}
 		notifyLabel.setText("Đường đi ngắn nhất là: " + result );
-		pathLabel.setText("Với chi phí là: " + s[s.length-1]);
+		pathLabel.setText("Với tổng chi phí là: " + s[s.length-1]);
 	}
 }

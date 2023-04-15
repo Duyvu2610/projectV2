@@ -2,18 +2,16 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.EdgeController;
@@ -32,19 +30,15 @@ public class GraphView extends JPanel implements Observer {
 	private EdgeController edgeController;
 	private Edge subEdge = null;
 	Graphics2D g2d;
-
+	
 	public GraphView(GraphController controller) {
 		this.controller = controller;
 		this.vertexs = new ArrayList<VertexController>();
 		this.edges = new ArrayList<EdgeController>();
-
 		this.controller.registerObserver(this);
-
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
-		// Thiết lập layout cho MainPanel là null để có thể tự do vị trí của childPanel
-		setLayout(null);
-
+		
 		// Tạo một đối tượng MouseAdapter để xử lý sự kiện click chuột
 		MouseAdapter mouseAdapter = new MouseAdapter() {
 			// Khởi tạo các biến
@@ -88,8 +82,7 @@ public class GraphView extends JPanel implements Observer {
 							controller.handleAddEdge(currentClick, prevVertex);
 						}
 						beginComp = 0;
-						revalidate();
-						repaint();
+						updateView();
 					}
 
 				} else if (controller.getCodeExcute() == 4) {
@@ -139,9 +132,7 @@ public class GraphView extends JPanel implements Observer {
 				if (controller.getCodeExcute() == 3) {
 					if (beginComp == 1) {
 						subEdge.setDestination(new Vertex("test", currentClick));
-						revalidate();
-						repaint();
-						
+						updateView();
 					}
 				}
 
@@ -165,16 +156,16 @@ public class GraphView extends JPanel implements Observer {
 		addMouseMotionListener(mouseAdapter);
 
 	}
-
+	
 	@Override
 	protected void paintComponent(Graphics g) {
-
+		
 		super.paintComponent(g);
 
 		g2d = (Graphics2D) g;
 		for (Vertex vertex : controller.getVertices()) {
 			vertexController = new VertexController(vertex);
-			vertexController.updateView(g2d, Color.GREEN);
+			vertexController.updateView(g2d);
 			vertexs.add(vertexController);
 		}
 
@@ -197,12 +188,18 @@ public class GraphView extends JPanel implements Observer {
 
 			test.drawLine(g2d, getBackground(),stSrcX,stSrcY,(int) test.getModel().getDestination().getLocation().getX(),(int) test.getModel().getDestination().getLocation().getY(), "");
 		}
+		
 
 
 	}
 
 	@Override
 	public void updateGraph(Graph g) {
+		revalidate();
+		repaint();
+	}
+
+	public void updateView() {
 		revalidate();
 		repaint();
 	}

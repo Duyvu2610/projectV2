@@ -3,9 +3,6 @@ package controller;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-
-import javax.swing.JOptionPane;
-
 import model.Vertex;
 import view.VertexView;
 
@@ -31,8 +28,10 @@ public class VertexController {
 	public Vertex getModel() {
 		return model;
 	}
-	public void updateView(Graphics2D g, Color colorPoint) {
-		view.drawPoint(g, colorPoint, getX(), getY(),Vertex.R, getName());
+	
+	public void updateView(Graphics2D g) {
+		
+		view.drawPoint(g, getModel().getColor(), getX(), getY(),Vertex.R, getName());
 	}
 
 

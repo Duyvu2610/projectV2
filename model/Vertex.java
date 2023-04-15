@@ -1,17 +1,19 @@
 package model;
 
+import java.awt.Color;
 import java.awt.Point;
-import java.util.Comparator;
 import java.util.Objects;
 
 public class Vertex {
 	private String name;
 	private Point location;
+	private Color color;
 	public static final int R = 20;
 
 	public Vertex(String name, Point location) {
 		this.name = name;
 		this.location = location;
+		this.color = Color.GREEN;
 	}
 
 	public String getName() {
@@ -35,9 +37,17 @@ public class Vertex {
 		return "Vertex [name=" + name + ", location=" + location + "]";
 	}
 
+
+	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(location, name);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
+		return result;
 	}
 
 	@Override
@@ -49,7 +59,22 @@ public class Vertex {
 		if (getClass() != obj.getClass())
 			return false;
 		Vertex other = (Vertex) obj;
-		return Objects.equals(location, other.location) && Objects.equals(name, other.name);
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (color == null) {
+			if (other.color != null)
+				return false;
+		} else if (!color.equals(other.color))
+			return false;
+		return true;
 	}
 
 	public boolean isClickAt(Point point) {
@@ -58,6 +83,14 @@ public class Vertex {
 	}
 	public void move(int x, int y) {
 		setLocation(new Point((int) (getLocation().getX() + x),(int) (getLocation().getY() + y)));
+	}
+
+    public void setColor(Color red) {
+		this.color = red;
+    }
+
+	public Color getColor() {
+		return this.color;
 	}
 
 }

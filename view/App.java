@@ -127,6 +127,7 @@ public class App extends JFrame implements Observer{
 		screen.setPreferredSize(new Dimension((int) rightJPanel.getPreferredSize().getWidth(), 500));
 		screen.add(graphView, BorderLayout.CENTER);
 		screen.add(featureView, BorderLayout.WEST);
+		System.out.println(graphView.getBounds());
 		// Notify
 		rightJPanel.setBorder(BorderFactory.createTitledBorder("Graph"));
 

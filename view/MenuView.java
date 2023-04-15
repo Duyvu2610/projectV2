@@ -38,9 +38,10 @@ public class MenuView extends JPanel implements Observer{
 				public void actionPerformed(ActionEvent e) {
 					NotifyController notifyController = new NotifyController();
 					
-					String[] res = data.get(index).findShortestPath(graphController.getGraph(),
-					 graphController.getVertices().get(0), graphController.getVertices().get(graphController.getGraph().getAdjacencyMatrix().length-1));
+					String[] res = data.get(index).findShortestPath(graphController.getGraph(),graphController.getVertices().get(0), graphController.getVertices().get(graphController.getGraph().getAdjacencyMatrix().length-1));
 					notifyController.setNotify(res);
+					graphController.drawPath(res);
+					graphController.notifyObservers();
 				}
 			});
 
@@ -50,11 +51,8 @@ public class MenuView extends JPanel implements Observer{
 		setBorder(BorderFactory.createTitledBorder("Menu"));
 	}
 	@Override
-	public void updateGraph(Graph g) {
-		// TODO Auto-generated method stub
-		
-
-	}
+	public void updateGraph(Graph g) {}
+	
 	// Ghi đè phương thức paintComponent để vẽ nền trong suốt
     @Override
     protected void paintComponent(Graphics g) {

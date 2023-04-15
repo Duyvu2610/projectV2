@@ -205,16 +205,18 @@ public class GraphController implements Subject {
 	// }
 	// }
 
-	public void drawPath(String[] res, Graphics2D g) {
+	public void drawPath(String[] res) {
+		view = new GraphView(this);
 		for (Vertex vertex : getVertices()) {
-			for (String string : res) {
-				if (vertex.getName().equals(res)) {
-					VertexController vc = new VertexController(vertex);
-					vc.updateView(g, Color.RED);
+			for (String ver : res) {
+				if (vertex.getName().equals(ver)) {
+					vertex.setColor(Color.RED);
+					view.updateView();
+					
 				}
 			}
 		}
-		// TODO Auto-generated method stub
+		
 
 	}
 
