@@ -1,12 +1,9 @@
 package model;
 
-import java.sql.Array;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class BellmanFordSearch implements PathFindingStrategy{
+public class BellmanFordSearch implements PathFindingStrategy {
 
 	@Override
 	public String[] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
@@ -29,25 +26,24 @@ public class BellmanFordSearch implements PathFindingStrategy{
 			indexOfGoal++;
 		}
 
-		
 		int[] listParentNode = helper(graph, startVertex, endVertex);
 		int[] result = null;
-		
+
 		int index = 0;
 		if (listParentNode != null) {
 
 			int currentNode = goalNode;
 			do {
-				resReverseStr.append( currentNode + " " );
+				resReverseStr.append(currentNode + " ");
 				currentNode = listParentNode[currentNode];
 				if (currentNode == rootNode) {
-					resReverseStr.append( currentNode + " " );
+					resReverseStr.append(currentNode + " ");
 				}
 			} while (currentNode != rootNode && currentNode != -1);
 
 			String[] resStr = resReverseStr.reverse().substring(1).split(" ");
 			result = new int[resStr.length];
-			for (String character: resStr) {
+			for (String character : resStr) {
 				result[index++] = Integer.valueOf(character);
 			}
 		}
@@ -56,22 +52,21 @@ public class BellmanFordSearch implements PathFindingStrategy{
 		if (result != null) {
 			lastRes = new String[result.length];
 			Map<Integer, Vertex> list = new TreeMap<Integer, Vertex>();
-			int i=0;
+			int i = 0;
 			for (Vertex vertex : graph.getAdjacencyList().keySet()) {
 				list.put(i++, vertex);
 			}
-			
+
 			for (int j = 0; j < result.length; j++) {
-			
+
 				lastRes[j] = list.get(result[j]).getName();
 			}
-			
+
 		}
-		
-		
-		return lastRes; 
+
+		return lastRes;
 	}
-	
+
 	private int[] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
 		int[][] matrix = graph.getAdjacencyMatrix();
 		int indeOfRoot = 0;
@@ -84,7 +79,7 @@ public class BellmanFordSearch implements PathFindingStrategy{
 		for (int i = 0; i < size; i++) {
 			result[i] = -1;
 		}
-		
+
 		// find root node
 		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
 			if (vertex.equals(startVertex)) {
@@ -102,8 +97,8 @@ public class BellmanFordSearch implements PathFindingStrategy{
 		for (int numNode = 1; numNode <= size; numNode++) {
 
 			// loop through all edge the graph has
-			
-			for (int[] edge: graph.getEdges()) {
+
+			for (int[] edge : graph.getEdges()) {
 				int beginNode = edge[0];
 				int endNode = edge[1];
 				int weight = edge[2];
@@ -120,7 +115,7 @@ public class BellmanFordSearch implements PathFindingStrategy{
 				}
 			}
 		}
-		
+
 		return result;
 	}
 

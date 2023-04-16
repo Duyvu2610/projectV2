@@ -19,13 +19,14 @@ import model.Graph;
 import model.Observer;
 import model.PathFindingStrategy;
 
-public class MenuView extends JPanel implements Observer{
+public class MenuView extends JPanel implements Observer {
 	ArrayList<PathFindingStrategy> data;
 	GraphController graphController;
+
 	public MenuView(GraphController graphController) {
 		this.graphController = graphController;
 		this.data = new ArrayList<>();
-		
+
 		this.graphController.registerObserver(this);
 		data.add(new BellmanFordSearch());
 		setLayout(new FlowLayout(FlowLayout.LEADING));
@@ -37,8 +38,10 @@ public class MenuView extends JPanel implements Observer{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					NotifyController notifyController = new NotifyController();
-					
-					String[] res = data.get(index).findShortestPath(graphController.getGraph(),graphController.getVertices().get(0), graphController.getVertices().get(graphController.getGraph().getAdjacencyMatrix().length-1));
+
+					String[] res = data.get(index).findShortestPath(graphController.getGraph(),
+							graphController.getVertices().get(0), graphController.getVertices()
+									.get(graphController.getGraph().getAdjacencyMatrix().length - 1));
 					notifyController.setNotify(res);
 					graphController.drawPath(res);
 					graphController.notifyObservers();
@@ -50,15 +53,17 @@ public class MenuView extends JPanel implements Observer{
 		setOpaque(false);
 		setBorder(BorderFactory.createTitledBorder("Menu"));
 	}
+
 	@Override
-	public void updateGraph(Graph g) {}
-	
+	public void updateGraph(Graph g) {
+	}
+
 	// Ghi đè phương thức paintComponent để vẽ nền trong suốt
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        // Vẽ màu sắc trong suốt
-        g.setColor(new Color(0, 0, 0, 0));
-        g.fillRect(0, 0, getWidth(), getHeight());
-    }
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		// Vẽ màu sắc trong suốt
+		g.setColor(new Color(0, 0, 0, 0));
+		g.fillRect(0, 0, getWidth(), getHeight());
+	}
 }

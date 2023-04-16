@@ -2,14 +2,10 @@ package controller;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
-
-import javax.swing.JOptionPane;
 
 import model.Edge;
 import model.Vertex;
 import view.EdgeView;
-import view.VertexView;
 
 public class EdgeController {
 	private Edge model;
@@ -20,7 +16,7 @@ public class EdgeController {
 		this.model = edge;
 		this.view = new EdgeView(model);
 	}
-	
+
 	public Edge getModel() {
 		return model;
 	}
@@ -38,23 +34,20 @@ public class EdgeController {
 	}
 
 	public void updateView(Graphics2D g, Color colorPoint) {
-		int stSrcX = (int) model.getSource().getLocation().getX() >= (int) model.getDestination().getLocation().getX()? (int) model.getSource().getLocation().getX()  : (int) model.getSource().getLocation().getX() + 2*Vertex.R;
+		int stSrcX = (int) model.getSource().getLocation().getX() >= (int) model.getDestination().getLocation().getX()
+				? (int) model.getSource().getLocation().getX()
+				: (int) model.getSource().getLocation().getX() + 2 * Vertex.R;
 		int stSrcY = (int) model.getSource().getLocation().getY() + Vertex.R;
-		int desDesX = (int) model.getDestination().getLocation().getX() >= (int) model.getSource().getLocation().getX()? (int) model.getDestination().getLocation().getX()   : (int) model.getDestination().getLocation().getX() + 2*Vertex.R;
+		int desDesX = (int) model.getDestination().getLocation().getX() >= (int) model.getSource().getLocation().getX()
+				? (int) model.getDestination().getLocation().getX()
+				: (int) model.getDestination().getLocation().getX() + 2 * Vertex.R;
 		int desDesY = (int) model.getDestination().getLocation().getY() + Vertex.R;
-		
-		view.drawLine(g, colorPoint,stSrcX, stSrcY, desDesX, desDesY, String.valueOf(model.getWeight()));
+
+		view.drawLine(g, colorPoint, stSrcX, stSrcY, desDesX, desDesY, String.valueOf(model.getWeight()));
 	}
+
 	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, String weight) {
 		view.drawLine(g, colorPoint, stX, stY, desX, desY, weight);
 	}
-	
-
-	
-//	public Vertex vertexClicked(Point location) {
-//		if (isClick(location)) return model;
-//		System.out.println("ko nhan vao " + model);
-//		return null;
-//	}
 
 }

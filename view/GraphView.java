@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -30,7 +29,7 @@ public class GraphView extends JPanel implements Observer {
 	private EdgeController edgeController;
 	private Edge subEdge = null;
 	Graphics2D g2d;
-	
+
 	public GraphView(GraphController controller) {
 		this.controller = controller;
 		this.vertexs = new ArrayList<VertexController>();
@@ -38,7 +37,7 @@ public class GraphView extends JPanel implements Observer {
 		this.controller.registerObserver(this);
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
-		
+
 		// Tạo một đối tượng MouseAdapter để xử lý sự kiện click chuột
 		MouseAdapter mouseAdapter = new MouseAdapter() {
 			// Khởi tạo các biến
@@ -128,7 +127,7 @@ public class GraphView extends JPanel implements Observer {
 			public void mouseMoved(MouseEvent e) {
 				super.mouseMoved(e);
 				currentClick = e.getPoint();
-				
+
 				if (controller.getCodeExcute() == 3) {
 					if (beginComp == 1) {
 						subEdge.setDestination(new Vertex("test", currentClick));
@@ -156,10 +155,10 @@ public class GraphView extends JPanel implements Observer {
 		addMouseMotionListener(mouseAdapter);
 
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
-		
+
 		super.paintComponent(g);
 
 		g2d = (Graphics2D) g;
@@ -180,16 +179,18 @@ public class GraphView extends JPanel implements Observer {
 				edges.add(edgeController);
 			}
 		}
-		
+
 		if (subEdge != null) {
 			EdgeController test = new EdgeController(subEdge);
-			int stSrcX = (int) test.getModel().getSource().getLocation().getX() >= (int) test.getModel().getDestination().getLocation().getX()? (int) test.getModel().getSource().getLocation().getX()  : (int) test.getModel().getSource().getLocation().getX() + 2*Vertex.R;
+			int stSrcX = (int) test.getModel().getSource().getLocation().getX() >= (int) test.getModel()
+					.getDestination().getLocation().getX() ? (int) test.getModel().getSource().getLocation().getX()
+							: (int) test.getModel().getSource().getLocation().getX() + 2 * Vertex.R;
 			int stSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
 
-			test.drawLine(g2d, getBackground(),stSrcX,stSrcY,(int) test.getModel().getDestination().getLocation().getX(),(int) test.getModel().getDestination().getLocation().getY(), "");
+			test.drawLine(g2d, getBackground(), stSrcX, stSrcY,
+					(int) test.getModel().getDestination().getLocation().getX(),
+					(int) test.getModel().getDestination().getLocation().getY(), "");
 		}
-		
-
 
 	}
 

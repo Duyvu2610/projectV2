@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import model.Vertex;
@@ -15,36 +14,34 @@ public class VertexController {
 		this.model = vertex;
 		this.view = new VertexView(model);
 	}
+
 	public int getX() {
 		return model.getLocation().x;
 	}
+
 	public int getY() {
 		return model.getLocation().y;
 	}
+
 	public String getName() {
 		return model.getName();
 	}
-	
+
 	public Vertex getModel() {
 		return model;
 	}
-	
-	public void updateView(Graphics2D g) {
-		
-		view.drawPoint(g, getModel().getColor(), getX(), getY(),Vertex.R, getName());
-	}
 
+	public void updateView(Graphics2D g) {
+
+		view.drawPoint(g, getModel().getColor(), getX(), getY(), Vertex.R, getName());
+	}
 
 	public void move(int x, int y) {
 		model.move(x, y);
 	}
+
 	public boolean isClick(Point location) {
 		return model.isClickAt(location);
 	}
-//	public Vertex vertexClicked(Point location) {
-//		if (isClick(location)) return model;
-//		System.out.println("ko nhan vao " + model);
-//		return null;
-//	}
 
 }

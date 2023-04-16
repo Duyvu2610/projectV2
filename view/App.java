@@ -1,33 +1,19 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import controller.GraphController;
 import controller.NotifyController;
 import model.Graph;
 import model.Observer;
 
-public class App extends JFrame implements Observer{
-//	private GraphModel graphModel;
-//	private GraphController graphController;
-//	private GraphView graphView;
-//	private MatrixView matrixView;
-//	
-//	private JPanel leftCol;
-//	private NotifyView notify;
+public class App extends JFrame implements Observer {
+
 	private MenuView menuView;
 	private FileView fileView;
 	private MatrixView matrixView;
@@ -38,11 +24,11 @@ public class App extends JFrame implements Observer{
 	private NotifyController notifyController;
 	private JPanel leftCol;
 
-	public App(){
+	public App() {
 		this.graphController = new GraphController(new Graph());
 		this.notifyController = new NotifyController();
 		this.menuView = new MenuView(graphController);
-		this.fileView = new FileView();
+		this.fileView = new FileView(graphController);
 		this.matrixView = new MatrixView(graphController);
 		this.featureView = new FeatureView(graphController);
 		this.graphView = new GraphView(graphController);
@@ -58,26 +44,26 @@ public class App extends JFrame implements Observer{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		JPanel app = new JPanel(new BorderLayout()) {
-//            @Override
-//            protected void paintComponent(Graphics g) {
-//                super.paintComponent(g);
-//                Graphics2D g2d = (Graphics2D) g;
-//                int width = getWidth();
-//                int height = getHeight();
-//                Random random = new Random();
-//                int r = random.nextInt(256);
-//                int green = random.nextInt(256);
-//                int b = random.nextInt(256);
-//                Color color1 = new Color(r, green, b);
-//                r = random.nextInt(256);
-//                green = random.nextInt(256);
-//                b = random.nextInt(256);
-//                Color color2 = new Color(r,green,b);
-//                GradientPaint gp = new GradientPaint(0, 0, color1, 0, height, color2);
-//                g2d.setPaint(gp);
-//                g2d.fillRect(0, 0, width, height);
-//            }
-        };
+			// @Override
+			// protected void paintComponent(Graphics g) {
+			// super.paintComponent(g);
+			// Graphics2D g2d = (Graphics2D) g;
+			// int width = getWidth();
+			// int height = getHeight();
+			// Random random = new Random();
+			// int r = random.nextInt(256);
+			// int green = random.nextInt(256);
+			// int b = random.nextInt(256);
+			// Color color1 = new Color(r, green, b);
+			// r = random.nextInt(256);
+			// green = random.nextInt(256);
+			// b = random.nextInt(256);
+			// Color color2 = new Color(r,green,b);
+			// GradientPaint gp = new GradientPaint(0, 0, color1, 0, height, color2);
+			// g2d.setPaint(gp);
+			// g2d.fillRect(0, 0, width, height);
+			// }
+		};
 		leftCol = leftCol();
 		leftCol.setOpaque(false);
 		app.setPreferredSize(new Dimension(1200, 700));
@@ -86,13 +72,13 @@ public class App extends JFrame implements Observer{
 		app.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		// Override the paint method of the main JPanel to add a gradient background
 		// Start a timer to update the background colors every 2 seconds
-//        Timer timer = new Timer(2000, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                app.repaint();
-//            }
-//        });
-//        timer.start();
+		// Timer timer = new Timer(2000, new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// app.repaint();
+		// }
+		// });
+		// timer.start();
 		add(app);
 		setVisible(true);
 	}
@@ -105,7 +91,6 @@ public class App extends JFrame implements Observer{
 		// File
 		fileView.setPreferredSize(new Dimension(400, 150));
 		fileView.setBorder(BorderFactory.createTitledBorder("File"));
-
 
 		//
 		leftJPanel.setPreferredSize(new Dimension(400, 700));
@@ -127,7 +112,6 @@ public class App extends JFrame implements Observer{
 		screen.setPreferredSize(new Dimension((int) rightJPanel.getPreferredSize().getWidth(), 500));
 		screen.add(graphView, BorderLayout.CENTER);
 		screen.add(featureView, BorderLayout.WEST);
-		System.out.println(graphView.getBounds());
 		// Notify
 		rightJPanel.setBorder(BorderFactory.createTitledBorder("Graph"));
 
@@ -143,13 +127,10 @@ public class App extends JFrame implements Observer{
 
 	@Override
 	public void updateGraph(Graph g) {
-		// TODO Auto-generated method stub
 		graphController = new GraphController(g);
 		leftCol.remove(matrixView);
 		matrixView = new MatrixView(graphController);
 		leftCol.add(matrixView, BorderLayout.SOUTH);
 	}
-
-
 
 }

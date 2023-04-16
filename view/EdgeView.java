@@ -34,11 +34,4 @@ public class EdgeView extends JPanel {
 
 	}
 
-//	@Override
-//	public void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-//		g.setColor(Color.RED);
-//		g.drawLine(10, 10, 100, 100);
-//	}
-
 }

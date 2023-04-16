@@ -37,26 +37,27 @@ public class FeatureView extends JPanel {
 			Mybutton button = new Mybutton(imgIcon, desc[i]);
 			button.setIcon(imgIcon); // Chèn icon vào JButton
 			button.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                // Đặt màu nền cho button được chọn
-	                if (selectedButton != null) {
-	                    selectedButton.setBackground(null);
-	                }
-	                button.setBackground(Color.LIGHT_GRAY);
-	                selectedButton = button;
-	                
-	                // Xử lý tác vụ khi nút được click
-	                graphController.setCodeExcute(codeExcute[index]);
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// Đặt màu nền cho button được chọn
+					if (selectedButton != null) {
+						selectedButton.setBackground(null);
+					}
+					button.setBackground(Color.LIGHT_GRAY);
+					selectedButton = button;
+
+					// Xử lý tác vụ khi nút được click
+					graphController.setCodeExcute(codeExcute[index]);
 					if (graphController.getCodeExcute() == 5) {
-						int isConfirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa không ?", "Xóa đồ thị ?", JOptionPane.YES_NO_OPTION);
+						int isConfirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa không ?",
+								"Xóa đồ thị ?", JOptionPane.YES_NO_OPTION);
 						if (isConfirm == 0) {
 							graphController.removeAllGraph();
-							
+
 						}
 					}
-	            }
-	        });
+				}
+			});
 			add(button);
 		}
 

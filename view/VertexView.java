@@ -4,24 +4,21 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Ellipse2D.Float;
 
 import javax.swing.JPanel;
 
 import model.Vertex;
 
-public class VertexView extends JPanel{
+public class VertexView extends JPanel {
 	private Vertex model;
+
 	public VertexView(Vertex model) {
 		this.model = model;
 	}
 
-
-	public void drawPoint(Graphics2D g, Color colorPoint,int x, int y,int r, String name) {
-		Ellipse2D.Float el = new Ellipse2D.Float(x, y, r*2, r*2);
+	public void drawPoint(Graphics2D g, Color colorPoint, int x, int y, int r, String name) {
+		Ellipse2D.Float el = new Ellipse2D.Float(x, y, r * 2, r * 2);
 		g.setColor(colorPoint);
 		g.fill(el);
 

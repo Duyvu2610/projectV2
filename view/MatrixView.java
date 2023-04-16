@@ -6,11 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -18,52 +14,46 @@ import javax.swing.JPanel;
 
 import controller.GraphController;
 import model.Graph;
-import model.Observer;
 import model.Vertex;
-import util.VertexComParator;
 
-public class MatrixView extends JPanel{
+public class MatrixView extends JPanel {
 	private GraphController graphController;
 	private JLabel label;
 
 	public MatrixView(GraphController graphController) {
-		
+
 		this.graphController = graphController;
 		Graph graph = graphController.getGraph();
-		
+
 		ArrayList<Vertex> vertices = graph.getVertices();
-	
-		
+
 		int size = vertices.size() + 1;
 		setLayout(new GridLayout(size, size));
 		setPreferredSize(new Dimension(400, 350));
 		setBorder(BorderFactory.createTitledBorder("Adjacency matrix"));
 		setOpaque(false);
-		
-		
+
 		// Tạo và thêm các ô vào panel
 		for (int i = 0; i < size; i++) {
 
 			for (int j = 0; j < size; j++) {
 				// In hàng đầu tiên và cột đầu tiên là tên của các đỉnh
-				if ((i == 0 && j > 0)) { 
-					label = new JLabel(vertices.get(j-1).getName());
+				if ((i == 0 && j > 0)) {
+					label = new JLabel(vertices.get(j - 1).getName());
 					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
-					}
-				else if ((i >0  && j == 0)) {
-					label = new JLabel(vertices.get(i-1).getName());
+				} else if ((i > 0 && j == 0)) {
+					label = new JLabel(vertices.get(i - 1).getName());
 					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
-					}
-				else if ((i ==0  && j == 0)) {
+				} else if ((i == 0 && j == 0)) {
 					label = new JLabel("");
 					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
-				}
-				else {
+				} else {
 					label = new JLabel(
-							(graph.getAdjacencyMatrix()[i-1][j-1] == 0) ? "0" : Integer.toString(graph.getAdjacencyMatrix()[i-1][j-1]));
+							(graph.getAdjacencyMatrix()[i - 1][j - 1] == 0) ? "0"
+									: Integer.toString(graph.getAdjacencyMatrix()[i - 1][j - 1]));
 					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
 				}
-				
+
 				JPanel cell = new JPanel(new BorderLayout());
 				cell.setOpaque(false);
 				cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -73,13 +63,14 @@ public class MatrixView extends JPanel{
 			}
 		}
 	}
+
 	// Ghi đè phương thức paintComponent để vẽ nền trong suốt
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        // Vẽ màu sắc trong suốt
-        g.setColor(new Color(0, 0, 0, 0));
-        g.fillRect(0, 0, getWidth(), getHeight());
-    }
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		// Vẽ màu sắc trong suốt
+		g.setColor(new Color(0, 0, 0, 0));
+		g.fillRect(0, 0, getWidth(), getHeight());
+	}
 
 }

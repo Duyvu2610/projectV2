@@ -2,7 +2,6 @@ package model;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.util.Objects;
 
 public class Vertex {
 	private String name;
@@ -36,9 +35,6 @@ public class Vertex {
 	public String toString() {
 		return "Vertex [name=" + name + ", location=" + location + "]";
 	}
-
-
-	
 
 	@Override
 	public int hashCode() {
@@ -78,16 +74,17 @@ public class Vertex {
 	}
 
 	public boolean isClickAt(Point point) {
-		return ((point.x > location.x && point.x < location.x + R*2)
-		&& (point.y > location.y && point.y < location.y + R*2));
-	}
-	public void move(int x, int y) {
-		setLocation(new Point((int) (getLocation().getX() + x),(int) (getLocation().getY() + y)));
+		return ((point.x > location.x && point.x < location.x + R * 2)
+				&& (point.y > location.y && point.y < location.y + R * 2));
 	}
 
-    public void setColor(Color red) {
+	public void move(int x, int y) {
+		setLocation(new Point((int) (getLocation().getX() + x), (int) (getLocation().getY() + y)));
+	}
+
+	public void setColor(Color red) {
 		this.color = red;
-    }
+	}
 
 	public Color getColor() {
 		return this.color;
