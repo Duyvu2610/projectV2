@@ -9,7 +9,7 @@ public class NotifyController {
 		this.view = NotifyView.getInstance();
 	}
 
-	public void setNotify(String[] s) {
+	public void setNotify(String[][] s) {
 		view.updateNotify(s);
 	}
 	public void removeNotify(){

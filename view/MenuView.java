@@ -39,7 +39,7 @@ public class MenuView extends JPanel implements Observer {
 				public void actionPerformed(ActionEvent e) {
 					NotifyController notifyController = new NotifyController();
 
-					String[] res = data.get(index).findShortestPath(graphController.getGraph(),
+					String[][] res = data.get(index).findShortestPath(graphController.getGraph(),
 							graphController.getVertices().get(0), graphController.getVertices()
 									.get(graphController.getGraph().getAdjacencyMatrix().length - 1));
 					notifyController.setNotify(res);

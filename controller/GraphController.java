@@ -141,15 +141,19 @@ public class GraphController implements Subject {
 		notifyObservers();
 	}
 
-	public void drawPath(String[] res) {
+	public void drawPath(String[][] res) {
 		view = new GraphView(this);
 		for (Vertex vertex : getVertices()) {
-			for (String ver : res) {
-				if (vertex.getName().equals(ver)) {
-					vertex.setColor(Color.RED);
-					view.updateView();
-
+			for (String[] arrsStrings : res) {
+				for (int i = 0; i < arrsStrings.length; i++) {
+					if (i==1) continue;
+					if (vertex.getName().equals(arrsStrings[i])) {
+						vertex.setColor(Color.RED);
+						view.updateView();
+					}
 				}
+			
+				
 			}
 		}
 

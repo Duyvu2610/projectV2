@@ -46,9 +46,8 @@ public class Test {
 
         Graph graph = new Graph(list, matrix1);
 
-        // BellmanFordSearch search = new BellmanFordSearch();
-        // System.out.println(Arrays.toString(search.findShortestPath(graph, a, c)));
-        String[] string = {"a", "b", "c", "d", "e", "f"};
+        BellmanFordSearch search = new BellmanFordSearch();
+        search.findShortestPath(graph, a, c);
         
 
     }

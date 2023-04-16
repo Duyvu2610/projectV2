@@ -1,14 +1,17 @@
 package model;
 
+import java.sql.Array;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class BellmanFordSearch implements PathFindingStrategy {
 
 	@Override
-	public String[] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
+	public String[][] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
 
 		StringBuffer resReverseStr = new StringBuffer("");
+		StringBuffer weightReverseStr = new StringBuffer("");
 		int rootNode = 0;
 		int goalNode = 0;
 		int indexOfRoot = 0;
@@ -26,31 +29,43 @@ public class BellmanFordSearch implements PathFindingStrategy {
 			indexOfGoal++;
 		}
 
-		int[] listParentNode = helper(graph, startVertex, endVertex);
-		int[] result = null;
+		int[][] listParentNode = helper(graph, startVertex, endVertex);
+		int[][] result = null;
 
 		int index = 0;
 		if (listParentNode != null) {
 
 			int currentNode = goalNode;
+			int currentWeight = listParentNode[currentNode][1];
+			
 			do {
 				resReverseStr.append(currentNode + " ");
-				currentNode = listParentNode[currentNode];
+				weightReverseStr.append(currentWeight + " ");
+				currentNode = listParentNode[currentNode][0];
+				currentWeight = listParentNode[currentNode][1];
 				if (currentNode == rootNode) {
 					resReverseStr.append(currentNode + " ");
+					weightReverseStr.append(currentWeight + " ");
 				}
 			} while (currentNode != rootNode && currentNode != -1);
 
+			
+
 			String[] resStr = resReverseStr.reverse().substring(1).split(" ");
-			result = new int[resStr.length];
+			String[] weightStr = weightReverseStr.reverse().substring(1).split(" ");
+			result = new int[resStr.length][2];
 			for (String character : resStr) {
-				result[index++] = Integer.valueOf(character);
+				result[index++][0] = Integer.valueOf(character);
+			}
+			index =0;
+			for (String character : weightStr) {
+				result[index++][1] = Integer.valueOf(character);
 			}
 		}
 
-		String[] lastRes = null;
+		String[][] lastRes = null;
 		if (result != null) {
-			lastRes = new String[result.length];
+			lastRes = new String[result.length][2];
 			Map<Integer, Vertex> list = new TreeMap<Integer, Vertex>();
 			int i = 0;
 			for (Vertex vertex : graph.getAdjacencyList().keySet()) {
@@ -59,21 +74,26 @@ public class BellmanFordSearch implements PathFindingStrategy {
 
 			for (int j = 0; j < result.length; j++) {
 
-				lastRes[j] = list.get(result[j]).getName();
+				lastRes[j][0] = list.get(result[j][0]).getName();
+				lastRes[j][1] = String.valueOf(result[j][1]);
 			}
 
 		}
-
 		return lastRes;
 	}
 
-	private int[] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
+	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
 		int[][] matrix = graph.getAdjacencyMatrix();
 		int indeOfRoot = 0;
 		int rootNode = 0;
 		int size = matrix.length;
 		int[] result = new int[size];
 		int[] pathCostOfNode = new int[size];
+		int[][] lastResult = new int[size][2];
+
+		/*
+		 * {{2,2}, {3.2}}
+		 */
 
 		// init parent of node
 		for (int i = 0; i < size; i++) {
@@ -116,7 +136,22 @@ public class BellmanFordSearch implements PathFindingStrategy {
 			}
 		}
 
-		return result;
+		/*
+		 * result = {2,1,0}
+		 * pathCostOfNode = {3,1,0}
+		 * 
+		 */
+		for (int i = 0; i < lastResult.length; i++) {
+			for (int j = 0; j < lastResult[i].length; j++) {
+				// j is the node
+				if (j == 0 ) {
+					lastResult[i][j] = result[i];
+				} else {
+					lastResult[i][j] = pathCostOfNode[i];
+				}
+			}
+		}
+		return lastResult;
 	}
 
 }

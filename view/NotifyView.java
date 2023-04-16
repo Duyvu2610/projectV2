@@ -44,13 +44,13 @@ public class NotifyView extends JPanel {
 		return instance;
 	}
 
-	public void updateNotify(String[] s) {
+	public void updateNotify(String[][] s) {
 		String result = "";
 		for (int i = 0; i < s.length; i++) {
-			result += i != (s.length - 1) ? (s[i] + " → ") : s[i];
+			result += i != (s.length - 1) ? (s[i][0] + " → ") : s[i][0];
 		}
 		notifyLabel.setText("Đường đi ngắn nhất là: " + result);
-		pathLabel.setText("Với tổng chi phí là: " + s[s.length - 1]);
+		pathLabel.setText("Với tổng chi phí là: " + s[s.length - 1][1]);
 	}
 	public void removeNotify(){
 		notifyLabel.setText("");

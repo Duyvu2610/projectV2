@@ -24,6 +24,10 @@ public class Graph {
 		this.adjacencyMatrix = adjacencyMatrix;
 	}
 
+	public Graph(int[][] adjacencyMatrix) {
+		this.adjacencyMatrix = adjacencyMatrix;
+	}
+
 	// them 1 dinh
 	public void addVertex(Vertex vertex) {
 		adjacencyList.put(vertex, new ArrayList<>());
@@ -98,7 +102,6 @@ public class Graph {
 				if (adjacencyMatrix[row][column] != 0 && !exceptList.contains(column)) {
 					int[] edge = { row, column, adjacencyMatrix[row][column] };
 					res[index++] = edge;
-
 				}
 			}
 			exceptList.add(row);
