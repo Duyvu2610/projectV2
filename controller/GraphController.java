@@ -73,7 +73,7 @@ public class GraphController implements Subject {
 
 	public void handleAddVertex(Point location) {
 		// Hiển thị hộp thoại yêu cầu nhập tên đỉnh
-		String name = JOptionPane.showInputDialog(null, "Enter vertex name:");
+		String name = JOptionPane.showInputDialog(null, "Nhập tên đỉnh:");
 		if (name != null && !name.isEmpty()) {
 			Vertex vertex = new Vertex(name, location);
 			addVertex(vertex);
@@ -95,7 +95,7 @@ public class GraphController implements Subject {
 	public void renameVertex(Point currentClick) {
 		for (int i = 0; i < getVertices().size(); i++) {
 			if (getVertices().get(i).isClickAt(currentClick)) {
-				String name = JOptionPane.showInputDialog(null, "Enter new vertex name:");
+				String name = JOptionPane.showInputDialog(null, "Nhập tên đỉnh mới:");
 				getVertices().get(i).setName(name);
 				notifyObservers();
 				break;
@@ -106,7 +106,7 @@ public class GraphController implements Subject {
 
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
 
-		String weight = JOptionPane.showInputDialog(null, "Enter weight edge:");
+		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
 
 		addEdge(sourcVertex, findVertex(currentClick), weight == null ? 1 : Integer.valueOf(weight));
 	}

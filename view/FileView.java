@@ -25,57 +25,22 @@ public class FileView extends JPanel {
 	public FileView(GraphController controller) {
 		this.controller = controller;
 		setLayout(new FlowLayout(FlowLayout.LEADING));
-		// save file
 		saveFileButton.setPreferredSize(new Dimension(120, 60));
 		saveFileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// create matrix (String type)
-				String rowString = "";
-				String result = "";
-				int[][] matrix = controller.getGraph().getAdjacencyMatrix();
-				int size = matrix.length;
-				for (int rowIndex = 0; rowIndex <size; rowIndex++) {
-					for (int colIndex = 0; colIndex < size; colIndex++) {
-						if (colIndex == size-1) {
-							rowString += String.valueOf(matrix[rowIndex][colIndex]);
-						} else {
-							rowString += String.valueOf(matrix[rowIndex][colIndex]) + " ";
-						}
-					}
-					if (rowIndex == size-1) {
-						result += rowString;
-					} else {
-						result += rowString + "\n";
-					}
-					rowString = "";
-				}
 
-		
-				JFileChooser fileChooser = new JFileChooser();
-				int chooser = fileChooser.showSaveDialog(null);
-				if (chooser == JFileChooser.APPROVE_OPTION) {
-					try {
-						FileWriter fileWriter = new FileWriter(fileChooser.getSelectedFile() + ".txt");
-						fileWriter.write(result);
-						fileWriter.close();
-
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
-				}
-				
 
 			}
+
 		});
 		// open file
 		openFileButton.setPreferredSize(new Dimension(120, 60));
 		openFileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.showOpenDialog(null);
+
+
 			}
 		});
 
