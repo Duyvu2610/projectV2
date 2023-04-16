@@ -52,4 +52,8 @@ public class NotifyView extends JPanel {
 		notifyLabel.setText("Đường đi ngắn nhất là: " + result);
 		pathLabel.setText("Với tổng chi phí là: " + s[s.length - 1]);
 	}
+	public void removeNotify(){
+		notifyLabel.setText("");
+		pathLabel.setText("");
+	}
 }

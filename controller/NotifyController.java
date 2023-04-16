@@ -12,4 +12,7 @@ public class NotifyController {
 	public void setNotify(String[] s) {
 		view.updateNotify(s);
 	}
+	public void removeNotify(){
+		view.removeNotify();
+	}
 }

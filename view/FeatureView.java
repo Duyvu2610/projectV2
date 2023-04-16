@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.GraphController;
+import controller.NotifyController;
 
 public class FeatureView extends JPanel {
 	private GraphController graphController;
@@ -53,6 +54,10 @@ public class FeatureView extends JPanel {
 								"Xóa đồ thị ?", JOptionPane.YES_NO_OPTION);
 						if (isConfirm == 0) {
 							graphController.removeAllGraph();
+							// set lai notify
+							// set notify
+							NotifyController nc = new NotifyController();
+							nc.removeNotify();
 
 						}
 					}
