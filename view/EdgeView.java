@@ -8,10 +8,8 @@ import javax.swing.JPanel;
 import model.Edge;
 
 public class EdgeView extends JPanel {
-	private Edge model;
 
-	public EdgeView(Edge model) {
-		this.model = model;
+	public EdgeView() {
 	}
 
 	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, String weight) {

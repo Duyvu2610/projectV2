@@ -11,10 +11,8 @@ import javax.swing.JPanel;
 import model.Vertex;
 
 public class VertexView extends JPanel {
-	private Vertex model;
 
-	public VertexView(Vertex model) {
-		this.model = model;
+	public VertexView() {
 	}
 
 	public void drawPoint(Graphics2D g, Color colorPoint, int x, int y, int r, String name) {

@@ -14,7 +14,7 @@ public class EdgeController {
 	public EdgeController(Edge edge) {
 		super();
 		this.model = edge;
-		this.view = new EdgeView(model);
+		this.view = new EdgeView();
 	}
 
 	public Edge getModel() {

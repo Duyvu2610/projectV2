@@ -52,7 +52,6 @@ public class GraphView extends JPanel implements Observer {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				super.mouseClicked(e);
 				// lấy tọa độ của chuột
 				currentClick = new Point(e.getX(), e.getY());

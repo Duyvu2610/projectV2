@@ -12,7 +12,7 @@ public class VertexController {
 	public VertexController(Vertex vertex) {
 		super();
 		this.model = vertex;
-		this.view = new VertexView(model);
+		this.view = new VertexView();
 	}
 
 	public int getX() {
@@ -32,7 +32,6 @@ public class VertexController {
 	}
 
 	public void updateView(Graphics2D g) {
-
 		view.drawPoint(g, getModel().getColor(), getX(), getY(), Vertex.R, getName());
 	}
 

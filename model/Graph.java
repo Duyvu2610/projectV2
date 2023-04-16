@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,7 +17,9 @@ public class Graph {
 	// khoi tao graph
 	public Graph() {
 		this.adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		this.adjacencyMatrix = new int[0][0];
+		adjacencyList.put(new Vertex("A", new Point(100, 100)), new ArrayList<>());
+		setAdjacencyMatrix();
+		// this.adjacencyMatrix = new int[0][0];
 	}
 
 	public Graph(Map<Vertex, List<Edge>> adjacencyList, int[][] adjacencyMatrix) {
