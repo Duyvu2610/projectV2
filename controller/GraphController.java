@@ -108,7 +108,7 @@ public class GraphController implements Subject {
 
 		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
 
-		addEdge(sourcVertex, findVertex(currentClick), weight == null ? 1 : Integer.valueOf(weight));
+		addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
 	}
 
 	private void addEdge(Vertex sourcVertex, Vertex findVertex, int i) {
