@@ -17,13 +17,28 @@ public class FileView extends JPanel {
 
 	public FileView() {
 		setLayout(new FlowLayout(FlowLayout.LEADING));
+		//save file
 		saveFileButton.setPreferredSize(new Dimension(120, 60));
 		saveFileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int returnVal = fileChooser.showSaveDialog(null);
 
-
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					try {
+						FileWriter fw = new FileWriter(file.getAbsoluteFile());
+						BufferedWriter bw = new BufferedWriter(fw);
+						bw.write(textArea.getText());
+						bw.close();
+						fw.close();
+					} catch (IOException ie) {
+						System.out.println("IO Exception: " + ie.getMessage());
+					}
+				}
 			}
+
 		});
 		// open file
 		openFileButton.setPreferredSize(new Dimension(120, 60));
@@ -37,7 +52,7 @@ public class FileView extends JPanel {
 					System.out.println(selectedFile.getAbsolutePath());
 
 
-
+				}
 			}
 		});
 
