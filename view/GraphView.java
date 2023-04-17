@@ -99,7 +99,6 @@ public class GraphView extends JPanel implements Observer {
 				if (controller.getCodeExcute() == 6) {
 					for (int i = 0; i < vertexs.size(); i++) {
 						if (vertexs.get(i).isClick(currentClick)) {
-
 							currentVertex = vertexs.get(i).getModel();
 							dragging = true;
 							prevPt = e.getPoint();
@@ -112,13 +111,13 @@ public class GraphView extends JPanel implements Observer {
 			public void mouseDragged(MouseEvent e) {
 				super.mouseDragged(e);
 				currentClick = e.getPoint();
-				if (dragging && controller.getCodeExcute() == 6 && currentVertex != null) {
+				if (dragging && controller.getCodeExcute() == 6 && currentVertex != null ) {
 					int deltaX = (int) (currentClick.getX() - prevPt.getX());
 					int deltaY = (int) (currentClick.getY() - prevPt.getY());
 					currentVertex.move(deltaX, deltaY);
+					
 					prevPt = currentClick;
-					revalidate();
-					repaint();
+					updateView();
 				}
 			}
 
@@ -173,7 +172,6 @@ public class GraphView extends JPanel implements Observer {
 		for (Vertex vertex : subList.keySet()) {
 			for (Edge edge : subList.get(vertex)) {
 				edgeController = new EdgeController(edge);
-
 				edgeController.updateView(g2d, Color.BLUE);
 				edges.add(edgeController);
 			}

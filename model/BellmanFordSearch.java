@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Array;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
@@ -9,6 +8,7 @@ public class BellmanFordSearch implements PathFindingStrategy {
 
 	@Override
 	public String[][] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
+		
 
 		StringBuffer resReverseStr = new StringBuffer("");
 		StringBuffer weightReverseStr = new StringBuffer("");
@@ -83,6 +83,9 @@ public class BellmanFordSearch implements PathFindingStrategy {
 	}
 
 	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
+		if (!graph.isConnected())  {
+			return new int[2][];
+		}
 		int[][] matrix = graph.getAdjacencyMatrix();
 		int indeOfRoot = 0;
 		int rootNode = 0;
@@ -90,10 +93,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		int[] result = new int[size];
 		int[] pathCostOfNode = new int[size];
 		int[][] lastResult = new int[size][2];
-
-		/*
-		 * {{2,2}, {3.2}}
-		 */
 
 		// init parent of node
 		for (int i = 0; i < size; i++) {
@@ -136,11 +135,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
 			}
 		}
 
-		/*
-		 * result = {2,1,0}
-		 * pathCostOfNode = {3,1,0}
-		 * 
-		 */
 		for (int i = 0; i < lastResult.length; i++) {
 			for (int j = 0; j < lastResult[i].length; j++) {
 				// j is the node

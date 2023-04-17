@@ -17,7 +17,6 @@ public class Graph {
 	// khoi tao graph
 	public Graph() {
 		this.adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		adjacencyList.put(new Vertex("A", new Point(100, 100)), new ArrayList<>());
 		setAdjacencyMatrix();
 		// this.adjacencyMatrix = new int[0][0];
 	}
@@ -159,6 +158,36 @@ public class Graph {
 
 	public void removeAll() {
 		adjacencyList.clear();
+		setAdjacencyMatrix();
+	}
+
+	public boolean isConnected() {
+		return connectedHelper();
+	}
+
+	public int deg(int vertex) {
+		int size = adjacencyMatrix.length;
+		int res = 0;
+
+		for (int col = 0; col < size; col++) {
+			if (adjacencyMatrix[vertex][col] != 0) {
+				res++;
+			}
+		}
+		return res;
+
+	}
+
+	private boolean connectedHelper() {
+		int size = adjacencyMatrix.length;
+		for (int row = 0; row < size; row++) {
+			if (deg(row) == 0) return false;
+		}
+		return true;
+	}
+
+	public void setGraph(Map<Vertex, List<Edge>> adjacencyList) {
+		this.adjacencyList = adjacencyList;
 		setAdjacencyMatrix();
 	}
 
