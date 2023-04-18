@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class BellmanFordSearch implements PathFindingStrategy {
-
 	@Override
 	public String[][] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
-		
-
 		StringBuffer resReverseStr = new StringBuffer("");
 		StringBuffer weightReverseStr = new StringBuffer("");
 		int rootNode = 0;
@@ -41,12 +38,13 @@ public class BellmanFordSearch implements PathFindingStrategy {
 			do {
 				resReverseStr.append(currentNode + " ");
 				weightReverseStr.append(currentWeight + " ");
-				currentNode = listParentNode[currentNode][0];
-				currentWeight = listParentNode[currentNode][1];
 				if (currentNode == rootNode) {
 					resReverseStr.append(currentNode + " ");
 					weightReverseStr.append(currentWeight + " ");
+					break;
 				}
+				currentNode = listParentNode[currentNode][0];
+				currentWeight = listParentNode[currentNode][1];
 			} while (currentNode != rootNode && currentNode != -1);
 
 			
@@ -83,9 +81,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
 	}
 
 	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
-		if (!graph.isConnected())  {
-			return new int[2][];
-		}
 		int[][] matrix = graph.getAdjacencyMatrix();
 		int indeOfRoot = 0;
 		int rootNode = 0;

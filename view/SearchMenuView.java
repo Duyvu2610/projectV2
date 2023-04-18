@@ -14,34 +14,43 @@ import javax.swing.JPanel;
 
 import controller.GraphController;
 import controller.NotifyController;
+import model.BFS;
 import model.BellmanFordSearch;
 import model.Graph;
 import model.Observer;
 import model.PathFindingStrategy;
 
-public class MenuView extends JPanel implements Observer {
-	ArrayList<PathFindingStrategy> data;
+public class SearchMenuView extends JPanel{
+	ArrayList<String> data;
 	GraphController graphController;
+	PathFindingStrategy currentFind;
 
-	public MenuView(GraphController graphController) {
+	public SearchMenuView(GraphController graphController) {
 		this.graphController = graphController;
 		this.data = new ArrayList<>();
-
-		this.graphController.registerObserver(this);
-		data.add(new BellmanFordSearch());
+		data.add("Bellman");
 		setLayout(new FlowLayout(FlowLayout.LEADING));
 		for (int i = 0; i < data.size(); i++) {
 			int index = i;
-			JButton button = new JButton(data.get(index).getClass().getName().substring(6));
+			JButton button = new JButton(data.get(index));
 			button.setPreferredSize(new Dimension(120, 60));
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					NotifyController notifyController = new NotifyController();
-
-					String[][] res = data.get(index).findShortestPath(graphController.getGraph(),
-							graphController.getVertices().get(0), graphController.getVertices()
-									.get(graphController.getGraph().getAdjacencyMatrix().length - 1));
+					switch (e.getActionCommand().toString()) {
+						case "Bellman":
+							currentFind = new BellmanFordSearch();
+							graphController.setPathFindingStrategy(currentFind);
+							break;
+						default:
+							break;
+					}
+					// String[][] res = data.get(index).findShortestPath(graphController.getGraph(),
+					// 		graphController.getVertices().get(0), graphController.getVertices()
+					// 				.get(graphController.getGraph().getAdjacencyMatrix().length - 1));
+					String[][] res = currentFind.findShortestPath(graphController.getGraph(),graphController.getVertices().get(0),
+					graphController.getVertices().get(graphController.getGraph().getAdjacencyMatrix().length - 1));
 					notifyController.setNotify(res);
 					graphController.drawPath(res);
 					graphController.notifyObservers();
@@ -52,10 +61,6 @@ public class MenuView extends JPanel implements Observer {
 		}
 		setOpaque(false);
 		setBorder(BorderFactory.createTitledBorder("Menu"));
-	}
-
-	@Override
-	public void updateGraph(Graph g) {
 	}
 
 	// Ghi đè phương thức paintComponent để vẽ nền trong suốt

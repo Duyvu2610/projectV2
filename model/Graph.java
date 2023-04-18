@@ -13,12 +13,24 @@ public class Graph {
 	// 1 graph se bao gom cac dinh va cac canh tuong ung cua no
 	private Map<Vertex, List<Edge>> adjacencyList;
 	private int[][] adjacencyMatrix;
+	private static Graph instance;
+	private PathFindingStrategy path;
 
 	// khoi tao graph
-	public Graph() {
+	private Graph() {
 		this.adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
 		setAdjacencyMatrix();
 		// this.adjacencyMatrix = new int[0][0];
+	}
+	public static Graph getInstance() {
+		if (instance == null) {
+			synchronized (Graph.class) {
+				if (instance == null) {
+					instance = new Graph();
+				}
+			}
+		}
+		return instance;
 	}
 
 	public Graph(Map<Vertex, List<Edge>> adjacencyList, int[][] adjacencyMatrix) {
@@ -189,6 +201,12 @@ public class Graph {
 	public void setGraph(Map<Vertex, List<Edge>> adjacencyList) {
 		this.adjacencyList = adjacencyList;
 		setAdjacencyMatrix();
+	}
+	public void setPath(PathFindingStrategy path){
+		this.path = path;
+	}
+	public String[][] pathFinding(Graph graph,Vertex firstVertex, Vertex lastVertex){
+		return path.findShortestPath(graph, firstVertex, lastVertex);
 	}
 
 }

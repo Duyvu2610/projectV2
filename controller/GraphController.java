@@ -3,6 +3,7 @@ package controller;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -10,6 +11,7 @@ import javax.swing.JOptionPane;
 import model.Edge;
 import model.Graph;
 import model.Observer;
+import model.PathFindingStrategy;
 import model.Subject;
 import model.Vertex;
 import view.GraphView;
@@ -157,6 +159,12 @@ public class GraphController implements Subject {
 			}
 		}
 
+	}
+	public String [][] pathFinding(Graph graph,Vertex firstertex, Vertex lastVertex){
+		return model.pathFinding(graph,lastVertex, lastVertex);
+	}
+	public void setPathFindingStrategy(PathFindingStrategy p){
+		model.setPath(p);
 	}
 
 }

@@ -14,7 +14,7 @@ import model.Observer;
 
 public class App extends JFrame implements Observer {
 
-	private MenuView menuView;
+	private SearchMenuView menuView;
 	private FileView fileView;
 	private MatrixView matrixView;
 	private FeatureView featureView;
@@ -25,9 +25,9 @@ public class App extends JFrame implements Observer {
 	private JPanel leftCol;
 
 	public App() {
-		this.graphController = new GraphController(new Graph());
+		this.graphController = new GraphController(Graph.getInstance());
 		this.notifyController = new NotifyController();
-		this.menuView = new MenuView(graphController);
+		this.menuView = new SearchMenuView(graphController);
 		this.fileView = new FileView(graphController);
 		this.matrixView = new MatrixView(graphController);
 		this.featureView = new FeatureView(graphController);
