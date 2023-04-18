@@ -32,22 +32,26 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		int[][] listParentNode = helper(graph, startVertex, endVertex);
 		int[][] result = null;
 
+		System.out.println(Arrays.deepToString(listParentNode));
 		int index = 0;
 		if (listParentNode != null) {
 
 			int currentNode = goalNode;
+			
 			int currentWeight = listParentNode[currentNode][1];
 			
 			do {
 				resReverseStr.append(currentNode + " ");
 				weightReverseStr.append(currentWeight + " ");
-				currentNode = listParentNode[currentNode][0];
-				currentWeight = listParentNode[currentNode][1];
 				if (currentNode == rootNode) {
 					resReverseStr.append(currentNode + " ");
 					weightReverseStr.append(currentWeight + " ");
 				}
+				currentNode = listParentNode[currentNode][0];
+				currentWeight = listParentNode[currentNode][1];
+				
 			} while (currentNode != rootNode && currentNode != -1);
+
 
 			
 
@@ -83,9 +87,7 @@ public class BellmanFordSearch implements PathFindingStrategy {
 	}
 
 	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
-		if (!graph.isConnected())  {
-			return new int[2][];
-		}
+		
 		int[][] matrix = graph.getAdjacencyMatrix();
 		int indeOfRoot = 0;
 		int rootNode = 0;
