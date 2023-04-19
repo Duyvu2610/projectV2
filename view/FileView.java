@@ -165,33 +165,62 @@ public class FileView extends JPanel {
 					Edge edge = new Edge(sourceNode, desNode, 0);
 
 					try {
-						Scanner scMatrix = new Scanner(vertexFile);
-						while (scMatrix.hasNextLine()) {
-							String line = scMatrix.nextLine();
-							if (line.equals("##########")) {
+						Scanner scMatrix1 = new Scanner(vertexFile);
+
+						while (scMatrix1.hasNextLine()) {
+							String data = scMatrix1.nextLine();
+							if (data.equals("##########")) {
 								isNode = true;
 								continue;
 							}
 							if (isNode) {
-								sourceNode = new Vertex(line.split(" ")[0], new Point(
-										Integer.valueOf(line.split(" ")[1]), Integer.valueOf(line.split(" ")[2])));
+								sourceNode = new Vertex(data.split(" ")[0], new Point(
+										Integer.valueOf(data.split(" ")[1]), Integer.valueOf(data.split(" ")[2])));
+
 								list.put(sourceNode, new ArrayList<Edge>());
+
 								isNode = false;
-							} else {
-								desNode = new Vertex(line.split(" ")[0], new Point(Integer.valueOf(line.split(" ")[1]),
-										Integer.valueOf(line.split(" ")[2])));
-								for (Vertex vertex : list.keySet()) {
-									if (vertex.equals(desNode)) {
-										desNode = vertex;
+							}
+						}
+						scMatrix1.close();
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					}
+
+					isNode = true;
+					try {
+						Scanner scMatrix2 = new Scanner(vertexFile);
+
+						while (scMatrix2.hasNextLine()) {
+							String data = scMatrix2.nextLine();
+							if (data.equals("##########")) {
+								isNode = true;
+								continue;
+							}
+							if (isNode) {
+								sourceNode = new Vertex(data.split(" ")[0], new Point(
+										Integer.valueOf(data.split(" ")[1]), Integer.valueOf(data.split(" ")[2])));
+								for (Vertex v : list.keySet()) {
+									if (v.equals(sourceNode)) {
+										sourceNode = v;
+										break;
 									}
 								}
-								
-								edge = new Edge(sourceNode, desNode, Integer.valueOf(line.split(" ")[3]));
+								isNode = false;
+							} else {
+								desNode = new Vertex(data.split(" ")[0], new Point(
+										Integer.valueOf(data.split(" ")[1]), Integer.valueOf(data.split(" ")[2])));
+								for (Vertex v : list.keySet()) {
+									if (v.equals(desNode)) {
+										desNode = v;
+										break;
+									}
+								}
+								edge  = new Edge(sourceNode, desNode, Integer.valueOf(data.split(" ")[3]));
 								list.get(sourceNode).add(edge);
 							}
-
 						}
-						scMatrix.close();
+						scMatrix2.close();
 					} catch (FileNotFoundException e1) {
 						e1.printStackTrace();
 					}

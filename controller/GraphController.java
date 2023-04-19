@@ -112,14 +112,19 @@ public class GraphController implements Subject {
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
 
 		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
+		
+		if (weight != null) {
+			addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
+		}
 
-		addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
 	}
 
 	private void addEdge(Vertex sourcVertex, Vertex findVertex, int i) {
 		Edge edge = new Edge(sourcVertex, findVertex, i);
+		Edge edge1 = new Edge(findVertex, sourcVertex, i);
 		
 		model.addEdge(edge);
+		model.addEdge(edge1);
 		
 		notifyObservers();
 	}
@@ -173,28 +178,27 @@ public class GraphController implements Subject {
 				Vertex endNode = vertices.get(index + 1);
 
 				for (Vertex vertex : vertices) {
-					if (beginNode.equals(vertex)) {
+					
 						for (Edge edge : model.getAdjacencyList().get(vertex)) {
 
-							if (edge.getSource().equals(beginNode) && edge.getDestination().equals(endNode)) {
+							if ((edge.getSource().equals(beginNode) && edge.getDestination().equals(endNode)) || (edge.getDestination().equals(beginNode) && edge.getSource().equals(endNode))) {
 								edges.add(edge);
 							}
 						}
-					}
+					
 				}
 
 			}
 
 			for (Vertex vertex : vertices) {
 				vertex.setColor(Color.RED);
-				view.updateView();
 			}
 
 			for (Edge edge : edges) {
 				edge.setColor(Color.RED);
-				view.updateView();
-
 			}
+
+			view.updateView();
 
 		}
 		

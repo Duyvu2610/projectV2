@@ -170,14 +170,11 @@ public class GraphView extends JPanel implements Observer {
 			vertexs.add(vertexController);
 		}
 
-		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		subList.putAll(controller.getGraph().getAdjacencyList());
+		
 
 		edges.clear();
-		
-		for (Vertex vertex : subList.keySet()) {
-			
-			for (Edge edge : subList.get(vertex)) {
+		for (Vertex vertex : controller.getGraph().getAdjacencyList().keySet()) {
+			for (Edge edge : controller.getGraph().getAdjacencyList().get(vertex)) {
 				edgeController = new EdgeController(edge);
 				edgeController.updateView(g2d);
 				edges.add(edgeController);
@@ -191,7 +188,7 @@ public class GraphView extends JPanel implements Observer {
 							: (int) test.getModel().getSource().getLocation().getX() + 2 * Vertex.R;
 			int stSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
 
-			test.drawLine(g2d, getBackground(), stSrcX, stSrcY,
+			test.drawLine(g2d,Color.BLACK, stSrcX, stSrcY,
 					(int) test.getModel().getDestination().getLocation().getX(),
 					(int) test.getModel().getDestination().getLocation().getY(), "");
 		}
