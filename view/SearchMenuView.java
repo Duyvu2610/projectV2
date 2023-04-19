@@ -48,9 +48,9 @@ public class SearchMenuView extends JPanel{
 					// String[][] res = data.get(index).findShortestPath(graphController.getGraph(),
 					// 		graphController.getVertices().get(0), graphController.getVertices()
 					// 				.get(graphController.getGraph().getAdjacencyMatrix().length - 1));
-					// System.out.println(graphController.get);
 					String[][] res = graphController.pathFinding(graphController.getGraph(),graphController.getVertices().get(0),
 					graphController.getVertices().get(graphController.getGraph().getAdjacencyMatrix().length - 1));
+					
 					notifyController.setNotify(res);
 					graphController.drawPath(res);
 					graphController.notifyObservers();

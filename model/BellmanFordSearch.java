@@ -29,7 +29,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		int[][] listParentNode = helper(graph, startVertex, endVertex);
 		int[][] result = null;
 
-		System.out.println(Arrays.deepToString(listParentNode));
 		int index = 0;
 		if (listParentNode != null) {
 
@@ -82,9 +81,12 @@ public class BellmanFordSearch implements PathFindingStrategy {
 	}
 
 	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
+		if (!graph.isConnected()) {
+			return null;
+		}
 		
 		int[][] matrix = graph.getAdjacencyMatrix();
-		int indeOfRoot = 0;
+		int indexOfRoot = 0;
 		int rootNode = 0;
 		int size = matrix.length;
 		int[] result = new int[size];
@@ -99,16 +101,16 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		// find root node
 		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
 			if (vertex.equals(startVertex)) {
-				rootNode = indeOfRoot;
+				rootNode = indexOfRoot;
 			}
-			indeOfRoot++;
+			indexOfRoot++;
 		}
 
 		// initial pathcost of all node (root node is 0, another is MAX_VALUE)
 		for (int i = 0; i < size; i++) {
 			pathCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
 		}
-
+		
 		// loop through all node
 		for (int numNode = 1; numNode <= size; numNode++) {
 

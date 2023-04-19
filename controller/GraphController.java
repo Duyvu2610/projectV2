@@ -144,24 +144,28 @@ public class GraphController implements Subject {
 	}
 
 	public void drawPath(String[][] res) {
-		view = new GraphView(this);
-		for (Vertex vertex : getVertices()) {
-			for (String[] arrsStrings : res) {
-				for (int i = 0; i < arrsStrings.length; i++) {
-					if (i==1) continue;
-					if (vertex.getName().equals(arrsStrings[i])) {
-						vertex.setColor(Color.RED);
-						view.updateView();
+		if (res!=null) {
+
+			view = new GraphView(this);
+			for (Vertex vertex : getVertices()) {
+				for (String[] arrsStrings : res) {
+					for (int i = 0; i < arrsStrings.length; i++) {
+						if (i==1) continue;
+						if (vertex.getName().equals(arrsStrings[i])) {
+							vertex.setColor(Color.RED);
+							view.updateView();
+						}
 					}
-				}
-			
 				
+					
+				}
 			}
 		}
 
 	}
 	public String [][] pathFinding(Graph graph,Vertex firstertex, Vertex lastVertex){
-		return model.pathFinding(graph,lastVertex, lastVertex);
+		
+		return model.pathFinding(graph,firstertex, lastVertex);
 	}
 	public void setPathFindingStrategy(PathFindingStrategy p){
 		model.setPath(p);
