@@ -53,17 +53,10 @@ public class Test {
         // BellmanFordSearch search = new BellmanFordSearch();
         // search.findShortestPath(graph, a, c);
 
-        Vertex vertex;
-        int node = 0;
-        while (node<=3) {
-            
-            if (node == 0) {
-                vertex = new Vertex(String.valueOf(node), new Point(0, 0));
-                continue;
-            }
-            
-            
-        }
+        Map<Vertex, List<Edge>> sublist = new TreeMap<>(new VertexComParator());
+        sublist.put(new Vertex("a", new Point(0, 0)), new ArrayList<>());
+
+        System.out.println(sublist.get(new Vertex("b", new Point(0, 0))));
        
 
     }

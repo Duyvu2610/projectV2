@@ -5,7 +5,6 @@ import java.awt.geom.Line2D;
 
 import javax.swing.JPanel;
 
-import model.Edge;
 
 public class EdgeView extends JPanel {
 
@@ -18,7 +17,7 @@ public class EdgeView extends JPanel {
 
 		// set font and color for label
 		g.setFont(new Font("Arial", Font.PLAIN, 10));
-		g.setColor(Color.BLACK);
+		g.setColor(colorPoint);
 
 		// get font metrics
 		FontMetrics fm = g.getFontMetrics();
@@ -28,6 +27,7 @@ public class EdgeView extends JPanel {
 		int yLabel = (int) (el.getY1() + (el.getY2() - el.getY1()) / 2 + fm.getAscent() / 2) - 8;
 
 		// draw label
+		
 		g.drawString(weight, xLabel, yLabel);
 
 	}

@@ -181,9 +181,11 @@ public class FileView extends JPanel {
 								desNode = new Vertex(line.split(" ")[0], new Point(Integer.valueOf(line.split(" ")[1]),
 										Integer.valueOf(line.split(" ")[2])));
 								for (Vertex vertex : list.keySet()) {
-									if (vertex.equals(desNode))
+									if (vertex.equals(desNode)) {
 										desNode = vertex;
+									}
 								}
+								
 								edge = new Edge(sourceNode, desNode, Integer.valueOf(line.split(" ")[3]));
 								list.get(sourceNode).add(edge);
 							}
