@@ -113,7 +113,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		for (int numNode = 1; numNode <= size; numNode++) {
 
 			// loop through all edge the graph has
-
 			for (int[] edge : graph.getEdges()) {
 				int beginNode = edge[0];
 				int endNode = edge[1];
@@ -144,5 +143,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		}
 		return lastResult;
 	}
+	
 
 }

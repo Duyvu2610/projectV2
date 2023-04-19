@@ -19,6 +19,7 @@ public class Graph {
 	// khoi tao graph
 	private Graph() {
 		this.adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
+		this.path = new BellmanFordSearch();
 		setAdjacencyMatrix();
 		// this.adjacencyMatrix = new int[0][0];
 	}
@@ -206,6 +207,7 @@ public class Graph {
 		this.path = path;
 	}
 	public String[][] pathFinding(Graph graph,Vertex firstVertex, Vertex lastVertex){
+		System.out.println();
 		return path.findShortestPath(graph, firstVertex, lastVertex);
 	}
 
