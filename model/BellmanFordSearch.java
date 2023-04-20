@@ -80,25 +80,60 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		return lastRes;
 	}
 
+	/*
+	 *  Ý tưởng của thuật toán: 
+	 *   - Ta thực hiện duyệt n lần, với n là số đỉnh của đồ thị.
+	 *	 - Với mỗi lần duyệt, ta tìm tất cả các cạnh mà đường đi qua cạnh đó sẽ rút ngắn đường đi ngắn nhất từ đỉnh gốc tới một đỉnh khác.
+     * 	 - Ở lần duyệt thứ n, nếu còn bất kỳ cạnh nào có thể rút ngắn đường đi, điều đó chứng tỏ đồ thị có chu trình âm, và ta kết thúc thuật toán.
+	 */
 	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
 		if (!graph.isConnected()) {
+			System.out.println("Đồ thị không liên thông");
 			return null;
 		}
 		
 		int[][] matrix = graph.getAdjacencyMatrix();
+		/*
+		 * indexOfRoot is use for find the root node in the graph
+		 */
 		int indexOfRoot = 0;
+		/*
+		 * init the root node is the first node in the matrix (or in the graph)
+		 */
 		int rootNode = 0;
 		int size = matrix.length;
-		int[] result = new int[size];
-		int[] pathCostOfNode = new int[size];
-		int[][] lastResult = new int[size][2];
+		/*
+		 * parentOfNode is contain the parent of the node
+		 * example parentOfNode = {-1, 0, 0}
+		 * explain this result: -1 (has index 0) is represent of node 0 -> the parent of 0 is -1 (has no parent) 
+		 * 						 0 (has index 1) is represent of node 1  -> the parent of 1 is 0 
+		 * 						 0 (has index 2) is represent of node 2 -> the parent of 2 is 0 
+		 */
+		int[] parentOfNode = new int[size];
+		/*
+		 * pastCodeOf node is contain the past cost of node
+		 * exmple pastCostOfNode: {0, 5, 3}
+		 * 						   0 (has index 0) is represent of node 0 ->  the past cost of node 0 is 0
+		 * 						   5 (has index 1) is represent of node 1 -> the past cost of node 1 is 5
+		 * 						   3 (has index 2) is represent of node 2 -> the past cost of node 2 is 3
+		 */
+		int[] pastCostOfNode = new int[size];
 
-		// init parent of node
+		/*
+		 * result is contain the parent node and tha past cost of node
+		 * example result = {{-1,0}, {0, 5}, {0, 2}}
+		 * explain this result: {-1,0} (has index 0) is represent of node 0 -> the parent of node 0 is -1 (has no parent) and the past cost of node 0 is 0
+		 * 						{0,5} (has index 1) is represent of node 1  -> the parent of node 1 is 0 and the past cost of node 1 is 5
+		 * 						{0,3} (has index 2) is represent of node 2 -> the parent of node 2 is 0 and the past cost of node 2 is 3		
+		 */
+		int[][] result = new int[size][2];
+
+		// init parent of node (-1 means this node hasn't parent)
 		for (int i = 0; i < size; i++) {
-			result[i] = -1;
+			parentOfNode[i] = -1;
 		}
 
-		// find root node
+		// find root node (must find because the root node hasn't alway the first node in matrix )
 		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
 			if (vertex.equals(startVertex)) {
 				rootNode = indexOfRoot;
@@ -108,7 +143,7 @@ public class BellmanFordSearch implements PathFindingStrategy {
 
 		// initial pathcost of all node (root node is 0, another is MAX_VALUE)
 		for (int i = 0; i < size; i++) {
-			pathCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
+			pastCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
 		}
 		
 		// loop through all node
@@ -119,31 +154,43 @@ public class BellmanFordSearch implements PathFindingStrategy {
 				int beginNode = edge[0];
 				int endNode = edge[1];
 				int weight = edge[2];
-				int pathCostBeginNode = pathCostOfNode[beginNode];
-				int pathCostEndNode = pathCostOfNode[endNode];
+				int pathCostBeginNode = pastCostOfNode[beginNode];
+				int pathCostEndNode = pastCostOfNode[endNode];
 				int pathCostwillChange = pathCostBeginNode + weight;
 				if (pathCostwillChange < pathCostEndNode) {
 					// check negative cycle exists
 					if (numNode == size) {
+						System.out.println("Đồ thị có chu trình âm");
 						return null;
 					}
-					pathCostOfNode[endNode] = pathCostwillChange;
-					result[endNode] = beginNode;
+					pastCostOfNode[endNode] = pathCostwillChange;
+					parentOfNode[endNode] = beginNode;
 				}
 			}
 		}
 
-		for (int i = 0; i < lastResult.length; i++) {
-			for (int j = 0; j < lastResult[i].length; j++) {
-				// j is the node
-				if (j == 0 ) {
-					lastResult[i][j] = result[i];
+
+		for (int row = 0; row < result.length; row++) {
+			/*
+			 * index of row is represent of node
+			 */
+			for (int column = 0; column < result[row].length; column++) {
+				/*
+				 * column has two value
+				 * the first value has index 0, it's represent the parent of node
+				 * the second value has index 1, it's represent the past code of node
+				 * 
+				 * in condition of If statement below : the condition in If is represent the first value
+				 * 									    the condition in Else is represent the second value
+				 */
+				if (column == 0) {
+					result[row][column] = parentOfNode[row];
 				} else {
-					lastResult[i][j] = pathCostOfNode[i];
+					result[row][column] = pastCostOfNode[row];
 				}
 			}
 		}
-		return lastResult;
+		return result;
 	}
 
 }
