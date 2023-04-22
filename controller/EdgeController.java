@@ -33,7 +33,7 @@ public class EdgeController {
 		this.view = view;
 	}
 
-	public void updateView(Graphics2D g, Color colorPoint) {
+	public void updateView(Graphics2D g) {
 		int stSrcX = (int) model.getSource().getLocation().getX() >= (int) model.getDestination().getLocation().getX()
 				? (int) model.getSource().getLocation().getX()
 				: (int) model.getSource().getLocation().getX() + 2 * Vertex.R;
@@ -43,7 +43,7 @@ public class EdgeController {
 				: (int) model.getDestination().getLocation().getX() + 2 * Vertex.R;
 		int desDesY = (int) model.getDestination().getLocation().getY() + Vertex.R;
 
-		view.drawLine(g, colorPoint, stSrcX, stSrcY, desDesX, desDesY, String.valueOf(model.getWeight()));
+		view.drawLine(g, model.getColor(), stSrcX, stSrcY, desDesX, desDesY, String.valueOf(model.getWeight()));
 	}
 
 	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, String weight) {

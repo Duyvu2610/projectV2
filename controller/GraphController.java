@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
@@ -14,6 +16,7 @@ import model.Observer;
 import model.PathFindingStrategy;
 import model.Subject;
 import model.Vertex;
+import utils.VertexComParator;
 import view.GraphView;
 
 public class GraphController implements Subject {
@@ -109,13 +112,20 @@ public class GraphController implements Subject {
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
 
 		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
+		
+		if (weight != null) {
+			addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
+		}
 
-		addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
 	}
 
 	private void addEdge(Vertex sourcVertex, Vertex findVertex, int i) {
 		Edge edge = new Edge(sourcVertex, findVertex, i);
+		Edge edge1 = new Edge(findVertex, sourcVertex, i);
+		
 		model.addEdge(edge);
+		model.addEdge(edge1);
+		
 		notifyObservers();
 	}
 
@@ -144,30 +154,63 @@ public class GraphController implements Subject {
 	}
 
 	public void drawPath(String[][] res) {
-		if (res!=null) {
+		if (res != null) {
+			List<Vertex> vertices = new ArrayList<Vertex>();
+			List<Edge> edges = new ArrayList<Edge>();
 
 			view = new GraphView(this);
 			for (Vertex vertex : getVertices()) {
 				for (String[] arrsStrings : res) {
 					for (int i = 0; i < arrsStrings.length; i++) {
-						if (i==1) continue;
+						if (i == 1)
+							continue;
 						if (vertex.getName().equals(arrsStrings[i])) {
-							vertex.setColor(Color.RED);
-							view.updateView();
+							vertices.add(vertex);
 						}
 					}
-				
-					
+
 				}
 			}
+
+			for (int i = 0; i < vertices.size() - 1; i++) {
+				int index = i;
+				Vertex beginNode = vertices.get(index);
+				Vertex endNode = vertices.get(index + 1);
+
+				for (Vertex vertex : vertices) {
+					
+						for (Edge edge : model.getAdjacencyList().get(vertex)) {
+
+							if ((edge.getSource().equals(beginNode) && edge.getDestination().equals(endNode)) || (edge.getDestination().equals(beginNode) && edge.getSource().equals(endNode))) {
+								edges.add(edge);
+							}
+						}
+					
+				}
+
+			}
+
+			for (Vertex vertex : vertices) {
+				vertex.setColor(Color.RED);
+			}
+
+			for (Edge edge : edges) {
+				edge.setColor(Color.RED);
+			}
+
+			view.updateView();
+
 		}
+		
 
 	}
-	public String [][] pathFinding(Graph graph,Vertex firstertex, Vertex lastVertex){
-		
-		return model.pathFinding(graph,firstertex, lastVertex);
+
+	public String[][] pathFinding(Graph graph, Vertex firstertex, Vertex lastVertex) {
+
+		return model.pathFinding(graph, firstertex, lastVertex);
 	}
-	public void setPathFindingStrategy(PathFindingStrategy p){
+
+	public void setPathFindingStrategy(PathFindingStrategy p) {
 		model.setPath(p);
 	}
 

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+
 import javax.swing.JPanel;
 
 import controller.EdgeController;
@@ -20,6 +22,7 @@ import model.Edge;
 import model.Graph;
 import model.Observer;
 import model.Vertex;
+import utils.VertexComParator;
 
 public class GraphView extends JPanel implements Observer {
 	private List<VertexController> vertexs;
@@ -160,19 +163,20 @@ public class GraphView extends JPanel implements Observer {
 		super.paintComponent(g);
 
 		g2d = (Graphics2D) g;
+		vertexs.clear();
 		for (Vertex vertex : controller.getVertices()) {
 			vertexController = new VertexController(vertex);
 			vertexController.updateView(g2d);
 			vertexs.add(vertexController);
 		}
 
-		Map<Vertex, List<Edge>> subList = new LinkedHashMap<Vertex, List<Edge>>(
-				controller.getGraph().getAdjacencyList());
+		
 
-		for (Vertex vertex : subList.keySet()) {
-			for (Edge edge : subList.get(vertex)) {
+		edges.clear();
+		for (Vertex vertex : controller.getGraph().getAdjacencyList().keySet()) {
+			for (Edge edge : controller.getGraph().getAdjacencyList().get(vertex)) {
 				edgeController = new EdgeController(edge);
-				edgeController.updateView(g2d, Color.BLUE);
+				edgeController.updateView(g2d);
 				edges.add(edgeController);
 			}
 		}
@@ -184,7 +188,7 @@ public class GraphView extends JPanel implements Observer {
 							: (int) test.getModel().getSource().getLocation().getX() + 2 * Vertex.R;
 			int stSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
 
-			test.drawLine(g2d, getBackground(), stSrcX, stSrcY,
+			test.drawLine(g2d,Color.BLACK, stSrcX, stSrcY,
 					(int) test.getModel().getDestination().getLocation().getX(),
 					(int) test.getModel().getDestination().getLocation().getY(), "");
 		}

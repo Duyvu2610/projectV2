@@ -53,18 +53,11 @@ public class Test {
         // BellmanFordSearch search = new BellmanFordSearch();
         // search.findShortestPath(graph, a, c);
 
-        Vertex vertex;
-        int node = 0;
-        while (node<=3) {
-            
-            if (node == 0) {
-                vertex = new Vertex(String.valueOf(node), new Point(0, 0));
-                continue;
-            }
-            
-            
-        }
-       
+       Map<String,Integer> aMap = new TreeMap<String,Integer>();
+       String z = "z";
+       aMap.put(z, 1);
+
+       System.out.println(aMap.get("z"));
 
     }
 }

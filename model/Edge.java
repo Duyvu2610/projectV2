@@ -1,6 +1,9 @@
 package model;
 
+import java.awt.Color;
+
 public class Edge {
+	private Color color;
 	private Vertex source;
 	private Vertex destination;
 	private int weight;
@@ -9,6 +12,15 @@ public class Edge {
 		this.source = source;
 		this.destination = destination;
 		this.weight = weight;
+		this.color = Color.BLACK;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	public Vertex getSource() {
