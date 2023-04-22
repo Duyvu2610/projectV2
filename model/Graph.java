@@ -26,17 +26,7 @@ public abstract class Graph {
 		setAdjacencyMatrix();
 		// this.adjacencyMatrix = new int[0][0];
 	}
-	public static Graph getInstance() {
-		if (instance == null) {
-			synchronized (Graph.class) {
-				if (instance == null) {
-					instance = new Graph();
-				}
-			}
-		}
-		return instance;
-	}
-
+	
 	public Graph(Map<Vertex, List<Edge>> adjacencyList, int[][] adjacencyMatrix) {
 		this.adjacencyList = adjacencyList;
 		this.adjacencyMatrix = adjacencyMatrix;
@@ -253,7 +243,7 @@ public abstract class Graph {
 	}
 	
 	public String[][] pathFinding(){
-		return path.findShortestPath(Graph.getInstance(),startVertex, endVertex);
+		return path.findShortestPath(this,startVertex, endVertex);
 	}
 
 	public void printMatrix() {
