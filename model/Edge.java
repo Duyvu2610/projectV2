@@ -86,4 +86,8 @@ public class Edge {
 		return "source=" + source.getName() + ", destination=" + destination.getName() + ", weight=" + weight;
 	}
 
+	public void setDefaultColor() {
+		setColor(Color.BLACK);
+	}
+
 }

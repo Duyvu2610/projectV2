@@ -52,12 +52,10 @@ public class Test {
 
         // BellmanFordSearch search = new BellmanFordSearch();
         // search.findShortestPath(graph, a, c);
-
-       Map<String,Integer> aMap = new TreeMap<String,Integer>();
-       String z = "z";
-       aMap.put(z, 1);
-
-       System.out.println(aMap.get("z"));
+        
+      String x = "abc";
+     
+        System.out.println(x.contains("A"));
 
     }
 }

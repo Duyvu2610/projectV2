@@ -3,8 +3,11 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.TreeMap;
 
 import utils.VertexComParator;
@@ -25,6 +28,7 @@ public class Graph {
 		setAdjacencyMatrix();
 		// this.adjacencyMatrix = new int[0][0];
 	}
+
 	public static Graph getInstance() {
 		if (instance == null) {
 			synchronized (Graph.class) {
@@ -91,19 +95,23 @@ public class Graph {
 
 		return new ArrayList<Vertex>(adjacencyList.keySet());
 	}
+
 	public void setStartVertex(Vertex startVertex) {
 		this.startVertex = startVertex;
 	}
+
 	public void setEndVertex(Vertex endVertex) {
 		this.endVertex = endVertex;
 	}
-	
+
 	public Vertex getStartVertex() {
 		return startVertex;
 	}
+
 	public Vertex getEndVertex() {
 		return endVertex;
 	}
+
 	// this medthod is used for ungraph
 	public int countEdges() {
 		int res = 0;
@@ -121,20 +129,36 @@ public class Graph {
 	}
 
 	// this medthod is used for ungraph
-	public int[][] getEdges() {
+	public int[][] getEdges(int rootNode) {
 		int[][] res = new int[this.countEdges()][3];
 		int sizeMatrix = adjacencyMatrix.length;
 		ArrayList<Integer> exceptList = new ArrayList<Integer>();
+		Queue<Integer> nextNode = new LinkedList<Integer>();
 		int index = 0;
-		for (int row = 0; row < sizeMatrix; row++) {
+		for (int column = 0; column < sizeMatrix; column++) {
+			if (adjacencyMatrix[rootNode][column] != 0) {
+				int[] edge = { rootNode, column, adjacencyMatrix[rootNode][column] };
+				res[index++] = edge;
+				nextNode.offer(column);
+			}
+		}
+		exceptList.add(rootNode);
+
+		while (!nextNode.isEmpty()) {
+			int currentNode = nextNode.poll();
 			for (int column = 0; column < sizeMatrix; column++) {
-				if (adjacencyMatrix[row][column] != 0 && !exceptList.contains(column)) {
-					int[] edge = { row, column, adjacencyMatrix[row][column] };
+				if (adjacencyMatrix[currentNode][column] != 0 && !exceptList.contains(column)) {
+					int[] edge = { currentNode, column, adjacencyMatrix[currentNode][column] };
 					res[index++] = edge;
+					if (!nextNode.contains(column)) {
+
+						nextNode.offer(column);
+					}
 				}
 			}
-			exceptList.add(row);
+			exceptList.add(currentNode);
 		}
+
 		return res;
 	}
 
@@ -208,7 +232,8 @@ public class Graph {
 	private boolean connectedHelper() {
 		int size = adjacencyMatrix.length;
 		for (int row = 0; row < size; row++) {
-			if (deg(row) == 0) return false;
+			if (deg(row) == 0)
+				return false;
 		}
 		return true;
 	}
@@ -217,65 +242,67 @@ public class Graph {
 		this.adjacencyList = adjacencyList;
 		setAdjacencyMatrix();
 	}
-	public void setPath(PathFindingStrategy path){
+
+	public void setPath(PathFindingStrategy path) {
 		this.path = path;
 	}
-	
-	public String[][] pathFinding(){
-		return path.findShortestPath(Graph.getInstance(),startVertex, endVertex);
+
+	public String[][] pathFinding() {
+		return path.findShortestPath(Graph.getInstance(), startVertex, endVertex);
 	}
+
 	public void printMatrix() {
-		int size  = this.adjacencyMatrix.length +1;
+		int size = this.adjacencyMatrix.length + 1;
 		int index = 0;
 		int index1 = 0;
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				if (i == 0 && j ==0) {
-					System.out.print( "\t");
-				} 
-				else if (i==0 && j !=0 ) {
+				if (i == 0 && j == 0) {
+					System.out.print("\t");
+				} else if (i == 0 && j != 0) {
 					Vertex x = (Vertex) adjacencyList.keySet().toArray()[index++];
-					System.out.print(x.getName() +  "\t");
-				} else if (i!=0 && j == 0) {
+					System.out.print(x.getName() + "\t");
+				} else if (i != 0 && j == 0) {
 					Vertex x = (Vertex) adjacencyList.keySet().toArray()[index1++];
 					System.out.print(x.getName() + "\t");
-				}
-				else {
-					System.out.print(adjacencyMatrix[i-1][j-1] + "\t");
+				} else {
+					System.out.print(adjacencyMatrix[i - 1][j - 1] + "\t");
 				}
 			}
 			System.out.println();
 		}
 	}
-	public void printEdge() {
+
+	public void printEdge(int rootNode) {
 		String s = "";
 		String edge = "";
-		
-		for (int i=0; i<getEdges().length; i++) {
+
+		for (int i = 0; i < getEdges(rootNode).length; i++) {
 			edge += "(";
-			for (int j = 0; j < getEdges()[i].length; j++) {
-				if (j==getEdges()[i].length-1) {
+			for (int j = 0; j < getEdges(rootNode)[i].length; j++) {
+				if (j == getEdges(rootNode)[i].length - 1) {
 					break;
 				}
-				Vertex x = (Vertex) adjacencyList.keySet().toArray()[getEdges()[i][j]];
-				if (j ==0) {
-					edge += x.getName() +"-";
+				Vertex x = (Vertex) adjacencyList.keySet().toArray()[getEdges(rootNode)[i][j]];
+				if (j == 0) {
+					edge += x.getName() + "-";
 				} else {
 					edge += x.getName();
 				}
-				
+
 			}
 			edge += ")";
-			s+= edge +"\t";
+			s += edge + "\t";
 			edge = "";
 		}
 		System.out.println(s);
 	}
+
 	public void printNode() {
 		for (int i = 0; i < adjacencyMatrix.length; i++) {
 			Vertex x = (Vertex) adjacencyList.keySet().toArray()[i];
 
-			System.out.print(x.getName() +"\t");
+			System.out.print(x.getName() + "\t");
 		}
 	}
 

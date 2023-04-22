@@ -93,4 +93,8 @@ public class Vertex {
 		return this.name.equals(name);
 	}
 
+    public void setDefaultColor() {
+		setColor(Color.GREEN);
+    }
+
 }

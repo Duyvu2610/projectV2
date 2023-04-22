@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -19,7 +21,7 @@ import model.Graph;
 import model.Observer;
 import model.Vertex;
 
-public class ChoosePointView extends JPanel implements Observer{
+public class ChoosePointView extends JPanel implements Observer {
 	private JComboBox<String> startComboBox;
     private JComboBox<String> endComboBox;
 	private GraphController graphController;
@@ -78,15 +80,20 @@ public class ChoosePointView extends JPanel implements Observer{
 		g.setColor(new Color(0, 0, 0, 0));
 		g.fillRect(0, 0, getWidth(), getHeight());
 	}
+	
 	// Cập nhật danh sách đỉnh trong JComboBox
     public void updateItems() {
-        List<Vertex> vertices = graphController.getVertices();
+        List<Vertex> vertices = new ArrayList<>(graphController.getVertices());
         startComboBox.removeAllItems();
         endComboBox.removeAllItems();
         for (Vertex vertex : vertices) {
             startComboBox.addItem(vertex.getName());
+        } 
+		Collections.reverse(vertices);
+		for (Vertex vertex : vertices) {
             endComboBox.addItem(vertex.getName());
-        }
+		}
+		
     }
 
 	@Override

@@ -52,13 +52,14 @@ public class BellmanFordSearch implements PathFindingStrategy {
 
 			String[] resStr = resReverseStr.reverse().substring(1).split(" ");
 			String[] weightStr = weightReverseStr.reverse().substring(1).split(" ");
+			
 			result = new int[resStr.length][2];
 			for (String character : resStr) {
-				result[index++][0] = Integer.valueOf(character);
+				result[index++][0] = Integer.valueOf(character) ;
 			}
 			index =0;
 			for (String character : weightStr) {
-				result[index++][1] = Integer.valueOf(character);
+				result[index++][1] = character.contains("-") ? (Integer.valueOf(character.substring(0, character.length()-1)) * -1):Integer.valueOf(character);
 			}
 		}
 
@@ -91,22 +92,7 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		if (!graph.isConnected()) {
 			System.out.println("Đồ thị không liên thông");
 			return null;
-		}
-
-		System.out.println("The graph: \t" );
-		graph.printMatrix();
-		System.out.println();
-		System.out.print("the graph has edges: \t" );
-		graph.printEdge();
-		System.out.println();
-		System.out.println("algorithm implementation:" );
-		System.out.println("---------------------------" );
-		System.out.print("\t" );
-		graph.printNode();
-		System.out.println();
-		Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String, Integer>>();
-		String s = "\t";
-		
+		}	
 
 		int[][] matrix = graph.getAdjacencyMatrix();
 		/*
@@ -161,18 +147,32 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		for (int i = 0; i < size; i++) {
 			pastCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
 		}
+
+		System.out.println("The graph: \t" );
+		graph.printMatrix();
+		System.out.println();
+		System.out.print("the graph has edges: \t" );
+		graph.printEdge(rootNode);
+		System.out.println();
+		System.out.println("algorithm implementation:" );
+		System.out.println("---------------------------" );
+		System.out.print("\t" );
+		graph.printNode();
+		System.out.println();
+		Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String, Integer>>();
+		String s = "\t";
 		
 		// loop through all node
 		for (int numNode = 1; numNode <= size; numNode++) {
 			s = "\t";
 			// loop through all edge the graph has
-			for (int[] edge : graph.getEdges()) {
+			for (int[] edge : graph.getEdges(rootNode)) {
 				int beginNode = edge[0];
 				int endNode = edge[1];
 				int weight = edge[2];
 				int pathCostBeginNode = pastCostOfNode[beginNode];
 				int pathCostEndNode = pastCostOfNode[endNode];
-				int pathCostwillChange = pathCostBeginNode + weight;
+				int pathCostwillChange = pathCostBeginNode == Integer.MAX_VALUE ? Integer.MAX_VALUE : pathCostBeginNode + weight;
 				if (pathCostwillChange < pathCostEndNode) {
 					// check negative cycle exists
 					if (numNode == size) {

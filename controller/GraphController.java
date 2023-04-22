@@ -160,6 +160,7 @@ public class GraphController implements Subject {
 	}
 
 	public void drawPath(String[][] res) {
+		setDefaultGraph();
 		if (res != null) {
 			List<Vertex> vertices = new ArrayList<Vertex>();
 			List<Edge> edges = new ArrayList<Edge>();
@@ -209,6 +210,16 @@ public class GraphController implements Subject {
 		}
 		
 
+	}
+
+	public void setDefaultGraph() {
+		for (Vertex vertex: getVertices()) {
+			vertex.setDefaultColor();
+			for (Edge edge: model.getAdjacencyList().get(vertex)) {
+					edge.setDefaultColor();
+			}
+		}
+		
 	}
 	// Chọn đỉnh bắt đầu
 	public void setStartVertex(String name) {
