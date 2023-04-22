@@ -68,6 +68,12 @@ public class GraphController implements Subject {
 		return model;
 	}
 
+	public Vertex getStartVertex() {
+		return model.getStartVertex();
+	}
+	public Vertex getEndVertex() {
+		return model.getEndVertex();
+	}
 	public void setCodeExcute(int code) {
 		codeExcute = code;
 	}
@@ -204,10 +210,22 @@ public class GraphController implements Subject {
 		
 
 	}
+	// Chọn đỉnh bắt đầu
+	public void setStartVertex(String name) {
+		model.getVertices().forEach(e -> {
+			if (e.getVertex(name)) model.setStartVertex(e);
+		});
+	}
+	// Chọn đỉnh kết thúc
+	public void setEndVertex(String name) {
+		model.getVertices().forEach(e -> {
+			if (e.getVertex(name)) model.setEndVertex(e);
+		});
+	}
 
-	public String[][] pathFinding(Graph graph, Vertex firstertex, Vertex lastVertex) {
+	public String[][] pathFinding() {
 
-		return model.pathFinding(graph, firstertex, lastVertex);
+		return model.pathFinding();
 	}
 
 	public void setPathFindingStrategy(PathFindingStrategy p) {

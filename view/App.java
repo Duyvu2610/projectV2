@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,6 +23,7 @@ public class App extends JFrame implements Observer {
 	private NotifyView notifyView;
 	private GraphController graphController;
 	private NotifyController notifyController;
+	private ChoosePointView  choosePointView;
 	private JPanel leftCol;
 
 	public App() {
@@ -33,6 +35,7 @@ public class App extends JFrame implements Observer {
 		this.featureView = new FeatureView(graphController);
 		this.graphView = new GraphView(graphController);
 		this.notifyView = NotifyView.getInstance();
+		this.choosePointView = new ChoosePointView(graphController);
 		graphController.registerObserver(this);
 		init();
 	}
@@ -85,20 +88,25 @@ public class App extends JFrame implements Observer {
 
 	public JPanel leftCol() {
 		JPanel leftJPanel = new JPanel();
-		leftJPanel.setLayout(new BorderLayout());
+		leftJPanel.setLayout(new BoxLayout(leftJPanel, BoxLayout.Y_AXIS));
 		// Menu
-		menuView.setPreferredSize(new Dimension(400, 200));
+		menuView.setPreferredSize(new Dimension(400, 100));
 		// File
-		fileView.setPreferredSize(new Dimension(400, 150));
+		fileView.setPreferredSize(new Dimension(400, 90));
 		fileView.setBorder(BorderFactory.createTitledBorder("File"));
+		// choose vertex
+		choosePointView.setPreferredSize(new Dimension(400, 60));
+		choosePointView.setBorder(BorderFactory.createTitledBorder("Vertex"));
 
 		//
 		leftJPanel.setPreferredSize(new Dimension(400, 700));
 
 		// add component
-		leftJPanel.add(menuView, BorderLayout.NORTH);
+		leftJPanel.add(menuView);
+		leftJPanel.add(choosePointView);
 		leftJPanel.add(fileView);
-		leftJPanel.add(matrixView, BorderLayout.SOUTH);
+		leftJPanel.add(matrixView);
+
 		return leftJPanel;
 	}
 

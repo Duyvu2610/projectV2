@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.GraphController;
@@ -45,15 +46,18 @@ public class SearchMenuView extends JPanel{
 						default:
 							break;
 					}
-					// String[][] res = data.get(index).findShortestPath(graphController.getGraph(),
-					// 		graphController.getVertices().get(0), graphController.getVertices()
-					// 				.get(graphController.getGraph().getAdjacencyMatrix().length - 1));
-					String[][] res = graphController.pathFinding(graphController.getGraph(),graphController.getVertices().get(0),
-					graphController.getVertices().get(graphController.getGraph().getAdjacencyMatrix().length - 1));
+					// nếu như chưa chọn đỉnh bắt đầu và kết thúc thì show message 
+					if (graphController.getStartVertex() == graphController.getEndVertex()){
+						JOptionPane.showMessageDialog(null, "ĐỈnh bắt đầu và kết thúc trùng nhau vui lòng chọn lại", "Thông báo",JOptionPane.ERROR_MESSAGE, null);
+					}else{
+
+						String[][] res = graphController.pathFinding();
+						notifyController.setNotify(res);
+						graphController.drawPath(res);
+						graphController.notifyObservers();
+					}
 					
-					notifyController.setNotify(res);
-					graphController.drawPath(res);
-					graphController.notifyObservers();
+
 				}
 			});
 

@@ -15,6 +15,8 @@ public class Graph {
 	private int[][] adjacencyMatrix;
 	private static Graph instance;
 	private PathFindingStrategy path;
+	private Vertex startVertex;
+	private Vertex endVertex;
 
 	// khoi tao graph
 	private Graph() {
@@ -87,9 +89,21 @@ public class Graph {
 
 	public ArrayList<Vertex> getVertices() {
 
-		return new ArrayList<>(adjacencyList.keySet());
+		return new ArrayList<Vertex>(adjacencyList.keySet());
 	}
-
+	public void setStartVertex(Vertex startVertex) {
+		this.startVertex = startVertex;
+	}
+	public void setEndVertex(Vertex endVertex) {
+		this.endVertex = endVertex;
+	}
+	
+	public Vertex getStartVertex() {
+		return startVertex;
+	}
+	public Vertex getEndVertex() {
+		return endVertex;
+	}
 	// this medthod is used for ungraph
 	public int countEdges() {
 		int res = 0;
@@ -206,11 +220,10 @@ public class Graph {
 	public void setPath(PathFindingStrategy path){
 		this.path = path;
 	}
-	public String[][] pathFinding(Graph graph,Vertex firstVertex, Vertex lastVertex){
-		System.out.println();
-		return path.findShortestPath(graph, firstVertex, lastVertex);
+	
+	public String[][] pathFinding(){
+		return path.findShortestPath(Graph.getInstance(),startVertex, endVertex);
 	}
-
 	public void printMatrix() {
 		int size  = this.adjacencyMatrix.length +1;
 		int index = 0;
