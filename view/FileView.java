@@ -37,7 +37,7 @@ public class FileView extends JPanel {
 		this.controller = controller;
 		setLayout(new FlowLayout(FlowLayout.LEADING));
 		// save file
-		saveFileButton.setPreferredSize(new Dimension(120, 60));
+		saveFileButton.setPreferredSize(new Dimension(100, 50));
 		saveFileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -114,7 +114,7 @@ public class FileView extends JPanel {
 
 		});
 		// open file
-		openFileButton.setPreferredSize(new Dimension(120, 60));
+		openFileButton.setPreferredSize(new Dimension(100, 50));
 		openFileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

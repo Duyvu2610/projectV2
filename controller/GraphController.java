@@ -163,7 +163,6 @@ public class GraphController implements Subject {
 		if (res != null) {
 			List<Vertex> vertices = new ArrayList<Vertex>();
 			List<Edge> edges = new ArrayList<Edge>();
-
 			view = new GraphView(this);
 			for (Vertex vertex : getVertices()) {
 				for (String[] arrsStrings : res) {
@@ -182,11 +181,8 @@ public class GraphController implements Subject {
 				int index = i;
 				Vertex beginNode = vertices.get(index);
 				Vertex endNode = vertices.get(index + 1);
-
 				for (Vertex vertex : vertices) {
-					
 						for (Edge edge : model.getAdjacencyList().get(vertex)) {
-
 							if ((edge.getSource().equals(beginNode) && edge.getDestination().equals(endNode)) || (edge.getDestination().equals(beginNode) && edge.getSource().equals(endNode))) {
 								edges.add(edge);
 							}
@@ -195,6 +191,16 @@ public class GraphController implements Subject {
 				}
 
 			}
+			// vẽ lại toàn bộ các đỉnh thành màu xanh trước khi chuyển màu đỏ
+			getVertices().forEach(vertex -> {
+				vertex.setColor(Color.GREEN);
+			});
+			// vẽ lại toàn bộ các cạnh thành màu đen trước khi chuyển màu đỏ
+			getVertices().forEach(vertex -> {
+				model.getAdjacencyList().get(vertex).forEach(edge -> {
+					edge.setColor(Color.BLACK);
+				});
+			});
 
 			for (Vertex vertex : vertices) {
 				vertex.setColor(Color.RED);
