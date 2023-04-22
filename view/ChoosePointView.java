@@ -24,6 +24,10 @@ public class ChoosePointView extends JPanel implements Observer{
     private JComboBox<String> endComboBox;
 	private GraphController graphController;
 
+	// Lưu giá trị đang được chọn của JComboBox
+	private String selectedStartVertex;
+	private String selectedEndVertex;
+
 	public ChoosePointView(GraphController graphController) {
         this.graphController = graphController;
 		graphController.registerObserver(this);
@@ -52,7 +56,7 @@ public class ChoosePointView extends JPanel implements Observer{
 		startComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String selectedStartVertex = (String) startComboBox.getSelectedItem();
+				selectedStartVertex = (String) startComboBox.getSelectedItem();
 				// Xử lý khi người dùng chọn đỉnh xuất phát
 				graphController.setStartVertex(selectedStartVertex);
 			}
@@ -61,7 +65,7 @@ public class ChoosePointView extends JPanel implements Observer{
 		endComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String selectedEndVertex = (String) endComboBox.getSelectedItem();
+				selectedEndVertex = (String) endComboBox.getSelectedItem();
 				// Xử lý khi người dùng chọn đỉnh kết thúc
 				graphController.setEndVertex(selectedEndVertex);
 
@@ -81,11 +85,23 @@ public class ChoosePointView extends JPanel implements Observer{
 	// Cập nhật danh sách đỉnh trong JComboBox
     public void updateItems() {
         List<Vertex> vertices = graphController.getVertices();
+		// Lưu giá trị đang được chọn của JComboBox
+        String oldSelectedStartVertex = selectedStartVertex;
+        String oldSelectedEndVertex = selectedEndVertex;
+
         startComboBox.removeAllItems();
         endComboBox.removeAllItems();
         for (Vertex vertex : vertices) {
             startComboBox.addItem(vertex.getName());
             endComboBox.addItem(vertex.getName());
+        }
+
+		// Khôi phục giá trị được chọn
+        if (oldSelectedStartVertex != null) {
+            startComboBox.setSelectedItem(oldSelectedStartVertex);
+        }
+        if (oldSelectedEndVertex != null) {
+            endComboBox.setSelectedItem(oldSelectedEndVertex);
         }
     }
 

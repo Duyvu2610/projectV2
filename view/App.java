@@ -12,6 +12,7 @@ import controller.GraphController;
 import controller.NotifyController;
 import model.Graph;
 import model.Observer;
+import model.UndirectedGraph;
 
 public class App extends JFrame implements Observer {
 
@@ -28,7 +29,8 @@ public class App extends JFrame implements Observer {
 	private JPanel leftCol;
 
 	public App() {
-		this.graphController = new GraphController(Graph.getInstance());
+		this.graphController = new GraphController();
+		this.chooseTypeView = new ChooseTypeView(graphController);
 		this.notifyController = new NotifyController();
 		this.menuView = new SearchMenuView(graphController);
 		this.fileView = new FileView(graphController);
@@ -37,7 +39,6 @@ public class App extends JFrame implements Observer {
 		this.graphView = new GraphView(graphController);
 		this.notifyView = NotifyView.getInstance();
 		this.choosePointView = new ChoosePointView(graphController);
-		this.chooseTypeView = new ChooseTypeView(graphController);
 		graphController.registerObserver(this);
 		init();
 	}
@@ -142,7 +143,6 @@ public class App extends JFrame implements Observer {
 
 	@Override
 	public void updateGraph(Graph g) {
-		graphController = new GraphController(g);
 		leftCol.remove(matrixView);
 		matrixView = new MatrixView(graphController);
 		leftCol.add(matrixView, BorderLayout.SOUTH);

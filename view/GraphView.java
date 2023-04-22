@@ -69,7 +69,6 @@ public class GraphView extends JPanel implements Observer {
 					revalidate();
 					repaint();
 				} else if (controller.getCodeExcute() == 3) {
-
 					beginComp++;
 					if (beginComp == 1) {
 						prevVertex = controller.findVertex(currentClick);

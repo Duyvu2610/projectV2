@@ -53,10 +53,7 @@ public class SearchMenuView extends JPanel{
 						String[][] res = graphController.pathFinding();
 						notifyController.setNotify(res);
 						graphController.drawPath(res);
-						graphController.notifyObservers();
 					}
-					
-
 				}
 			});
 

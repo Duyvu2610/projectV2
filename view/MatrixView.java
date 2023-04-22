@@ -21,12 +21,8 @@ public class MatrixView extends JPanel {
 	private JLabel label;
 
 	public MatrixView(GraphController graphController) {
-
 		this.graphController = graphController;
-		Graph graph = graphController.getGraph();
-
-		ArrayList<Vertex> vertices = graph.getVertices();
-
+		ArrayList<Vertex> vertices = graphController.getVertices();
 		int size = vertices.size() + 1;
 		setLayout(new GridLayout(size, size));
 		setPreferredSize(new Dimension(400, 350));
@@ -49,8 +45,8 @@ public class MatrixView extends JPanel {
 					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
 				} else {
 					label = new JLabel(
-							(graph.getAdjacencyMatrix()[i - 1][j - 1] == 0) ? "0"
-									: Integer.toString(graph.getAdjacencyMatrix()[i - 1][j - 1]));
+							(graphController.getAdjacencyMatrix()[i - 1][j - 1] == 0) ? "0"
+									: Integer.toString(graphController.getAdjacencyMatrix()[i - 1][j - 1]));
 					label.setFont(new Font("Arial", Font.PLAIN, 16)); // đặt kích thước font là 16
 				}
 

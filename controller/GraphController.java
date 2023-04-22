@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
+import model.DirectedGraph;
 import model.Edge;
 import model.Graph;
 import model.Observer;
@@ -25,8 +26,7 @@ public class GraphController implements Subject {
 	private List<Observer> observers;
 	private int codeExcute;
 
-	public GraphController(Graph model) {
-		this.model = model;
+	public GraphController() {
 		this.observers = new ArrayList<>();
 	}
 
@@ -34,7 +34,7 @@ public class GraphController implements Subject {
 		this.view = view;
 	}
 
-	public List<Vertex> getVertices() {
+	public ArrayList<Vertex> getVertices() {
 		return model.getVertices();
 	}
 
@@ -211,6 +211,7 @@ public class GraphController implements Subject {
 			}
 
 			view.updateView();
+			notifyObservers();
 
 		}
 		
@@ -236,6 +237,14 @@ public class GraphController implements Subject {
 
 	public void setPathFindingStrategy(PathFindingStrategy p) {
 		model.setPath(p);
+	}
+
+	public void setModel(Graph instance) {
+		this.model = instance;
+	}
+
+	public int[][] getAdjacencyMatrix() {
+		return model.getAdjacencyMatrix();
 	}
 
 }
