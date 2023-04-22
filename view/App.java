@@ -12,6 +12,7 @@ import controller.GraphController;
 import controller.NotifyController;
 import model.Graph;
 import model.Observer;
+import model.UndirectedGraph;
 
 public class App extends JFrame implements Observer {
 
@@ -24,10 +25,12 @@ public class App extends JFrame implements Observer {
 	private GraphController graphController;
 	private NotifyController notifyController;
 	private ChoosePointView  choosePointView;
+	private ChooseTypeView  chooseTypeView;
 	private JPanel leftCol;
 
 	public App() {
-		this.graphController = new GraphController(Graph.getInstance());
+		this.graphController = new GraphController();
+		this.chooseTypeView = new ChooseTypeView(graphController);
 		this.notifyController = new NotifyController();
 		this.menuView = new SearchMenuView(graphController);
 		this.fileView = new FileView(graphController);
@@ -89,21 +92,26 @@ public class App extends JFrame implements Observer {
 	public JPanel leftCol() {
 		JPanel leftJPanel = new JPanel();
 		leftJPanel.setLayout(new BoxLayout(leftJPanel, BoxLayout.Y_AXIS));
+		// choose vertex
+		chooseTypeView.setPreferredSize(new Dimension(400, 60));
+		chooseTypeView.setBorder(BorderFactory.createTitledBorder("Type"));
 		// Menu
-		menuView.setPreferredSize(new Dimension(400, 100));
+		menuView.setPreferredSize(new Dimension(400, 85));
 		// File
-		fileView.setPreferredSize(new Dimension(400, 90));
+		fileView.setPreferredSize(new Dimension(400, 85));
 		fileView.setBorder(BorderFactory.createTitledBorder("File"));
 		// choose vertex
-		choosePointView.setPreferredSize(new Dimension(400, 60));
+		choosePointView.setPreferredSize(new Dimension(400, 75));
 		choosePointView.setBorder(BorderFactory.createTitledBorder("Vertex"));
+
 
 		//
 		leftJPanel.setPreferredSize(new Dimension(400, 700));
 
 		// add component
-		leftJPanel.add(menuView);
+		leftJPanel.add(chooseTypeView);
 		leftJPanel.add(choosePointView);
+		leftJPanel.add(menuView);
 		leftJPanel.add(fileView);
 		leftJPanel.add(matrixView);
 
@@ -135,7 +143,6 @@ public class App extends JFrame implements Observer {
 
 	@Override
 	public void updateGraph(Graph g) {
-		graphController = new GraphController(g);
 		leftCol.remove(matrixView);
 		matrixView = new MatrixView(graphController);
 		leftCol.add(matrixView, BorderLayout.SOUTH);

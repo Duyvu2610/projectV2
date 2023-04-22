@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
+import model.DirectedGraph;
 import model.Edge;
 import model.Graph;
 import model.Observer;
@@ -25,8 +26,7 @@ public class GraphController implements Subject {
 	private List<Observer> observers;
 	private int codeExcute;
 
-	public GraphController(Graph model) {
-		this.model = model;
+	public GraphController() {
 		this.observers = new ArrayList<>();
 	}
 
@@ -34,7 +34,7 @@ public class GraphController implements Subject {
 		this.view = view;
 	}
 
-	public List<Vertex> getVertices() {
+	public ArrayList<Vertex> getVertices() {
 		return model.getVertices();
 	}
 
@@ -164,7 +164,6 @@ public class GraphController implements Subject {
 		if (res != null) {
 			List<Vertex> vertices = new ArrayList<Vertex>();
 			List<Edge> edges = new ArrayList<Edge>();
-
 			view = new GraphView(this);
 			for (Vertex vertex : getVertices()) {
 				for (String[] arrsStrings : res) {
@@ -183,11 +182,8 @@ public class GraphController implements Subject {
 				int index = i;
 				Vertex beginNode = vertices.get(index);
 				Vertex endNode = vertices.get(index + 1);
-
 				for (Vertex vertex : vertices) {
-					
 						for (Edge edge : model.getAdjacencyList().get(vertex)) {
-
 							if ((edge.getSource().equals(beginNode) && edge.getDestination().equals(endNode)) || (edge.getDestination().equals(beginNode) && edge.getSource().equals(endNode))) {
 								edges.add(edge);
 							}
@@ -196,6 +192,16 @@ public class GraphController implements Subject {
 				}
 
 			}
+			// vẽ lại toàn bộ các đỉnh thành màu xanh trước khi chuyển màu đỏ
+			getVertices().forEach(vertex -> {
+				vertex.setColor(Color.GREEN);
+			});
+			// vẽ lại toàn bộ các cạnh thành màu đen trước khi chuyển màu đỏ
+			getVertices().forEach(vertex -> {
+				model.getAdjacencyList().get(vertex).forEach(edge -> {
+					edge.setColor(Color.BLACK);
+				});
+			});
 
 			for (Vertex vertex : vertices) {
 				vertex.setColor(Color.RED);
@@ -206,6 +212,7 @@ public class GraphController implements Subject {
 			}
 
 			view.updateView();
+			notifyObservers();
 
 		}
 		
@@ -241,6 +248,14 @@ public class GraphController implements Subject {
 
 	public void setPathFindingStrategy(PathFindingStrategy p) {
 		model.setPath(p);
+	}
+
+	public void setModel(Graph instance) {
+		this.model = instance;
+	}
+
+	public int[][] getAdjacencyMatrix() {
+		return model.getAdjacencyMatrix();
 	}
 
 }

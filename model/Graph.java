@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -12,23 +11,21 @@ import java.util.TreeMap;
 
 import utils.VertexComParator;
 
-public class Graph {
+public abstract class Graph {
 	// 1 graph se bao gom cac dinh va cac canh tuong ung cua no
 	private Map<Vertex, List<Edge>> adjacencyList;
 	private int[][] adjacencyMatrix;
-	private static Graph instance;
 	private PathFindingStrategy path;
 	private Vertex startVertex;
 	private Vertex endVertex;
 
 	// khoi tao graph
-	private Graph() {
+	public Graph() {
 		this.adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
 		this.path = new BellmanFordSearch();
 		setAdjacencyMatrix();
 		// this.adjacencyMatrix = new int[0][0];
 	}
-
 	public static Graph getInstance() {
 		if (instance == null) {
 			synchronized (Graph.class) {
@@ -90,10 +87,18 @@ public class Graph {
 	public Map<Vertex, List<Edge>> getAdjacencyList() {
 		return adjacencyList;
 	}
+	
+
+	public void setAdjacencyList(Map<Vertex, List<Edge>> adjacencyList) {
+		this.adjacencyList = adjacencyList;
+	}
+
+	public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
+		this.adjacencyMatrix = adjacencyMatrix;
+	}
 
 	public ArrayList<Vertex> getVertices() {
-
-		return new ArrayList<Vertex>(adjacencyList.keySet());
+		return new ArrayList<Vertex>(this.adjacencyList.keySet());
 	}
 
 	public void setStartVertex(Vertex startVertex) {
@@ -246,9 +251,9 @@ public class Graph {
 	public void setPath(PathFindingStrategy path) {
 		this.path = path;
 	}
-
-	public String[][] pathFinding() {
-		return path.findShortestPath(Graph.getInstance(), startVertex, endVertex);
+	
+	public String[][] pathFinding(){
+		return path.findShortestPath(Graph.getInstance(),startVertex, endVertex);
 	}
 
 	public void printMatrix() {

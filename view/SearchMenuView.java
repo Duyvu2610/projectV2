@@ -33,7 +33,7 @@ public class SearchMenuView extends JPanel{
 		for (int i = 0; i < data.size(); i++) {
 			int index = i;
 			JButton button = new JButton(data.get(index));
-			button.setPreferredSize(new Dimension(120, 60));
+			button.setPreferredSize(new Dimension(100, 50));
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -50,14 +50,10 @@ public class SearchMenuView extends JPanel{
 					if (graphController.getStartVertex() == graphController.getEndVertex()){
 						JOptionPane.showMessageDialog(null, "ĐỈnh bắt đầu và kết thúc trùng nhau vui lòng chọn lại", "Thông báo",JOptionPane.ERROR_MESSAGE, null);
 					}else{
-
 						String[][] res = graphController.pathFinding();
 						notifyController.setNotify(res);
 						graphController.drawPath(res);
-						graphController.notifyObservers();
 					}
-					
-
 				}
 			});
 
