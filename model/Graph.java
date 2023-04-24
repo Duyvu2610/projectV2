@@ -225,4 +225,10 @@ public abstract class Graph {
 		}
 	}
 
+	public void rename(Vertex vertex, String name) {
+		vertex.setName(name);
+		
+		setAdjacencyMatrix();
+	}
+
 }

@@ -7,8 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.swing.JPanel;
 
@@ -21,6 +20,7 @@ import model.Graph;
 import model.Observer;
 import model.UndirectedGraph;
 import model.Vertex;
+import utils.VertexComParator;
 
 public class GraphView extends JPanel implements Observer {
 	private List<VertexController> vertexs;
@@ -166,8 +166,11 @@ public class GraphView extends JPanel implements Observer {
 		}
 
 		edges.clear();
-		for (Vertex vertex : controller.getGraph().getAdjacencyList().keySet()) {
-			for (Edge edge : controller.getGraph().getAdjacencyList().get(vertex)) {
+
+		Map<Vertex, List<Edge>> list = new TreeMap<>(new VertexComParator());
+		list.putAll(controller.getGraph().getAdjacencyList());
+		for (Vertex vertex : list.keySet()) {
+			for (Edge edge : list.get(vertex)) {
 				edgeController = new EdgeController(edge);
 				edgeController.updateView(g2d, controller.getTypeModel());
 				edges.add(edgeController);

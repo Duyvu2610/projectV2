@@ -106,12 +106,17 @@ public class GraphController implements Subject {
 		for (int i = 0; i < getVertices().size(); i++) {
 			if (getVertices().get(i).isClickAt(currentClick)) {
 				String name = JOptionPane.showInputDialog(null, "Nhập tên đỉnh mới:");
-				getVertices().get(i).setName(name);
+				rename(getVertices().get(i), name);
 				notifyObservers();
 				break;
 			}
 		}
 
+	}
+
+	private void rename(Vertex vertex, String name) {
+		model.rename(vertex, name);
+		notifyObservers();
 	}
 
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {

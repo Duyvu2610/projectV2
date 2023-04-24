@@ -88,7 +88,7 @@ public class ChooseTypeView extends JPanel implements Observer, ActionListener {
 
 		if (graphController.getGraph() != null) {
 			if (!graphController.getGraph().getAdjacencyList().isEmpty()) {
-				if (graphController.getGraph().countEdges() >0) {
+				if (graphController.getGraph().countEdges() > 0) {
 					int confirm = JOptionPane.showConfirmDialog(null,
 							"Nếu thay đổi dạng đồ thị thì đồ thị sẽ bị xóa. Bạn có chắc chắn xóa không?", "Thông báo",
 							JOptionPane.YES_NO_OPTION);
@@ -108,10 +108,10 @@ public class ChooseTypeView extends JPanel implements Observer, ActionListener {
 						}
 					}
 				} else {
-					
+
 					Map<Vertex, List<Edge>> list = new TreeMap<>(new VertexComParator());
 					list.putAll(graphController.getGraph().getAdjacencyList());
-					
+
 					if (undirectedButton.isSelected()) {
 						graphController.setModel(UndirectedGraph.getInstance());
 					} else {

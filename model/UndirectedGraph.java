@@ -39,12 +39,13 @@ public class UndirectedGraph extends Graph{
 		// đánh index cho từng vertex
 		Map<Vertex, Integer> list = new LinkedHashMap<Vertex, Integer>();
 		int i = 0;
+		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
+		subList.putAll(this.getAdjacencyList());
+
+		this.setAdjacencyList(subList);
 		for (Vertex vertex : this.getAdjacencyList().keySet()) {
 			list.put(vertex, i++);
 		}
-
-		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		subList.putAll(this.getAdjacencyList());
 
 		for (Vertex vertex : subList.keySet()) {
 
