@@ -2,7 +2,9 @@ package controller;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -160,16 +162,13 @@ public class GraphController implements Subject {
 			List<Vertex> vertices = new ArrayList<Vertex>();
 			List<Edge> edges = new ArrayList<Edge>();
 			view = new GraphView(this);
-			for (Vertex vertex : getVertices()) {
-				for (String[] arrsStrings : res) {
-					for (int i = 0; i < arrsStrings.length; i++) {
-						if (i == 1)
-							continue;
-						if (vertex.getName().equals(arrsStrings[i])) {
-							vertices.add(vertex);
-						}
-					}
 
+			for (String[] arrsStrings : res) {
+				for (Vertex vertex : getVertices()) {
+					if (vertex.getName().equals(arrsStrings[0])) {
+						vertices.add(vertex);
+						break;
+					}
 				}
 			}
 
@@ -204,6 +203,7 @@ public class GraphController implements Subject {
 			}
 
 			for (Edge edge : edges) {
+				System.out.println(edge);
 				edge.setColor(Color.RED);
 			}
 
@@ -252,8 +252,9 @@ public class GraphController implements Subject {
 	public void setModel(Graph instance) {
 		this.model = instance;
 	}
+
 	public Class getTypeModel() {
-		return this.model != null ? this.model.getClass(): null;
+		return this.model != null ? this.model.getClass() : null;
 	}
 
 	public int[][] getAdjacencyMatrix() {
