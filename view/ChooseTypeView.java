@@ -99,7 +99,12 @@ public class ChooseTypeView extends JPanel implements Observer, ActionListener {
 						undirectedButton.setSelected(true);
 					}
 				}
-
+			} else {
+				if (undirectedButton.isSelected()) {
+					graphController.setModel(UndirectedGraph.getInstance());
+				} else {
+					graphController.setModel(DirectedGraph.getInstance());
+				}
 			}
 		}
 	}
