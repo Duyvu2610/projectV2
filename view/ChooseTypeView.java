@@ -7,6 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -16,9 +20,12 @@ import javax.swing.JRadioButton;
 
 import controller.GraphController;
 import model.DirectedGraph;
+import model.Edge;
 import model.Graph;
 import model.Observer;
 import model.UndirectedGraph;
+import model.Vertex;
+import utils.VertexComParator;
 
 public class ChooseTypeView extends JPanel implements Observer, ActionListener {
 	private GraphController graphController;
@@ -81,23 +88,37 @@ public class ChooseTypeView extends JPanel implements Observer, ActionListener {
 
 		if (graphController.getGraph() != null) {
 			if (!graphController.getGraph().getAdjacencyList().isEmpty()) {
-				int confirm = JOptionPane.showConfirmDialog(null,
-						"Nếu thay đổi dạng đồ thị thì đồ thị sẽ bị xóa. Bạn có chắc chắn xóa không?", "Thông báo",
-						JOptionPane.YES_NO_OPTION);
-				if (confirm == 0) {
+				if (graphController.getGraph().countEdges() >0) {
+					int confirm = JOptionPane.showConfirmDialog(null,
+							"Nếu thay đổi dạng đồ thị thì đồ thị sẽ bị xóa. Bạn có chắc chắn xóa không?", "Thông báo",
+							JOptionPane.YES_NO_OPTION);
+					if (confirm == 0) {
+						if (undirectedButton.isSelected()) {
+							graphController.setModel(UndirectedGraph.getInstance());
+						} else {
+							graphController.setModel(DirectedGraph.getInstance());
+						}
+						graphController.removeAllGraph();
+						graphController.notifyObservers();
+					} else {
+						if (undirectedButton.isSelected()) {
+							directedButton.setSelected(true);
+						} else {
+							undirectedButton.setSelected(true);
+						}
+					}
+				} else {
+					
+					Map<Vertex, List<Edge>> list = new TreeMap<>(new VertexComParator());
+					list.putAll(graphController.getGraph().getAdjacencyList());
+					
 					if (undirectedButton.isSelected()) {
 						graphController.setModel(UndirectedGraph.getInstance());
 					} else {
 						graphController.setModel(DirectedGraph.getInstance());
 					}
-					graphController.removeAllGraph();
-					graphController.notifyObservers();
-				} else {
-					if (undirectedButton.isSelected()) {
-						directedButton.setSelected(true);
-					} else {
-						undirectedButton.setSelected(true);
-					}
+					graphController.getGraph().setGraph(list);
+
 				}
 			} else {
 				if (undirectedButton.isSelected()) {
