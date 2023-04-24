@@ -8,6 +8,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Vertex;
+
 public class NotifyView extends JPanel {
 	private String[] notify;
 	private JLabel notifyLabel;
@@ -44,17 +46,17 @@ public class NotifyView extends JPanel {
 		return instance;
 	}
 
-	public void updateNotify(String[][] s) {
+	public void updateNotify(String[][] s, Vertex st, Vertex ds) {
 		if (s != null) {
 
 			String result = "";
 			for (int i = 0; i < s.length; i++) {
 				result += i != (s.length - 1) ? (s[i][0] + " → ") : s[i][0];
 			}
-			notifyLabel.setText("Đường đi ngắn nhất là: " + result);
+			notifyLabel.setText("Đường đi ngắn nhất từ " +  st.getName() +  " đến " +  ds.getName() + ": " + result);
 			pathLabel.setText("Với tổng chi phí là: " + s[s.length - 1][1]);
 		} else {
-			notifyLabel.setText("Đồ thị không liên thông hoặc xuất hiện chu trình âm");
+			notifyLabel.setText("Không có đường đi từ " + st.getName() +  " đến " +  ds.getName());
 			pathLabel.setText("");
 		}
 	}

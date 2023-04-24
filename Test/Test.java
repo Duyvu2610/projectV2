@@ -8,6 +8,7 @@ import java.util.*;
 import model.BellmanFordSearch;
 import model.Edge;
 import model.Graph;
+import model.UndirectedGraph;
 import model.Vertex;
 import utils.VertexComParator;
 
@@ -53,9 +54,8 @@ public class Test {
         // BellmanFordSearch search = new BellmanFordSearch();
         // search.findShortestPath(graph, a, c);
         
-      String x = "abc";
-     
-        System.out.println(x.contains("A"));
+      Graph x = new UndirectedGraph();
+    
 
     }
 }

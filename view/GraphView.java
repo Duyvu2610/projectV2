@@ -8,21 +8,19 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.JPanel;
 
 import controller.EdgeController;
 import controller.GraphController;
 import controller.VertexController;
+import model.DirectedGraph;
 import model.Edge;
 import model.Graph;
 import model.Observer;
+import model.UndirectedGraph;
 import model.Vertex;
-import utils.VertexComParator;
 
 public class GraphView extends JPanel implements Observer {
 	private List<VertexController> vertexs;
@@ -113,11 +111,11 @@ public class GraphView extends JPanel implements Observer {
 			public void mouseDragged(MouseEvent e) {
 				super.mouseDragged(e);
 				currentClick = e.getPoint();
-				if (dragging && controller.getCodeExcute() == 6 && currentVertex != null ) {
+				if (dragging && controller.getCodeExcute() == 6 && currentVertex != null) {
 					int deltaX = (int) (currentClick.getX() - prevPt.getX());
 					int deltaY = (int) (currentClick.getY() - prevPt.getY());
 					currentVertex.move(deltaX, deltaY);
-					
+
 					prevPt = currentClick;
 					updateView();
 				}
@@ -143,8 +141,6 @@ public class GraphView extends JPanel implements Observer {
 				super.mouseReleased(e);
 				if (controller.getCodeExcute() == 6) {
 					dragging = false;
-					// currentVertex = null;
-
 				}
 
 			}
@@ -158,7 +154,7 @@ public class GraphView extends JPanel implements Observer {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-
+		
 		super.paintComponent(g);
 
 		g2d = (Graphics2D) g;
@@ -169,27 +165,46 @@ public class GraphView extends JPanel implements Observer {
 			vertexs.add(vertexController);
 		}
 
-		
-
 		edges.clear();
 		for (Vertex vertex : controller.getGraph().getAdjacencyList().keySet()) {
 			for (Edge edge : controller.getGraph().getAdjacencyList().get(vertex)) {
 				edgeController = new EdgeController(edge);
-				edgeController.updateView(g2d);
+				edgeController.updateView(g2d, controller.getTypeModel());
 				edges.add(edgeController);
 			}
 		}
 
-		if (subEdge != null) {
+		if (subEdge != null && controller.getTypeModel() == UndirectedGraph.class) {
 			EdgeController test = new EdgeController(subEdge);
 			int stSrcX = (int) test.getModel().getSource().getLocation().getX() >= (int) test.getModel()
 					.getDestination().getLocation().getX() ? (int) test.getModel().getSource().getLocation().getX()
 							: (int) test.getModel().getSource().getLocation().getX() + 2 * Vertex.R;
 			int stSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
 
-			test.drawLine(g2d,Color.BLACK, stSrcX, stSrcY,
+			test.drawLine(g2d, Color.BLACK, stSrcX, stSrcY,
 					(int) test.getModel().getDestination().getLocation().getX(),
 					(int) test.getModel().getDestination().getLocation().getY(), "");
+		}
+
+		if (subEdge != null && controller.getTypeModel() == DirectedGraph.class) {
+			EdgeController test = new EdgeController(subEdge);
+			int stSrcX = (int) test.getModel().getSource().getLocation().getX() >= (int) test.getModel()
+					.getDestination().getLocation().getX() ? (int) test.getModel().getSource().getLocation().getX()
+							: (int) test.getModel().getSource().getLocation().getX() + 2 * Vertex.R;
+			int stSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
+
+			int desDesX = test.getModel().getDestination().getLocation().x;
+			int desDesY = test.getModel().getDestination().getLocation().y;
+			double angle = Math.atan2(desDesY - stSrcY, desDesX - stSrcX);
+			int length = 15;
+			int arrowX1 = desDesX - (int) (length * Math.cos(angle - Math.PI / 6));
+			int arrowY1 = desDesY - (int) (length * Math.sin(angle - Math.PI / 6));
+			int arrowX2 = desDesX - (int) (length * Math.cos(angle + Math.PI / 6));
+			int arrowY2 = desDesY - (int) (length * Math.sin(angle + Math.PI / 6));
+
+			test.drawLine(g2d, Color.BLACK, stSrcX, stSrcY,
+					(int) desDesX,
+					(int) desDesY,arrowX1, arrowY1, arrowX2, arrowY2, "");
 		}
 
 	}

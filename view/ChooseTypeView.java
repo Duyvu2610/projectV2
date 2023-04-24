@@ -1,20 +1,16 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -23,9 +19,8 @@ import model.DirectedGraph;
 import model.Graph;
 import model.Observer;
 import model.UndirectedGraph;
-import model.Vertex;
 
-public class ChooseTypeView extends JPanel implements Observer{
+public class ChooseTypeView extends JPanel implements Observer, ActionListener {
 	private GraphController graphController;
 	private JRadioButton undirectedButton;
 	private JRadioButton directedButton;
@@ -54,20 +49,14 @@ public class ChooseTypeView extends JPanel implements Observer{
 		ButtonGroup group = new ButtonGroup();
 		group.add(undirectedButton);
 		group.add(directedButton);
-		undirectedButton.setSelected(true);
-		// hàm sử dụng để xem thử button nào đang được chọn
-		updateState();
-		// Sử dụng interface ItemListener và phương thức addItemListener() để thêm sự kiện khi JRadioButton được chọn
-		ItemListener itemListener = new ItemListener() {
-		@Override
-			public void itemStateChanged(ItemEvent e) {
-				updateState();
-			}
-		};
-		undirectedButton.addItemListener(itemListener);
-		directedButton.addItemListener(itemListener);
-	}
 
+		undirectedButton.setSelected(true);
+		graphController.setModel(UndirectedGraph.getInstance());
+
+		undirectedButton.addActionListener(this);
+		directedButton.addActionListener(this);
+
+	}
 
 	// Ghi đè phương thức paintComponent để vẽ nền trong suốt
 	@Override
@@ -80,14 +69,43 @@ public class ChooseTypeView extends JPanel implements Observer{
 
 	@Override
 	public void updateGraph(Graph g) {
-        repaint(); // Vẽ lại
+		if (graphController.getTypeModel() == UndirectedGraph.class) {
+			undirectedButton.setSelected(true);
+		} else {
+			directedButton.setSelected(true);
+		}
+		repaint(); // Vẽ lại
 	}
 
-	public void updateState(){
-		if (undirectedButton.isSelected()) {
-			graphController.setModel(UndirectedGraph.getInstance());
-		} else {
-			graphController.setModel(DirectedGraph.getInstance());
+	public void updateState() {
+
+		if (graphController.getGraph() != null) {
+			if (!graphController.getGraph().getAdjacencyList().isEmpty()) {
+				int confirm = JOptionPane.showConfirmDialog(null,
+						"Nếu thay đổi dạng đồ thị thì đồ thị sẽ bị xóa. Bạn có chắc chắn xóa không?", "Thông báo",
+						JOptionPane.YES_NO_OPTION);
+				if (confirm == 0) {
+					if (undirectedButton.isSelected()) {
+						graphController.setModel(UndirectedGraph.getInstance());
+					} else {
+						graphController.setModel(DirectedGraph.getInstance());
+					}
+					graphController.removeAllGraph();
+					graphController.notifyObservers();
+				} else {
+					if (undirectedButton.isSelected()) {
+						directedButton.setSelected(true);
+					} else {
+						undirectedButton.setSelected(true);
+					}
+				}
+
+			}
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		updateState();
 	}
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import model.Vertex;
 import view.NotifyView;
 
 public class NotifyController {
@@ -9,8 +10,8 @@ public class NotifyController {
 		this.view = NotifyView.getInstance();
 	}
 
-	public void setNotify(String[][] s) {
-		view.updateNotify(s);
+	public void setNotify(String[][] s , Vertex st, Vertex ds) {
+		view.updateNotify(s, st, ds);
 	}
 	public void removeNotify(){
 		view.removeNotify();

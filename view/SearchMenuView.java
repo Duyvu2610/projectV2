@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import controller.GraphController;
 import controller.NotifyController;
 import model.BellmanFordSearch;
-import model.Graph;
-import model.Observer;
 import model.PathFindingStrategy;
 
 public class SearchMenuView extends JPanel{
@@ -51,7 +49,7 @@ public class SearchMenuView extends JPanel{
 						JOptionPane.showMessageDialog(null, "ĐỈnh bắt đầu và kết thúc trùng nhau vui lòng chọn lại", "Thông báo",JOptionPane.ERROR_MESSAGE, null);
 					}else{
 						String[][] res = graphController.pathFinding();
-						notifyController.setNotify(res);
+						notifyController.setNotify(res, graphController.getStartVertex(), graphController.getEndVertex());
 						graphController.drawPath(res);
 					}
 				}

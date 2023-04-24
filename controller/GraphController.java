@@ -3,21 +3,16 @@ package controller;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
-import model.DirectedGraph;
 import model.Edge;
 import model.Graph;
 import model.Observer;
 import model.PathFindingStrategy;
 import model.Subject;
 import model.Vertex;
-import utils.VertexComParator;
 import view.GraphView;
 
 public class GraphController implements Subject {
@@ -71,9 +66,11 @@ public class GraphController implements Subject {
 	public Vertex getStartVertex() {
 		return model.getStartVertex();
 	}
+
 	public Vertex getEndVertex() {
 		return model.getEndVertex();
 	}
+
 	public void setCodeExcute(int code) {
 		codeExcute = code;
 	}
@@ -118,7 +115,7 @@ public class GraphController implements Subject {
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
 
 		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
-		
+
 		if (weight != null) {
 			addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
 		}
@@ -127,11 +124,9 @@ public class GraphController implements Subject {
 
 	private void addEdge(Vertex sourcVertex, Vertex findVertex, int i) {
 		Edge edge = new Edge(sourcVertex, findVertex, i);
-		Edge edge1 = new Edge(findVertex, sourcVertex, i);
-		
+
 		model.addEdge(edge);
-		model.addEdge(edge1);
-		
+
 		notifyObservers();
 	}
 
@@ -183,12 +178,13 @@ public class GraphController implements Subject {
 				Vertex beginNode = vertices.get(index);
 				Vertex endNode = vertices.get(index + 1);
 				for (Vertex vertex : vertices) {
-						for (Edge edge : model.getAdjacencyList().get(vertex)) {
-							if ((edge.getSource().equals(beginNode) && edge.getDestination().equals(endNode)) || (edge.getDestination().equals(beginNode) && edge.getSource().equals(endNode))) {
-								edges.add(edge);
-							}
+					for (Edge edge : model.getAdjacencyList().get(vertex)) {
+						if ((edge.getSource().equals(beginNode) && edge.getDestination().equals(endNode))
+								|| (edge.getDestination().equals(beginNode) && edge.getSource().equals(endNode))) {
+							edges.add(edge);
 						}
-					
+					}
+
 				}
 
 			}
@@ -215,29 +211,32 @@ public class GraphController implements Subject {
 			notifyObservers();
 
 		}
-		
 
 	}
 
 	public void setDefaultGraph() {
-		for (Vertex vertex: getVertices()) {
+		for (Vertex vertex : getVertices()) {
 			vertex.setDefaultColor();
-			for (Edge edge: model.getAdjacencyList().get(vertex)) {
-					edge.setDefaultColor();
+			for (Edge edge : model.getAdjacencyList().get(vertex)) {
+				edge.setDefaultColor();
 			}
 		}
-		
+
 	}
+
 	// Chọn đỉnh bắt đầu
 	public void setStartVertex(String name) {
 		model.getVertices().forEach(e -> {
-			if (e.getVertex(name)) model.setStartVertex(e);
+			if (e.getVertex(name))
+				model.setStartVertex(e);
 		});
 	}
+
 	// Chọn đỉnh kết thúc
 	public void setEndVertex(String name) {
 		model.getVertices().forEach(e -> {
-			if (e.getVertex(name)) model.setEndVertex(e);
+			if (e.getVertex(name))
+				model.setEndVertex(e);
 		});
 	}
 
@@ -252,6 +251,9 @@ public class GraphController implements Subject {
 
 	public void setModel(Graph instance) {
 		this.model = instance;
+	}
+	public Class getTypeModel() {
+		return this.model != null ? this.model.getClass(): null;
 	}
 
 	public int[][] getAdjacencyMatrix() {

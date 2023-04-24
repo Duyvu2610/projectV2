@@ -21,10 +21,13 @@ import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.GraphController;
+import model.DirectedGraph;
 import model.Edge;
+import model.UndirectedGraph;
 import model.Vertex;
 import utils.VertexComParator;
 
@@ -32,6 +35,11 @@ public class FileView extends JPanel {
 	private JButton saveFileButton = new JButton("Lưu File");
 	private JButton openFileButton = new JButton("Mở File");
 	private GraphController controller;
+	private File currentFile = null;
+
+	public String getCurrentFile() {
+		return currentFile != null ? currentFile.getName(): null;
+	}
 
 	public FileView(GraphController controller) {
 		this.controller = controller;
@@ -82,32 +90,50 @@ public class FileView extends JPanel {
 					rowString = "";
 				}
 
-				JFileChooser fileChooser = new JFileChooser();
-				int chooser = fileChooser.showSaveDialog(null);
-				if (chooser == JFileChooser.APPROVE_OPTION) {
+				if (currentFile != null) {
 					try {
-						File vertexFile = new File("C:\\FindShortPathApp\\vertexData");
-						String pathFile = vertexFile.getAbsolutePath() + "\\" + fileChooser.getSelectedFile().getName()
-								+ "_" + fileChooser.getSelectedFile().getParentFile().getName() + ".txt";
-						if (vertexFile.exists()) {
-							File file = new File(pathFile);
-							file.createNewFile();
-							FileWriter fw = new FileWriter(file);
-							fw.write(verticesString);
-							fw.close();
-						} else {
-							vertexFile.mkdirs();
-							File file = new File(pathFile);
-							FileWriter fw = new FileWriter(file);
-							fw.write(verticesString);
-							fw.close();
-						}
-						FileWriter fw = new FileWriter(fileChooser.getSelectedFile() + ".txt");
-
+						FileWriter fw = new FileWriter(currentFile);
 						fw.write(result);
 						fw.close();
-					} catch (Exception e1) {
+						String pathFile = "C:\\FindShortPathApp\\vertexData" + "\\" + currentFile.getName().replaceFirst("[.][^.]+$", "")+ "_" + currentFile.getParentFile().getName() + ".txt";
+						FileWriter fw1 = new FileWriter(pathFile);
+						fw1.write(verticesString);
+						fw1.close();
+						JOptionPane.showMessageDialog(null, "Lưu lại file thành công", "Lưu file", JOptionPane.INFORMATION_MESSAGE);
+					} catch (IOException e1) {
+
 						e1.printStackTrace();
+					}
+
+				} else {
+					JFileChooser fileChooser = new JFileChooser();
+					int chooser = fileChooser.showSaveDialog(null);
+					if (chooser == JFileChooser.APPROVE_OPTION) {
+						try {
+							File vertexFile = new File("C:\\FindShortPathApp\\vertexData");
+							String pathFile = vertexFile.getAbsolutePath() + "\\"
+									+ fileChooser.getSelectedFile().getName()
+									+ "_" + fileChooser.getSelectedFile().getParentFile().getName() + ".txt";
+							if (vertexFile.exists()) {
+								File file = new File(pathFile);
+								file.createNewFile();
+								FileWriter fw = new FileWriter(file);
+								fw.write(verticesString);
+								fw.close();
+							} else {
+								vertexFile.mkdirs();
+								File file = new File(pathFile);
+								FileWriter fw = new FileWriter(file);
+								fw.write(verticesString);
+								fw.close();
+							}
+							FileWriter fw = new FileWriter(fileChooser.getSelectedFile() + ".txt");
+
+							fw.write(result);
+							fw.close();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 					}
 				}
 			}
@@ -128,6 +154,7 @@ public class FileView extends JPanel {
 							+ fileChooser.getSelectedFile().getParentFile().getName() + ".txt";
 
 					File matrixFile = new File(matrixFileLocation);
+					currentFile = matrixFile;
 					File vertexFile = new File(vertexFileLocation);
 
 					int size = 0;
@@ -216,7 +243,7 @@ public class FileView extends JPanel {
 										break;
 									}
 								}
-								edge  = new Edge(sourceNode, desNode, Integer.valueOf(data.split(" ")[3]));
+								edge = new Edge(sourceNode, desNode, Integer.valueOf(data.split(" ")[3]));
 								list.get(sourceNode).add(edge);
 							}
 						}
@@ -224,8 +251,14 @@ public class FileView extends JPanel {
 					} catch (FileNotFoundException e1) {
 						e1.printStackTrace();
 					}
-
+					controller.getGraph().setAdjacencyMatrix(matrix);
+					if (controller.getGraph().checkUnGraph()) {
+						controller.setModel(UndirectedGraph.getInstance());
+					} else {
+						controller.setModel(DirectedGraph.getInstance());
+					}
 					controller.getGraph().setGraph(list);
+					
 					controller.notifyObservers();
 
 				}

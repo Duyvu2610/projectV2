@@ -1,12 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Stack;
 import java.util.TreeMap;
 
 import utils.VertexComParator;
@@ -22,7 +22,6 @@ public abstract class Graph {
 	// khoi tao graph
 	public Graph() {
 		this.adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		this.path = new BellmanFordSearch();
 		setAdjacencyMatrix();
 		// this.adjacencyMatrix = new int[0][0];
 	}
@@ -36,11 +35,46 @@ public abstract class Graph {
 		this.adjacencyMatrix = adjacencyMatrix;
 	}
 
+	public List<Edge> getEdges(Vertex vertex) {
+		return adjacencyList.get(vertex);
+	}
+
+	public Map<Vertex, List<Edge>> getAdjacencyList() {
+		return adjacencyList;
+	}
+	
+	public void setAdjacencyList(Map<Vertex, List<Edge>> adjacencyList) {
+		this.adjacencyList = adjacencyList;
+	}
+
+	public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
+		this.adjacencyMatrix = adjacencyMatrix;
+	}
+
+	public ArrayList<Vertex> getVertices() {
+		return new ArrayList<Vertex>(this.adjacencyList.keySet());
+	}
+
+	public void setStartVertex(Vertex startVertex) {
+		this.startVertex = startVertex;
+	}
+
+	public void setEndVertex(Vertex endVertex) {
+		this.endVertex = endVertex;
+	}
+
+	public Vertex getStartVertex() {
+		return startVertex;
+	}
+
+	public Vertex getEndVertex() {
+		return endVertex;
+	}
+
 	// them 1 dinh
 	public void addVertex(Vertex vertex) {
 		adjacencyList.put(vertex, new ArrayList<>());
 		setAdjacencyMatrix();
-
 	}
 
 	// Xóa 1 đỉnh
@@ -70,137 +104,17 @@ public abstract class Graph {
 
 	}
 
-	public List<Edge> getEdges(Vertex vertex) {
-		return adjacencyList.get(vertex);
-	}
+	public abstract int countEdges();
 
-	public Map<Vertex, List<Edge>> getAdjacencyList() {
-		return adjacencyList;
-	}
-	
+	public abstract int[][] getEdges(int rootNode);
 
-	public void setAdjacencyList(Map<Vertex, List<Edge>> adjacencyList) {
-		this.adjacencyList = adjacencyList;
-	}
-
-	public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
-		this.adjacencyMatrix = adjacencyMatrix;
-	}
-
-	public ArrayList<Vertex> getVertices() {
-		return new ArrayList<Vertex>(this.adjacencyList.keySet());
-	}
-
-	public void setStartVertex(Vertex startVertex) {
-		this.startVertex = startVertex;
-	}
-
-	public void setEndVertex(Vertex endVertex) {
-		this.endVertex = endVertex;
-	}
-
-	public Vertex getStartVertex() {
-		return startVertex;
-	}
-
-	public Vertex getEndVertex() {
-		return endVertex;
-	}
-
-	// this medthod is used for ungraph
-	public int countEdges() {
-		int res = 0;
-		int sizeMatrix = adjacencyMatrix.length;
-		ArrayList<Integer> exceptList = new ArrayList<Integer>();
-		for (int row = 0; row < sizeMatrix; row++) {
-			for (int column = 0; column < sizeMatrix; column++) {
-				if (adjacencyMatrix[row][column] != 0 && !exceptList.contains(column)) {
-					res++;
-				}
-			}
-			exceptList.add(row);
-		}
-		return res;
-	}
-
-	// this medthod is used for ungraph
-	public int[][] getEdges(int rootNode) {
-		int[][] res = new int[this.countEdges()][3];
-		int sizeMatrix = adjacencyMatrix.length;
-		ArrayList<Integer> exceptList = new ArrayList<Integer>();
-		Queue<Integer> nextNode = new LinkedList<Integer>();
-		int index = 0;
-		for (int column = 0; column < sizeMatrix; column++) {
-			if (adjacencyMatrix[rootNode][column] != 0) {
-				int[] edge = { rootNode, column, adjacencyMatrix[rootNode][column] };
-				res[index++] = edge;
-				nextNode.offer(column);
-			}
-		}
-		exceptList.add(rootNode);
-
-		while (!nextNode.isEmpty()) {
-			int currentNode = nextNode.poll();
-			for (int column = 0; column < sizeMatrix; column++) {
-				if (adjacencyMatrix[currentNode][column] != 0 && !exceptList.contains(column)) {
-					int[] edge = { currentNode, column, adjacencyMatrix[currentNode][column] };
-					res[index++] = edge;
-					if (!nextNode.contains(column)) {
-
-						nextNode.offer(column);
-					}
-				}
-			}
-			exceptList.add(currentNode);
-		}
-
-		return res;
-	}
-
-	public void setAdjacencyMatrix() {
-
-		int size = adjacencyList.size();
-		adjacencyMatrix = new int[size][size];
-
-		// Thêm trọng số của cạnh vào ma trận liền kề
-
-		// đánh index cho từng vertex
-		Map<Vertex, Integer> list = new LinkedHashMap<Vertex, Integer>();
-		int i = 0;
-		for (Vertex vertex : adjacencyList.keySet()) {
-			list.put(vertex, i++);
-		}
-
-		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		subList.putAll(adjacencyList);
-
-		for (Vertex vertex : subList.keySet()) {
-
-			for (Edge edge : subList.get(vertex)) {
-				if (subList.containsKey(edge.getDestination())) {
-
-					// cập nhật trọng số cho vertex nguồn và đich của edge vừa mới được thêm
-					adjacencyMatrix[list.get(vertex)][list.get(edge.getDestination())] = edge.getWeight();
-					adjacencyMatrix[list.get(edge.getDestination())][list.get(vertex)] = edge.getWeight();
-				}
-			}
-		}
-
-	}
+	public abstract void setAdjacencyMatrix();
 
 	public int[][] getAdjacencyMatrix() {
-
 		return adjacencyMatrix;
 	}
 
-	public void addEdge(Edge edge) {
-		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		subList.putAll(adjacencyList);
-		subList.get(edge.getSource()).add(edge);
-		adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
-		adjacencyList.putAll(subList);
-		setAdjacencyMatrix();
-	}
+	public abstract void addEdge(Edge edge);
 
 	public void removeAll() {
 		adjacencyList.clear();
@@ -244,6 +158,16 @@ public abstract class Graph {
 	
 	public String[][] pathFinding(){
 		return path.findShortestPath(this,startVertex, endVertex);
+	}
+
+	public boolean checkUnGraph() {
+		
+		for (int i = 0; i < adjacencyMatrix.length; i++) {
+			for (int j = 0; j < adjacencyMatrix.length; j++) {
+				if (adjacencyMatrix[i][j] != adjacencyMatrix[j][i]) return false;
+			}
+		}
+		return true;
 	}
 
 	public void printMatrix() {

@@ -27,6 +27,7 @@ public class App extends JFrame implements Observer {
 	private ChoosePointView  choosePointView;
 	private ChooseTypeView  chooseTypeView;
 	private JPanel leftCol;
+	private JPanel rightCol;
 
 	public App() {
 		this.graphController = new GraphController();
@@ -74,7 +75,8 @@ public class App extends JFrame implements Observer {
 		leftCol.setOpaque(false);
 		app.setPreferredSize(new Dimension(1200, 700));
 		app.add(leftCol, BorderLayout.WEST);
-		app.add(rightCol());
+		rightCol = rightCol();
+		app.add(rightCol);
 		app.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		// Override the paint method of the main JPanel to add a gradient background
 		// Start a timer to update the background colors every 2 seconds
@@ -129,8 +131,8 @@ public class App extends JFrame implements Observer {
 		screen.add(graphView, BorderLayout.CENTER);
 		screen.add(featureView, BorderLayout.WEST);
 		// Notify
-		rightJPanel.setBorder(BorderFactory.createTitledBorder("Graph"));
-
+		rightJPanel.setBorder(BorderFactory.createTitledBorder(this.fileView.getCurrentFile() != null ? this.fileView.getCurrentFile(): "Graph"));
+		
 		// add component
 		rightJPanel.add(screen);
 		rightJPanel.add(notifyView, BorderLayout.SOUTH);
@@ -146,6 +148,7 @@ public class App extends JFrame implements Observer {
 		leftCol.remove(matrixView);
 		matrixView = new MatrixView(graphController);
 		leftCol.add(matrixView, BorderLayout.SOUTH);
+		rightCol.setBorder(BorderFactory.createTitledBorder(this.fileView.getCurrentFile() != null ? this.fileView.getCurrentFile(): "Graph"));
 	}
 
 }

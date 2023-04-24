@@ -1,7 +1,5 @@
 package model;
-
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,13 +32,15 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		if (listParentNode != null) {
 
 			int currentNode = goalNode;
-			
 			int currentWeight = listParentNode[currentNode][1];
 			
 			do {
 				resReverseStr.append(currentNode + " ");
 				weightReverseStr.append(currentWeight + " ");
 				currentNode = listParentNode[currentNode][0];
+				if (currentNode == -1) {
+					break;
+				}
 				currentWeight = listParentNode[currentNode][1];
 				if (currentNode == rootNode) {
 					resReverseStr.append(currentNode + " ");
@@ -49,16 +49,20 @@ public class BellmanFordSearch implements PathFindingStrategy {
 				}
 				
 			} while (currentNode != rootNode && currentNode != -1);
+			
 
 			String[] resStr = resReverseStr.reverse().substring(1).split(" ");
 			String[] weightStr = weightReverseStr.reverse().substring(1).split(" ");
-			
+
 			result = new int[resStr.length][2];
 			for (String character : resStr) {
 				result[index++][0] = Integer.valueOf(character) ;
 			}
 			index =0;
 			for (String character : weightStr) {
+				if (character.equals("7463847412")) {
+					character = String.valueOf(Integer.MAX_VALUE);
+				}
 				result[index++][1] = character.contains("-") ? (Integer.valueOf(character.substring(0, character.length()-1)) * -1):Integer.valueOf(character);
 			}
 		}
@@ -79,6 +83,10 @@ public class BellmanFordSearch implements PathFindingStrategy {
 			}
 
 		}
+
+		if (!lastRes[0][0].equals(startVertex.getName()) || !lastRes[lastRes.length-1][0].equals(endVertex.getName())) {
+			return null;
+		}
 		return lastRes;
 	}
 
@@ -89,10 +97,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
      * 	 - Ở lần duyệt thứ n, nếu còn bất kỳ cạnh nào có thể rút ngắn đường đi, điều đó chứng tỏ đồ thị có chu trình âm, và ta kết thúc thuật toán.
 	 */
 	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
-		if (!graph.isConnected()) {
-			System.out.println("Đồ thị không liên thông");
-			return null;
-		}	
 
 		int[][] matrix = graph.getAdjacencyMatrix();
 		/*
