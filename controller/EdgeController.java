@@ -36,8 +36,7 @@ public class EdgeController {
 	}
 
 	public void updateView(Graphics2D g, Class typeOfGraph) {
-		int stSrcX = (int) model.getSource().getLocation().getX() >= (int) model.getDestination().getLocation()
-				.getX()
+		int stSrcX = (int) model.getSource().getLocation().getX() >= (int) model.getDestination().getLocation().getX()
 						? (int) model.getSource().getLocation().getX()
 						: (int) model.getSource().getLocation().getX() + 2 * Vertex.R;
 		int stSrcY = (int) model.getSource().getLocation().getY() + Vertex.R;

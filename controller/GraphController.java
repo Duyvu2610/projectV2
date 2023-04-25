@@ -106,9 +106,12 @@ public class GraphController implements Subject {
 		for (int i = 0; i < getVertices().size(); i++) {
 			if (getVertices().get(i).isClickAt(currentClick)) {
 				String name = JOptionPane.showInputDialog(null, "Nhập tên đỉnh mới:");
-				rename(getVertices().get(i), name);
-				notifyObservers();
-				break;
+				if (name != null && !name.isEmpty()) {
+					rename(getVertices().get(i), name);
+					notifyObservers();
+					break;
+				}
+				
 			}
 		}
 
@@ -122,7 +125,6 @@ public class GraphController implements Subject {
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
 
 		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
-
 		if (weight != null) {
 			addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
 		}
@@ -131,9 +133,7 @@ public class GraphController implements Subject {
 
 	private void addEdge(Vertex sourcVertex, Vertex findVertex, int i) {
 		Edge edge = new Edge(sourcVertex, findVertex, i);
-
 		model.addEdge(edge);
-
 		notifyObservers();
 	}
 
