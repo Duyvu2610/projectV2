@@ -184,7 +184,7 @@ public class GraphView extends JPanel implements Observer {
 							: (int) test.getModel().getSource().getLocation().getX() + 2 * Vertex.R;
 			int stSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
 
-			test.drawLine(g2d, Color.BLACK, stSrcX, stSrcY,
+			test.drawLine(g2d, Color.GREEN, stSrcX, stSrcY,
 					(int) test.getModel().getDestination().getLocation().getX(),
 					(int) test.getModel().getDestination().getLocation().getY(), "");
 		}
@@ -205,7 +205,7 @@ public class GraphView extends JPanel implements Observer {
 			int arrowX2 = desDesX - (int) (length * Math.cos(angle + Math.PI / 6));
 			int arrowY2 = desDesY - (int) (length * Math.sin(angle + Math.PI / 6));
 
-			test.drawLine(g2d, Color.BLACK, stSrcX, stSrcY,
+			test.drawLine(g2d, Color.GREEN, stSrcX, stSrcY,
 					(int) desDesX,
 					(int) desDesY,arrowX1, arrowY1, arrowX2, arrowY2, "");
 		}

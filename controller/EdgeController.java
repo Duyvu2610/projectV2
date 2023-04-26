@@ -36,15 +36,22 @@ public class EdgeController {
 	}
 
 	public void updateView(Graphics2D g, Class typeOfGraph) {
-		int stSrcX = (int) model.getSource().getLocation().getX() >= (int) model.getDestination().getLocation().getX()
-						? (int) model.getSource().getLocation().getX()
-						: (int) model.getSource().getLocation().getX() + 2 * Vertex.R;
-		int stSrcY = (int) model.getSource().getLocation().getY() + Vertex.R;
-		int desDesX = (int) model.getDestination().getLocation().getX() >= (int) model.getSource().getLocation()
-				.getX()
-						? (int) model.getDestination().getLocation().getX()
-						: (int) model.getDestination().getLocation().getX() + 2 * Vertex.R;
-		int desDesY = (int) model.getDestination().getLocation().getY() + Vertex.R;
+		int centerSrcX = (int) model.getSource().getLocation().getX() + Vertex.R ;
+		int centerSrcY = (int) model.getSource().getLocation().getY() + Vertex.R;
+		int centerDesX = (int) model.getDestination().getLocation().getX() + Vertex.R;
+		int centerDesY = (int) model.getDestination().getLocation().getY() + Vertex.R;
+
+		int adjacent = (int) Math.abs(model.getSource().getLocation().getX() - model.getDestination().getLocation().getX());
+		int opposite = (int) Math.abs(model.getSource().getLocation().getY() - model.getDestination().getLocation().getY());
+
+		int degree  = (int) Math.toDegrees(Math.atan((double) opposite/adjacent)) ;
+		int dx = (int) (Vertex.R * Math.cos(Math.toRadians(degree)));
+		int dy = (int) (Vertex.R * Math.sin(Math.toRadians(degree)));
+
+		int stSrcX = centerSrcX <= centerDesX ? centerSrcX + dx: centerSrcX - dx  ;
+		int stSrcY = centerSrcY <= centerDesY ? centerSrcY + dy: centerSrcY - dy;
+		int desDesX = centerSrcX <= centerDesX ? centerDesX - dx : centerDesX + dx ;
+		int desDesY = centerSrcY <= centerDesY ? centerDesY - dy: centerDesY + dy;
 
 		if (typeOfGraph == UndirectedGraph.class) {
 			view.drawLine(g, model.getColor(), stSrcX, stSrcY, desDesX, desDesY, String.valueOf(model.getWeight()));

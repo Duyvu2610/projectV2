@@ -56,6 +56,10 @@ public class Test {
         
       Graph x = new UndirectedGraph();
     
-
+        System.out.println(Math.sin(Math.PI/2));
+        double xy = (double) 3/4;
+        int i = 3;
+        int j = 4;
+        System.out.println(Math.toDegrees(Math.atan((double) i/j)));
     }
 }

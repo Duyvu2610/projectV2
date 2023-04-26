@@ -199,7 +199,7 @@ public class GraphController implements Subject {
 			// vẽ lại toàn bộ các cạnh thành màu đen trước khi chuyển màu đỏ
 			getVertices().forEach(vertex -> {
 				model.getAdjacencyList().get(vertex).forEach(edge -> {
-					edge.setColor(Color.BLACK);
+					edge.setColor(Color.GREEN);
 				});
 			});
 

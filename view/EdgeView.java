@@ -16,6 +16,7 @@ public class EdgeView extends JPanel {
 		g.setFont(new Font("Arial", Font.PLAIN, 10));
 		g.setColor(colorPoint);
 		
+		g.setStroke(new BasicStroke(2));
 		g.drawLine(stX, stY, desX, desY);
 
 		// set font and color for label
@@ -39,6 +40,7 @@ public class EdgeView extends JPanel {
 		g.setFont(new Font("Arial", Font.PLAIN, 10));
 		g.setColor(colorPoint);
 		
+		g.setStroke(new BasicStroke(2));
 		g.drawLine(stX, stY, desX, desY);
 
 		g.drawLine(desX, desY, arrowX1, arrowY1);

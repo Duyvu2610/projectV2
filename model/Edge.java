@@ -12,7 +12,7 @@ public class Edge {
 		this.source = source;
 		this.destination = destination;
 		this.weight = weight;
-		this.color = Color.BLACK;
+		this.color = Color.GREEN;
 	}
 
 	public Color getColor() {
@@ -87,7 +87,7 @@ public class Edge {
 	}
 
 	public void setDefaultColor() {
-		setColor(Color.BLACK);
+		setColor(Color.GREEN);
 	}
 
 }
