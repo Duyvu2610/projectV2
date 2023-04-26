@@ -1,5 +1,5 @@
 package model;
-import java.util.Arrays;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,7 +33,7 @@ public class BellmanFordSearch implements PathFindingStrategy {
 
 			int currentNode = goalNode;
 			int currentWeight = listParentNode[currentNode][1];
-			
+
 			do {
 				resReverseStr.append(currentNode + " ");
 				weightReverseStr.append(currentWeight + " ");
@@ -47,23 +47,24 @@ public class BellmanFordSearch implements PathFindingStrategy {
 					weightReverseStr.append(currentWeight + " ");
 					break;
 				}
-				
+
 			} while (currentNode != rootNode && currentNode != -1);
-			
 
 			String[] resStr = resReverseStr.reverse().substring(1).split(" ");
 			String[] weightStr = weightReverseStr.reverse().substring(1).split(" ");
 
 			result = new int[resStr.length][2];
 			for (String character : resStr) {
-				result[index++][0] = Integer.valueOf(character) ;
+				result[index++][0] = Integer.valueOf(character);
 			}
-			index =0;
+			index = 0;
 			for (String character : weightStr) {
 				if (character.equals("7463847412")) {
 					character = String.valueOf(Integer.MAX_VALUE);
 				}
-				result[index++][1] = character.contains("-") ? (Integer.valueOf(character.substring(0, character.length()-1)) * -1):Integer.valueOf(character);
+				result[index++][1] = character.contains("-")
+						? (Integer.valueOf(character.substring(0, character.length() - 1)) * -1)
+						: Integer.valueOf(character);
 			}
 		}
 
@@ -84,17 +85,20 @@ public class BellmanFordSearch implements PathFindingStrategy {
 
 		}
 
-		if (!lastRes[0][0].equals(startVertex.getName()) || !lastRes[lastRes.length-1][0].equals(endVertex.getName())) {
+		if (!lastRes[0][0].equals(startVertex.getName())
+				|| !lastRes[lastRes.length - 1][0].equals(endVertex.getName())) {
 			return null;
 		}
 		return lastRes;
 	}
 
 	/*
-	 *  Ý tưởng của thuật toán: 
-	 *   - Ta thực hiện duyệt n lần, với n là số đỉnh của đồ thị.
-	 *	 - Với mỗi lần duyệt, ta tìm tất cả các cạnh mà đường đi qua cạnh đó sẽ rút ngắn đường đi ngắn nhất từ đỉnh gốc tới một đỉnh khác.
-     * 	 - Ở lần duyệt thứ n, nếu còn bất kỳ cạnh nào có thể rút ngắn đường đi, điều đó chứng tỏ đồ thị có chu trình âm, và ta kết thúc thuật toán.
+	 * Ý tưởng của thuật toán:
+	 * - Ta thực hiện duyệt n lần, với n là số đỉnh của đồ thị.
+	 * - Với mỗi lần duyệt, ta tìm tất cả các cạnh mà đường đi qua cạnh đó sẽ rút
+	 * ngắn đường đi ngắn nhất từ đỉnh gốc tới một đỉnh khác.
+	 * - Ở lần duyệt thứ n, nếu còn bất kỳ cạnh nào có thể rút ngắn đường đi, điều
+	 * đó chứng tỏ đồ thị có chu trình âm, và ta kết thúc thuật toán.
 	 */
 	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
 
@@ -111,26 +115,30 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		/*
 		 * parentOfNode is contain the parent of the node
 		 * example parentOfNode = {-1, 0, 0}
-		 * explain this result: -1 (has index 0) is represent of node 0 -> the parent of 0 is -1 (has no parent) 
-		 * 						 0 (has index 1) is represent of node 1  -> the parent of 1 is 0 
-		 * 						 0 (has index 2) is represent of node 2 -> the parent of 2 is 0 
+		 * explain this result: -1 (has index 0) is represent of node 0 -> the parent of
+		 * 0 is -1 (has no parent)
+		 * 0 (has index 1) is represent of node 1 -> the parent of 1 is 0
+		 * 0 (has index 2) is represent of node 2 -> the parent of 2 is 0
 		 */
 		int[] parentOfNode = new int[size];
 		/*
 		 * pastCodeOf node is contain the past cost of node
 		 * exmple pastCostOfNode: {0, 5, 3}
-		 * 						   0 (has index 0) is represent of node 0 ->  the past cost of node 0 is 0
-		 * 						   5 (has index 1) is represent of node 1 -> the past cost of node 1 is 5
-		 * 						   3 (has index 2) is represent of node 2 -> the past cost of node 2 is 3
+		 * 0 (has index 0) is represent of node 0 -> the past cost of node 0 is 0
+		 * 5 (has index 1) is represent of node 1 -> the past cost of node 1 is 5
+		 * 3 (has index 2) is represent of node 2 -> the past cost of node 2 is 3
 		 */
 		int[] pastCostOfNode = new int[size];
 
 		/*
 		 * result is contain the parent node and tha past cost of node
 		 * example result = {{-1,0}, {0, 5}, {0, 2}}
-		 * explain this result: {-1,0} (has index 0) is represent of node 0 -> the parent of node 0 is -1 (has no parent) and the past cost of node 0 is 0
-		 * 						{0,5} (has index 1) is represent of node 1  -> the parent of node 1 is 0 and the past cost of node 1 is 5
-		 * 						{0,3} (has index 2) is represent of node 2 -> the parent of node 2 is 0 and the past cost of node 2 is 3		
+		 * explain this result: {-1,0} (has index 0) is represent of node 0 -> the
+		 * parent of node 0 is -1 (has no parent) and the past cost of node 0 is 0
+		 * {0,5} (has index 1) is represent of node 1 -> the parent of node 1 is 0 and
+		 * the past cost of node 1 is 5
+		 * {0,3} (has index 2) is represent of node 2 -> the parent of node 2 is 0 and
+		 * the past cost of node 2 is 3
 		 */
 		int[][] result = new int[size][2];
 
@@ -139,7 +147,8 @@ public class BellmanFordSearch implements PathFindingStrategy {
 			parentOfNode[i] = -1;
 		}
 
-		// find root node (must find because the root node hasn't alway the first node in matrix )
+		// find root node (must find because the root node hasn't alway the first node
+		// in matrix )
 		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
 			if (vertex.equals(startVertex)) {
 				rootNode = indexOfRoot;
@@ -152,20 +161,20 @@ public class BellmanFordSearch implements PathFindingStrategy {
 			pastCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
 		}
 
-		System.out.println("The graph: \t" );
+		System.out.println("The graph: \t");
 		graph.printMatrix();
 		System.out.println();
-		System.out.print("the graph has edges: \t" );
+		System.out.print("the graph has edges: \t");
 		graph.printEdge(rootNode);
 		System.out.println();
-		System.out.println("algorithm implementation:" );
-		System.out.println("---------------------------" );
-		System.out.print("\t" );
+		System.out.println("algorithm implementation:");
+		System.out.println("---------------------------");
+		System.out.print("\t");
 		graph.printNode();
 		System.out.println();
 		Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String, Integer>>();
 		String s = "\t";
-		
+
 		// loop through all node
 		for (int numNode = 1; numNode <= size; numNode++) {
 			s = "\t";
@@ -176,7 +185,8 @@ public class BellmanFordSearch implements PathFindingStrategy {
 				int weight = edge[2];
 				int pathCostBeginNode = pastCostOfNode[beginNode];
 				int pathCostEndNode = pastCostOfNode[endNode];
-				int pathCostwillChange = pathCostBeginNode == Integer.MAX_VALUE ? Integer.MAX_VALUE : pathCostBeginNode + weight;
+				int pathCostwillChange = pathCostBeginNode == Integer.MAX_VALUE ? Integer.MAX_VALUE
+						: pathCostBeginNode + weight;
 				if (pathCostwillChange < pathCostEndNode) {
 					// check negative cycle exists
 					if (numNode == size) {
@@ -197,20 +207,20 @@ public class BellmanFordSearch implements PathFindingStrategy {
 					Vertex x = (Vertex) graph.getAdjacencyList().keySet().toArray()[parentOfNode[i]];
 					map.put(x.getName(), pastCostOfNode[i]);
 				} else {
-					map.put("-1",  pastCostOfNode[i]);
+					map.put("-1", pastCostOfNode[i]);
 				}
 				nodes.get(v.getName()).putAll(map);
 			}
-			
+
 			String str = "";
 			for (String v : nodes.keySet()) {
-				str += "(" + nodes.get(v).keySet().toArray()[0] + ", " +nodes.get(v).get(nodes.get(v).keySet().toArray()[0])  + ")\t";
+				str += "(" + nodes.get(v).keySet().toArray()[0] + ", "
+						+ nodes.get(v).get(nodes.get(v).keySet().toArray()[0]) + ")\t";
 				s += str;
 				str = "";
 			}
 			System.out.println(s);
 		}
-
 
 		for (int row = 0; row < result.length; row++) {
 			/*
@@ -222,8 +232,9 @@ public class BellmanFordSearch implements PathFindingStrategy {
 				 * the first value has index 0, it's represent the parent of node
 				 * the second value has index 1, it's represent the past code of node
 				 * 
-				 * in condition of If statement below : the condition in If is represent the first value
-				 * 									    the condition in Else is represent the second value
+				 * in condition of If statement below : the condition in If is represent the
+				 * first value
+				 * the condition in Else is represent the second value
 				 */
 				if (column == 0) {
 					result[row][column] = parentOfNode[row];
@@ -234,6 +245,5 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		}
 		return result;
 	}
-	
 
 }

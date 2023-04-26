@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.GraphController;
-import model.Graph;
 import model.Vertex;
 
 public class MatrixView extends JPanel {

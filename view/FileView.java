@@ -38,7 +38,7 @@ public class FileView extends JPanel {
 	private File currentFile = null;
 
 	public String getCurrentFile() {
-		return currentFile != null ? currentFile.getName(): null;
+		return currentFile != null ? currentFile.getName() : null;
 	}
 
 	public FileView(GraphController controller) {
@@ -95,11 +95,14 @@ public class FileView extends JPanel {
 						FileWriter fw = new FileWriter(currentFile);
 						fw.write(result);
 						fw.close();
-						String pathFile = "C:\\FindShortPathApp\\vertexData" + "\\" + currentFile.getName().replaceFirst("[.][^.]+$", "")+ "_" + currentFile.getParentFile().getName() + ".txt";
+						String pathFile = "C:\\FindShortPathApp\\vertexData" + "\\"
+								+ currentFile.getName().replaceFirst("[.][^.]+$", "") + "_"
+								+ currentFile.getParentFile().getName() + ".txt";
 						FileWriter fw1 = new FileWriter(pathFile);
 						fw1.write(verticesString);
 						fw1.close();
-						JOptionPane.showMessageDialog(null, "Lưu lại file thành công", "Lưu file", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Lưu lại file thành công", "Lưu file",
+								JOptionPane.INFORMATION_MESSAGE);
 					} catch (IOException e1) {
 
 						e1.printStackTrace();
@@ -258,7 +261,7 @@ public class FileView extends JPanel {
 						controller.setModel(DirectedGraph.getInstance());
 					}
 					controller.getGraph().setGraph(list);
-					
+
 					controller.notifyObservers();
 
 				}

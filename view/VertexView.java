@@ -8,8 +8,6 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 
-import model.Vertex;
-
 public class VertexView extends JPanel {
 
 	public VertexView() {

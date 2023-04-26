@@ -1,12 +1,8 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.TreeMap;
 
 import utils.VertexComParator;
@@ -25,7 +21,7 @@ public abstract class Graph {
 		setAdjacencyMatrix();
 		// this.adjacencyMatrix = new int[0][0];
 	}
-	
+
 	public Graph(Map<Vertex, List<Edge>> adjacencyList, int[][] adjacencyMatrix) {
 		this.adjacencyList = adjacencyList;
 		this.adjacencyMatrix = adjacencyMatrix;
@@ -42,7 +38,7 @@ public abstract class Graph {
 	public Map<Vertex, List<Edge>> getAdjacencyList() {
 		return adjacencyList;
 	}
-	
+
 	public void setAdjacencyList(Map<Vertex, List<Edge>> adjacencyList) {
 		this.adjacencyList = adjacencyList;
 	}
@@ -155,16 +151,17 @@ public abstract class Graph {
 	public void setPath(PathFindingStrategy path) {
 		this.path = path;
 	}
-	
-	public String[][] pathFinding(){
-		return path.findShortestPath(this,startVertex, endVertex);
+
+	public String[][] pathFinding() {
+		return path.findShortestPath(this, startVertex, endVertex);
 	}
 
 	public boolean checkUnGraph() {
-		
+
 		for (int i = 0; i < adjacencyMatrix.length; i++) {
 			for (int j = 0; j < adjacencyMatrix.length; j++) {
-				if (adjacencyMatrix[i][j] != adjacencyMatrix[j][i]) return false;
+				if (adjacencyMatrix[i][j] != adjacencyMatrix[j][i])
+					return false;
 			}
 		}
 		return true;
@@ -227,7 +224,7 @@ public abstract class Graph {
 
 	public void rename(Vertex vertex, String name) {
 		vertex.setName(name);
-		
+
 		setAdjacencyMatrix();
 	}
 

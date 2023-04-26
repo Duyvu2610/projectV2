@@ -2,9 +2,7 @@ package controller;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -111,7 +109,7 @@ public class GraphController implements Subject {
 					notifyObservers();
 					break;
 				}
-				
+
 			}
 		}
 

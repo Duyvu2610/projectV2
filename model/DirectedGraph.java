@@ -4,8 +4,9 @@ import java.util.*;
 
 import utils.VertexComParator;
 
-public class DirectedGraph extends Graph{
-    private static DirectedGraph instance;
+public class DirectedGraph extends Graph {
+	private static DirectedGraph instance;
+
 	public static DirectedGraph getInstance() {
 		if (instance == null) {
 			synchronized (Graph.class) {
@@ -16,19 +17,21 @@ public class DirectedGraph extends Graph{
 		}
 		return instance;
 	}
+
 	@Override
 	public int countEdges() {
 		int res = 0;
 		int sizeMatrix = this.getAdjacencyMatrix().length;
 		for (int row = 0; row < sizeMatrix; row++) {
 			for (int column = 0; column < sizeMatrix; column++) {
-				if ( this.getAdjacencyMatrix()[row][column] != 0) {
+				if (this.getAdjacencyMatrix()[row][column] != 0) {
 					res++;
 				}
 			}
 		}
-		return res;	
+		return res;
 	}
+
 	@Override
 	public void setAdjacencyMatrix() {
 		int size = this.getAdjacencyList().size();
@@ -54,20 +57,22 @@ public class DirectedGraph extends Graph{
 			}
 		}
 	}
+
 	@Override
 	public int[][] getEdges(int rootNode) {
 		int[][] res = new int[this.countEdges()][3];
-		int index =0;
-		for( int i = 0; i < this.getAdjacencyMatrix().length; i++) {
+		int index = 0;
+		for (int i = 0; i < this.getAdjacencyMatrix().length; i++) {
 			for (int j = 0; j < this.getAdjacencyMatrix().length; j++) {
 				if (this.getAdjacencyMatrix()[i][j] != 0) {
-					int[] edge = {i, j, this.getAdjacencyMatrix()[i][j]};
+					int[] edge = { i, j, this.getAdjacencyMatrix()[i][j] };
 					res[index++] = edge;
 				}
 			}
 		}
 		return res;
 	}
+
 	@Override
 	public void addEdge(Edge edge) {
 		Map<Vertex, List<Edge>> subList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());

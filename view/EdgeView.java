@@ -5,7 +5,6 @@ import java.awt.geom.Line2D;
 
 import javax.swing.JPanel;
 
-
 public class EdgeView extends JPanel {
 
 	public EdgeView() {
@@ -15,7 +14,7 @@ public class EdgeView extends JPanel {
 		Line2D.Float el = new Line2D.Float(stX, stY, desX, desY);
 		g.setFont(new Font("Arial", Font.PLAIN, 10));
 		g.setColor(colorPoint);
-		
+
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(stX, stY, desX, desY);
 
@@ -36,15 +35,15 @@ public class EdgeView extends JPanel {
 
 	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, int arrowX1,
 			int arrowY1, int arrowX2, int arrowY2, String weight) {
-				Line2D.Float el = new Line2D.Float(stX, stY, desX, desY);
+		Line2D.Float el = new Line2D.Float(stX, stY, desX, desY);
 		g.setFont(new Font("Arial", Font.PLAIN, 10));
 		g.setColor(colorPoint);
-		
+
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(stX, stY, desX, desY);
 
 		g.drawLine(desX, desY, arrowX1, arrowY1);
-    	g.drawLine(desX, desY, arrowX2, arrowY2);
+		g.drawLine(desX, desY, arrowX2, arrowY2);
 
 		// get font metrics
 		FontMetrics fm = g.getFontMetrics();

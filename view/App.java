@@ -12,7 +12,6 @@ import controller.GraphController;
 import controller.NotifyController;
 import model.Graph;
 import model.Observer;
-import model.UndirectedGraph;
 
 public class App extends JFrame implements Observer {
 
@@ -24,8 +23,8 @@ public class App extends JFrame implements Observer {
 	private NotifyView notifyView;
 	private GraphController graphController;
 	private NotifyController notifyController;
-	private ChoosePointView  choosePointView;
-	private ChooseTypeView  chooseTypeView;
+	private ChoosePointView choosePointView;
+	private ChooseTypeView chooseTypeView;
 	private JPanel leftCol;
 	private JPanel rightCol;
 
@@ -106,7 +105,6 @@ public class App extends JFrame implements Observer {
 		choosePointView.setPreferredSize(new Dimension(400, 75));
 		choosePointView.setBorder(BorderFactory.createTitledBorder("Vertex"));
 
-
 		//
 		leftJPanel.setPreferredSize(new Dimension(400, 700));
 
@@ -131,8 +129,9 @@ public class App extends JFrame implements Observer {
 		screen.add(graphView, BorderLayout.CENTER);
 		screen.add(featureView, BorderLayout.WEST);
 		// Notify
-		rightJPanel.setBorder(BorderFactory.createTitledBorder(this.fileView.getCurrentFile() != null ? this.fileView.getCurrentFile(): "Graph"));
-		
+		rightJPanel.setBorder(BorderFactory
+				.createTitledBorder(this.fileView.getCurrentFile() != null ? this.fileView.getCurrentFile() : "Graph"));
+
 		// add component
 		rightJPanel.add(screen);
 		rightJPanel.add(notifyView, BorderLayout.SOUTH);
@@ -148,7 +147,8 @@ public class App extends JFrame implements Observer {
 		leftCol.remove(matrixView);
 		matrixView = new MatrixView(graphController);
 		leftCol.add(matrixView, BorderLayout.SOUTH);
-		rightCol.setBorder(BorderFactory.createTitledBorder(this.fileView.getCurrentFile() != null ? this.fileView.getCurrentFile(): "Graph"));
+		rightCol.setBorder(BorderFactory
+				.createTitledBorder(this.fileView.getCurrentFile() != null ? this.fileView.getCurrentFile() : "Graph"));
 	}
 
 }

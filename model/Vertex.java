@@ -89,12 +89,13 @@ public class Vertex {
 	public Color getColor() {
 		return this.color;
 	}
-	public boolean getVertex(String name){
+
+	public boolean getVertex(String name) {
 		return this.name.equals(name);
 	}
 
-    public void setDefaultColor() {
+	public void setDefaultColor() {
 		setColor(Color.GREEN);
-    }
+	}
 
 }
