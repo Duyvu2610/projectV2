@@ -208,7 +208,6 @@ public class GraphController implements Subject {
 			}
 
 			for (Edge edge : edges) {
-				System.out.println(edge);
 				edge.setColor(Color.RED);
 			}
 
