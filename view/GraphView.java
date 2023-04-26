@@ -154,7 +154,7 @@ public class GraphView extends JPanel implements Observer {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		
+
 		super.paintComponent(g);
 
 		g2d = (Graphics2D) g;
@@ -179,46 +179,48 @@ public class GraphView extends JPanel implements Observer {
 
 		if (subEdge != null && controller.getTypeModel() == UndirectedGraph.class) {
 			EdgeController test = new EdgeController(subEdge);
-			int centerSrcX = (int) test.getModel().getSource().getLocation().getX() + Vertex.R ;
-		int centerSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
-		int centerDesX = (int) test.getModel().getDestination().getLocation().getX() + Vertex.R;
-		int centerDesY = (int) test.getModel().getDestination().getLocation().getY() + Vertex.R;
+			int centerSrcX = (int) test.getModel().getSource().getLocation().getX() + Vertex.R;
+			int centerSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
+			int centerDesX = (int) test.getModel().getDestination().getLocation().getX() + Vertex.R;
+			int centerDesY = (int) test.getModel().getDestination().getLocation().getY() + Vertex.R;
 
-		int adjacent = (int) Math.abs(test.getModel().getSource().getLocation().getX() - test.getModel().getDestination().getLocation().getX());
-		int opposite = (int) Math.abs(test.getModel().getSource().getLocation().getY() - test.getModel().getDestination().getLocation().getY());
+			int adjacent = (int) Math.abs(test.getModel().getSource().getLocation().getX()
+					- test.getModel().getDestination().getLocation().getX());
+			int opposite = (int) Math.abs(test.getModel().getSource().getLocation().getY()
+					- test.getModel().getDestination().getLocation().getY());
 
-		int degree  = (int) Math.toDegrees(Math.atan((double) opposite/adjacent)) ;
-		int dx = (int) (Vertex.R * Math.cos(Math.toRadians(degree)));
-		int dy = (int) (Vertex.R * Math.sin(Math.toRadians(degree)));
+			int degree = (int) Math.toDegrees(Math.atan((double) opposite / adjacent));
+			int dx = (int) (Vertex.R * Math.cos(Math.toRadians(degree)));
+			int dy = (int) (Vertex.R * Math.sin(Math.toRadians(degree)));
 
-		int stSrcX = centerSrcX <= centerDesX ? centerSrcX + dx: centerSrcX - dx  ;
-		int stSrcY = centerSrcY <= centerDesY ? centerSrcY + dy: centerSrcY - dy;
-		int desDesX = centerSrcX <= centerDesX ? centerDesX - dx : centerDesX + dx ;
-		int desDesY = centerSrcY <= centerDesY ? centerDesY - dy: centerDesY + dy;
+			int stSrcX = centerSrcX <= centerDesX ? centerSrcX + dx : centerSrcX - dx;
+			int stSrcY = centerSrcY <= centerDesY ? centerSrcY + dy : centerSrcY - dy;
+			int desDesX = centerSrcX <= centerDesX ? centerDesX - dx : centerDesX + dx;
+			int desDesY = centerSrcY <= centerDesY ? centerDesY - dy : centerDesY + dy;
 
-			test.drawLine(g2d, Color.GREEN, stSrcX, stSrcY,
-					desDesX,
-					desDesY, "");
+			test.drawLine(g2d, Color.GREEN, stSrcX, stSrcY, desDesX, desDesY, "");
 		}
 
 		if (subEdge != null && controller.getTypeModel() == DirectedGraph.class) {
 			EdgeController test = new EdgeController(subEdge);
-			int centerSrcX = (int) test.getModel().getSource().getLocation().getX() + Vertex.R ;
-		int centerSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
-		int centerDesX = (int) test.getModel().getDestination().getLocation().getX() + Vertex.R;
-		int centerDesY = (int) test.getModel().getDestination().getLocation().getY() + Vertex.R;
+			int centerSrcX = (int) test.getModel().getSource().getLocation().getX() + Vertex.R;
+			int centerSrcY = (int) test.getModel().getSource().getLocation().getY() + Vertex.R;
+			int centerDesX = (int) test.getModel().getDestination().getLocation().getX() + Vertex.R;
+			int centerDesY = (int) test.getModel().getDestination().getLocation().getY() + Vertex.R;
 
-		int adjacent = (int) Math.abs(test.getModel().getSource().getLocation().getX() - test.getModel().getDestination().getLocation().getX());
-		int opposite = (int) Math.abs(test.getModel().getSource().getLocation().getY() - test.getModel().getDestination().getLocation().getY());
+			int adjacent = (int) Math.abs(test.getModel().getSource().getLocation().getX()
+					- test.getModel().getDestination().getLocation().getX());
+			int opposite = (int) Math.abs(test.getModel().getSource().getLocation().getY()
+					- test.getModel().getDestination().getLocation().getY());
 
-		int degree  = (int) Math.toDegrees(Math.atan((double) opposite/adjacent)) ;
-		int dx = (int) (Vertex.R * Math.cos(Math.toRadians(degree)));
-		int dy = (int) (Vertex.R * Math.sin(Math.toRadians(degree)));
+			int degree = (int) Math.toDegrees(Math.atan((double) opposite / adjacent));
+			int dx = (int) (Vertex.R * Math.cos(Math.toRadians(degree)));
+			int dy = (int) (Vertex.R * Math.sin(Math.toRadians(degree)));
 
-		int stSrcX = centerSrcX <= centerDesX ? centerSrcX + dx: centerSrcX - dx  ;
-		int stSrcY = centerSrcY <= centerDesY ? centerSrcY + dy: centerSrcY - dy;
-		int desDesX = centerSrcX <= centerDesX ? centerDesX - dx : centerDesX + dx ;
-		int desDesY = centerSrcY <= centerDesY ? centerDesY - dy: centerDesY + dy;
+			int stSrcX = centerSrcX <= centerDesX ? centerSrcX + dx : centerSrcX - dx;
+			int stSrcY = centerSrcY <= centerDesY ? centerSrcY + dy : centerSrcY - dy;
+			int desDesX = centerSrcX <= centerDesX ? centerDesX - dx : centerDesX + dx;
+			int desDesY = centerSrcY <= centerDesY ? centerDesY - dy : centerDesY + dy;
 			double angle = Math.atan2(desDesY - stSrcY, desDesX - stSrcX);
 			int length = 15;
 			int arrowX1 = desDesX - (int) (length * Math.cos(angle - Math.PI / 6));
@@ -226,9 +228,7 @@ public class GraphView extends JPanel implements Observer {
 			int arrowX2 = desDesX - (int) (length * Math.cos(angle + Math.PI / 6));
 			int arrowY2 = desDesY - (int) (length * Math.sin(angle + Math.PI / 6));
 
-			test.drawLine(g2d, Color.GREEN, stSrcX, stSrcY,
-					(int) desDesX,
-					(int) desDesY,arrowX1, arrowY1, arrowX2, arrowY2, "");
+			test.drawLine(g2d, Color.GREEN, stSrcX, stSrcY, desDesX, desDesY, arrowX1, arrowY1, arrowX2, arrowY2, "");
 		}
 
 	}
