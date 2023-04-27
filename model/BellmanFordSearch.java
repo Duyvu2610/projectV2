@@ -1,95 +1,70 @@
 package model;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class BellmanFordSearch implements PathFindingStrategy {
 	@Override
-	public String[][] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
-		StringBuffer resReverseStr = new StringBuffer("");
-		StringBuffer weightReverseStr = new StringBuffer("");
-		int rootNode = 0;
-		int goalNode = 0;
-		int indexOfRoot = 0;
-		int indexOfGoal = 0;
+	public Vertex[] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
+		int[] listParentNode = helper(graph, startVertex, endVertex);
+		Vertex[] result = null;
+		int rootNode = findNodeInMatrix(graph, startVertex);
+		int goalNode = findNodeInMatrix(graph, endVertex);
 
-		// find root node and goal node
-		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
-			if (vertex.equals(startVertex)) {
-				rootNode = indexOfRoot;
-			}
-			if (vertex.equals(endVertex)) {
-				goalNode = indexOfGoal;
-			}
-			indexOfRoot++;
-			indexOfGoal++;
-		}
-
-		int[][] listParentNode = helper(graph, startVertex, endVertex);
-		int[][] result = null;
-
-		int index = 0;
 		if (listParentNode != null) {
-
-			int currentNode = goalNode;
-			int currentWeight = listParentNode[currentNode][1];
-
+			ArrayList<Integer> pathListIntType = new ArrayList<Integer>();
+			pathListIntType.add(goalNode);
+			int currentNode = listParentNode[goalNode];
 			do {
-				resReverseStr.append(currentNode + " ");
-				weightReverseStr.append(currentWeight + " ");
-				currentNode = listParentNode[currentNode][0];
 				if (currentNode == -1) {
 					break;
 				}
-				currentWeight = listParentNode[currentNode][1];
+				pathListIntType.add(currentNode);
+				currentNode = listParentNode[currentNode];
 				if (currentNode == rootNode) {
-					resReverseStr.append(currentNode + " ");
-					weightReverseStr.append(currentWeight + " ");
-					break;
+					pathListIntType.add(currentNode);
 				}
-
 			} while (currentNode != rootNode && currentNode != -1);
 
-			String[] resStr = resReverseStr.reverse().substring(1).split(" ");
-			String[] weightStr = weightReverseStr.reverse().substring(1).split(" ");
-
-			result = new int[resStr.length][2];
-			for (String character : resStr) {
-				result[index++][0] = Integer.valueOf(character);
+			Collections.reverse(pathListIntType);
+			ArrayList<Vertex> pathListVertexType = new ArrayList<Vertex>();
+			for (int indexVertex : pathListIntType) {
+				pathListVertexType.add(findVertex(graph, indexVertex));
 			}
-			index = 0;
-			for (String character : weightStr) {
-				if (character.equals("7463847412")) {
-					character = String.valueOf(Integer.MAX_VALUE);
-				}
-				result[index++][1] = character.contains("-")
-						? (Integer.valueOf(character.substring(0, character.length() - 1)) * -1)
-						: Integer.valueOf(character);
-			}
-		}
-
-		String[][] lastRes = null;
-		if (result != null) {
-			lastRes = new String[result.length][2];
-			Map<Integer, Vertex> list = new TreeMap<Integer, Vertex>();
-			int i = 0;
-			for (Vertex vertex : graph.getAdjacencyList().keySet()) {
-				list.put(i++, vertex);
-			}
-
-			for (int j = 0; j < result.length; j++) {
-
-				lastRes[j][0] = list.get(result[j][0]).getName();
-				lastRes[j][1] = String.valueOf(result[j][1]);
+			result = new Vertex[pathListVertexType.size()];
+			int index = 0;
+			for (Vertex v : pathListVertexType) {
+				result[index++] = v;
 			}
 
 		}
 
-		if (!lastRes[0][0].equals(startVertex.getName())
-				|| !lastRes[lastRes.length - 1][0].equals(endVertex.getName())) {
+		if (!result[0].equals(startVertex) || !result[result.length - 1].equals(endVertex)) {
 			return null;
 		}
-		return lastRes;
+		return result;
+	}
+
+	private Vertex findVertex(Graph graph, int currentIndexNode) {
+		int indexNode = 0;
+		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
+			if (indexNode == currentIndexNode) {
+				return vertex;
+			}
+			indexNode++;
+		}
+		return null;
+	}
+
+	private int findNodeInMatrix(Graph graph, Vertex startVertex) {
+		int result = 0;
+		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
+			if (vertex.equals(startVertex)) {
+				return result;
+			}
+			result++;
+		}
+		return -1;
 	}
 
 	/*
@@ -100,7 +75,7 @@ public class BellmanFordSearch implements PathFindingStrategy {
 	 * - Ở lần duyệt thứ n, nếu còn bất kỳ cạnh nào có thể rút ngắn đường đi, điều
 	 * đó chứng tỏ đồ thị có chu trình âm, và ta kết thúc thuật toán.
 	 */
-	private int[][] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
+	private int[] helper(Graph graph, Vertex startVertex, Vertex endVertex) {
 
 		int[][] matrix = graph.getAdjacencyMatrix();
 		/*
@@ -130,18 +105,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		 */
 		int[] pastCostOfNode = new int[size];
 
-		/*
-		 * result is contain the parent node and tha past cost of node
-		 * example result = {{-1,0}, {0, 5}, {0, 2}}
-		 * explain this result: {-1,0} (has index 0) is represent of node 0 -> the
-		 * parent of node 0 is -1 (has no parent) and the past cost of node 0 is 0
-		 * {0,5} (has index 1) is represent of node 1 -> the parent of node 1 is 0 and
-		 * the past cost of node 1 is 5
-		 * {0,3} (has index 2) is represent of node 2 -> the parent of node 2 is 0 and
-		 * the past cost of node 2 is 3
-		 */
-		int[][] result = new int[size][2];
-
 		// init parent of node (-1 means this node hasn't parent)
 		for (int i = 0; i < size; i++) {
 			parentOfNode[i] = -1;
@@ -161,23 +124,24 @@ public class BellmanFordSearch implements PathFindingStrategy {
 			pastCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
 		}
 
-		System.out.println("The graph: \t");
-		graph.printMatrix();
-		System.out.println();
-		System.out.print("the graph has edges: \t");
-		graph.printEdge(rootNode);
-		System.out.println();
-		System.out.println("algorithm implementation:");
-		System.out.println("---------------------------");
-		System.out.print("\t");
-		graph.printNode();
-		System.out.println();
-		Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String, Integer>>();
-		String s = "\t";
+		// System.out.println("The graph: \t" );
+		// graph.printMatrix();
+		// System.out.println();
+		// System.out.print("the graph has edges: \t" );
+		// graph.printEdge(rootNode);
+		// System.out.println();
+		// System.out.println("algorithm implementation:" );
+		// System.out.println("---------------------------" );
+		// System.out.print("\t" );
+		// graph.printNode();
+		// System.out.println();
+		// Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String,
+		// Integer>>();
+		// String s = "\t";
 
 		// loop through all node
 		for (int numNode = 1; numNode <= size; numNode++) {
-			s = "\t";
+			// s = "\t";
 			// loop through all edge the graph has
 			for (int[] edge : graph.getEdges(rootNode)) {
 				int beginNode = edge[0];
@@ -195,55 +159,35 @@ public class BellmanFordSearch implements PathFindingStrategy {
 					}
 					pastCostOfNode[endNode] = pathCostwillChange;
 					parentOfNode[endNode] = beginNode;
-
 				}
 			}
 
-			for (int i = 0; i < parentOfNode.length; i++) {
-				Vertex v = (Vertex) graph.getAdjacencyList().keySet().toArray()[i];
-				nodes.put(v.getName(), new TreeMap<>());
-				Map<String, Integer> map = new TreeMap<String, Integer>();
-				if (parentOfNode[i] != -1) {
-					Vertex x = (Vertex) graph.getAdjacencyList().keySet().toArray()[parentOfNode[i]];
-					map.put(x.getName(), pastCostOfNode[i]);
-				} else {
-					map.put("-1", pastCostOfNode[i]);
-				}
-				nodes.get(v.getName()).putAll(map);
-			}
+			// for (int i = 0; i < parentOfNode.length; i++) {
+			// Vertex v = (Vertex) graph.getAdjacencyList().keySet().toArray()[i];
+			// nodes.put(v.getName(), new TreeMap<>());
+			// Map<String, Integer> map = new TreeMap<String, Integer>();
+			// if (parentOfNode[i] != -1) {
+			// Vertex x = (Vertex)
+			// graph.getAdjacencyList().keySet().toArray()[parentOfNode[i]];
+			// map.put(x.getName(), pastCostOfNode[i]);
+			// } else {
+			// map.put("-1", pastCostOfNode[i]);
+			// }
+			// nodes.get(v.getName()).putAll(map);
+			// }
 
-			String str = "";
-			for (String v : nodes.keySet()) {
-				str += "(" + nodes.get(v).keySet().toArray()[0] + ", "
-						+ nodes.get(v).get(nodes.get(v).keySet().toArray()[0]) + ")\t";
-				s += str;
-				str = "";
-			}
-			System.out.println(s);
+			// String str = "";
+			// for (String v : nodes.keySet()) {
+			// str += "(" + nodes.get(v).keySet().toArray()[0] + ", "
+			// +nodes.get(v).get(nodes.get(v).keySet().toArray()[0]) + ")\t";
+			// s += str;
+			// str = "";
+			// }
+			// System.out.println(s);
+
 		}
 
-		for (int row = 0; row < result.length; row++) {
-			/*
-			 * index of row is represent of node
-			 */
-			for (int column = 0; column < result[row].length; column++) {
-				/*
-				 * column has two value
-				 * the first value has index 0, it's represent the parent of node
-				 * the second value has index 1, it's represent the past code of node
-				 * 
-				 * in condition of If statement below : the condition in If is represent the
-				 * first value
-				 * the condition in Else is represent the second value
-				 */
-				if (column == 0) {
-					result[row][column] = parentOfNode[row];
-				} else {
-					result[row][column] = pastCostOfNode[row];
-				}
-			}
-		}
-		return result;
+		return parentOfNode;
 	}
 
 }

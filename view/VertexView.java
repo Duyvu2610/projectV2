@@ -19,7 +19,7 @@ public class VertexView extends JPanel {
 		g.fill(el);
 
 		// set font and color for label
-		g.setFont(new Font("Arial", Font.PLAIN, 12));
+		g.setFont(new Font("Arial", Font.BOLD, 14));
 		g.setColor(Color.BLACK);
 
 		// get font metrics

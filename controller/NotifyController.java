@@ -10,8 +10,8 @@ public class NotifyController {
 		this.view = NotifyView.getInstance();
 	}
 
-	public void setNotify(String[][] s, Vertex st, Vertex ds) {
-		view.updateNotify(s, st, ds);
+	public void setNotify(Vertex[] s, Vertex st, Vertex ds, int pathCost) {
+		view.updateNotify(s, st, ds, pathCost);
 	}
 
 	public void removeNotify() {

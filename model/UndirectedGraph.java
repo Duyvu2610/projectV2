@@ -4,8 +4,9 @@ import java.util.*;
 
 import utils.VertexComParator;
 
-public class UndirectedGraph extends Graph{
-    private static UndirectedGraph instance;
+public class UndirectedGraph extends Graph {
+	private static UndirectedGraph instance;
+
 	public static UndirectedGraph getInstance() {
 		if (instance == null) {
 			synchronized (Graph.class) {
@@ -16,6 +17,7 @@ public class UndirectedGraph extends Graph{
 		}
 		return instance;
 	}
+
 	@Override
 	public int countEdges() {
 		int res = 0;
@@ -23,7 +25,7 @@ public class UndirectedGraph extends Graph{
 		ArrayList<Integer> exceptList = new ArrayList<Integer>();
 		for (int row = 0; row < sizeMatrix; row++) {
 			for (int column = 0; column < sizeMatrix; column++) {
-				if ( this.getAdjacencyMatrix()[row][column] != 0 && !exceptList.contains(column)) {
+				if (this.getAdjacencyMatrix()[row][column] != 0 && !exceptList.contains(column)) {
 					res++;
 				}
 			}
@@ -31,6 +33,7 @@ public class UndirectedGraph extends Graph{
 		}
 		return res;
 	}
+
 	@Override
 	public void setAdjacencyMatrix() {
 		int size = this.getAdjacencyList().size();
@@ -58,6 +61,7 @@ public class UndirectedGraph extends Graph{
 			}
 		}
 	}
+
 	@Override
 	public int[][] getEdges(int rootNode) {
 		int[][] res = new int[this.countEdges()][3];
@@ -90,6 +94,7 @@ public class UndirectedGraph extends Graph{
 
 		return res;
 	}
+
 	@Override
 	public void addEdge(Edge edge) {
 		Edge edge1 = new Edge(edge.getDestination(), edge.getSource(), edge.getWeight());
@@ -101,4 +106,5 @@ public class UndirectedGraph extends Graph{
 		this.getAdjacencyList().putAll(subList);
 		setAdjacencyMatrix();
 	}
+	
 }

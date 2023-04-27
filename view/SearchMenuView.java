@@ -17,8 +17,9 @@ import controller.GraphController;
 import controller.NotifyController;
 import model.BellmanFordSearch;
 import model.PathFindingStrategy;
+import model.Vertex;
 
-public class SearchMenuView extends JPanel {
+public class SearchMenuView extends JPanel{
 	ArrayList<String> data;
 	GraphController graphController;
 	PathFindingStrategy currentFind;
@@ -44,14 +45,12 @@ public class SearchMenuView extends JPanel {
 						default:
 							break;
 					}
-					// nếu như chưa chọn đỉnh bắt đầu và kết thúc thì show message
-					if (graphController.getStartVertex() == graphController.getEndVertex()) {
-						JOptionPane.showMessageDialog(null, "ĐỈnh bắt đầu và kết thúc trùng nhau vui lòng chọn lại",
-								"Thông báo", JOptionPane.ERROR_MESSAGE, null);
-					} else {
-						String[][] res = graphController.pathFinding();
-						notifyController.setNotify(res, graphController.getStartVertex(),
-								graphController.getEndVertex());
+					// nếu như chưa chọn đỉnh bắt đầu và kết thúc thì show message 
+					if (graphController.getStartVertex() == graphController.getEndVertex()){
+						JOptionPane.showMessageDialog(null, "ĐỈnh bắt đầu và kết thúc trùng nhau vui lòng chọn lại", "Thông báo",JOptionPane.ERROR_MESSAGE, null);
+					}else{
+						Vertex[] res = graphController.pathFinding();
+						notifyController.setNotify(res, graphController.getStartVertex(), graphController.getEndVertex(), graphController.getGraph().pathCostOfFind(res));
 						graphController.drawPath(res);
 					}
 				}

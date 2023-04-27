@@ -46,22 +46,21 @@ public class NotifyView extends JPanel {
 		return instance;
 	}
 
-	public void updateNotify(String[][] s, Vertex st, Vertex ds) {
+	public void updateNotify(Vertex[] s, Vertex st, Vertex ds, int pathCost) {
 		if (s != null) {
 
 			String result = "";
 			for (int i = 0; i < s.length; i++) {
-				result += i != (s.length - 1) ? (s[i][0] + " → ") : s[i][0];
+				result += i != (s.length - 1) ? (s[i].getName() + " → ") : s[i].getName();
 			}
-			notifyLabel.setText("Đường đi ngắn nhất từ " + st.getName() + " đến " + ds.getName() + ": " + result);
-			pathLabel.setText("Với tổng chi phí là: " + s[s.length - 1][1]);
+			notifyLabel.setText("Đường đi ngắn nhất từ đỉnh " +  st.getName() +  " đến đỉnh " +  ds.getName() + " là: " + result);
+			pathLabel.setText("Với tổng chi phí là: " + pathCost);
 		} else {
-			notifyLabel.setText("Không có đường đi từ " + st.getName() + " đến " + ds.getName());
+			notifyLabel.setText("Không có đường đi từ " + st.getName() +  " đến " +  ds.getName());
 			pathLabel.setText("");
 		}
 	}
-
-	public void removeNotify() {
+	public void removeNotify(){
 		notifyLabel.setText("");
 		pathLabel.setText("");
 	}

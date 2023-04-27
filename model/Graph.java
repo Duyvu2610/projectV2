@@ -152,7 +152,7 @@ public abstract class Graph {
 		this.path = path;
 	}
 
-	public String[][] pathFinding() {
+	public Vertex[] pathFinding() {
 		return path.findShortestPath(this, startVertex, endVertex);
 	}
 
@@ -224,8 +224,25 @@ public abstract class Graph {
 
 	public void rename(Vertex vertex, String name) {
 		vertex.setName(name);
-
 		setAdjacencyMatrix();
+	}
+
+	public int pathCostOfFind(Vertex[] vertexes) {
+		int result = 0;
+		if (vertexes != null) {
+			Edge edge = new Edge(null, null, 0);
+			for (int i = 0; i < vertexes.length - 1; i++) {
+				int index = i;
+				edge.setSource(vertexes[index]);
+				edge.setDestination(vertexes[index + 1]);
+				for (Edge e : this.getAdjacencyList().get(vertexes[index])) {
+					if (e.getSource().equals(edge.getSource()) && e.getDestination().equals(edge.getDestination())) {
+						result += e.getWeight();
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 }

@@ -104,12 +104,9 @@ public class GraphController implements Subject {
 		for (int i = 0; i < getVertices().size(); i++) {
 			if (getVertices().get(i).isClickAt(currentClick)) {
 				String name = JOptionPane.showInputDialog(null, "Nhập tên đỉnh mới:");
-				if (name != null && !name.isEmpty()) {
-					rename(getVertices().get(i), name);
-					notifyObservers();
-					break;
-				}
-
+				rename(getVertices().get(i), name);
+				notifyObservers();
+				break;
 			}
 		}
 
@@ -123,6 +120,7 @@ public class GraphController implements Subject {
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
 
 		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
+
 		if (weight != null) {
 			addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
 		}
@@ -131,7 +129,9 @@ public class GraphController implements Subject {
 
 	private void addEdge(Vertex sourcVertex, Vertex findVertex, int i) {
 		Edge edge = new Edge(sourcVertex, findVertex, i);
+
 		model.addEdge(edge);
+
 		notifyObservers();
 	}
 
@@ -159,20 +159,15 @@ public class GraphController implements Subject {
 		notifyObservers();
 	}
 
-	public void drawPath(String[][] res) {
+	public void drawPath(Vertex[] res) {
 		setDefaultGraph();
 		if (res != null) {
 			List<Vertex> vertices = new ArrayList<Vertex>();
 			List<Edge> edges = new ArrayList<Edge>();
 			view = new GraphView(this);
 
-			for (String[] arrsStrings : res) {
-				for (Vertex vertex : getVertices()) {
-					if (vertex.getName().equals(arrsStrings[0])) {
-						vertices.add(vertex);
-						break;
-					}
-				}
+			for (Vertex vertex : res) {
+				vertices.add(vertex);
 			}
 
 			for (int i = 0; i < vertices.size() - 1; i++) {
@@ -242,7 +237,7 @@ public class GraphController implements Subject {
 		});
 	}
 
-	public String[][] pathFinding() {
+	public Vertex[] pathFinding() {
 
 		return model.pathFinding();
 	}

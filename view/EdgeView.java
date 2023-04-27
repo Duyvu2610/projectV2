@@ -12,7 +12,7 @@ public class EdgeView extends JPanel {
 
 	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, String weight) {
 		Line2D.Float el = new Line2D.Float(stX, stY, desX, desY);
-		g.setFont(new Font("Arial", Font.PLAIN, 10));
+		g.setFont(new Font("Arial", Font.BOLD, 12));
 		g.setColor(colorPoint);
 
 		g.setStroke(new BasicStroke(2));
