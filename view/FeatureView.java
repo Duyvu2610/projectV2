@@ -26,10 +26,10 @@ public class FeatureView extends JPanel {
 		setPreferredSize(new Dimension(100, 500));
 
 		// Danh sách các chức nang
-		String[] icon = { "projectV2\\view\\images\\plus.png", "projectV2\\view\\images\\remove.png",
-				"projectV2\\view\\images\\molecular.png", "projectV2\\view\\images\\edit.png",
-				"projectV2\\view\\images\\trash.png",
-				"projectV2\\view\\images\\move.png" };
+		String[] icon = { "view\\images\\plus.png", "view\\images\\remove.png",
+				"view\\images\\molecular.png", "view\\images\\edit.png",
+				"view\\images\\trash.png",
+				"view\\images\\move.png" };
 		String[] desc = { "Thêm đỉnh", "Xóa đỉnh", "Nối đỉnh", "Sửa tên", "Xóa đồ thị", "Di chuyển đồ thị" };
 		int[] codeExcute = { 1, 2, 3, 4, 5, 6 };
 		// Tạo 5 button và thêm vào panel
