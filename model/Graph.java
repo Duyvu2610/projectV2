@@ -19,7 +19,6 @@ public abstract class Graph {
 	public Graph() {
 		this.adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
 		setAdjacencyMatrix();
-		// this.adjacencyMatrix = new int[0][0];
 	}
 
 	public Graph(Map<Vertex, List<Edge>> adjacencyList, int[][] adjacencyMatrix) {

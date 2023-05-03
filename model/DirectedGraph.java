@@ -34,9 +34,12 @@ public class DirectedGraph extends Graph {
 
 	@Override
 	public void setAdjacencyMatrix() {
+		TreeMap<Vertex, List<Edge>> sublistTreeMap = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
+		sublistTreeMap.putAll(this.getAdjacencyList());
+		this.getAdjacencyList().clear();
+		this.getAdjacencyList().putAll(sublistTreeMap);
 		int size = this.getAdjacencyList().size();
 		this.setAdjacencyMatrix(new int[size][size]);
-
 		// đánh index cho từng vertex
 		Map<Vertex, Integer> list = new LinkedHashMap<Vertex, Integer>();
 		int i = 0;

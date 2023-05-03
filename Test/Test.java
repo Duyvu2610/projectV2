@@ -19,6 +19,7 @@ public class Test {
     // Point p = new Point(0, 0);
     // Vertex a = new Vertex("a", p);
     // Vertex b = new Vertex("b", p);
+   
     // Vertex c = new Vertex("c", p);
     // // Vertex d = new Vertex("d", p);
     // // Vertex e = new Vertex("e", p);
@@ -54,10 +55,6 @@ public class Test {
     // BellmanFordSearch search = new BellmanFordSearch();
     // search.findShortestPath(graph, a, c);
 
-    Graph x = new UndirectedGraph();
-
-    System.out.println(Math.sin(Math.PI / 2));
-
-    System.out.println(Math.toDegrees(Math.atan((double) 3 / 4)));
+    
   }
 }

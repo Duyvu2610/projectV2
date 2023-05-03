@@ -114,7 +114,6 @@ public class GraphController implements Subject {
 
 	private void rename(Vertex vertex, String name) {
 		model.rename(vertex, name);
-		notifyObservers();
 	}
 
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
