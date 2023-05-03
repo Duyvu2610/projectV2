@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.EdgeController;
@@ -76,8 +77,13 @@ public class GraphView extends JPanel implements Observer {
 					} else if (beginComp == 2) {
 						subEdge = null;
 						currentVertex = controller.findVertex(currentClick);
-						if (currentVertex != null) {
-							controller.handleAddEdge(currentClick, prevVertex);
+						if (prevVertex.isClickAt(currentClick)){
+							JOptionPane.showMessageDialog(null, "Lỗi vui lòng nhập lại", "Thông báo", JOptionPane.WARNING_MESSAGE, null);
+						}
+						else{
+							if (currentVertex != null)  {
+								controller.handleAddEdge(currentClick, prevVertex);
+							}
 						}
 						beginComp = 0;
 						updateView();
