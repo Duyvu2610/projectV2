@@ -13,6 +13,12 @@ public class Edge {
 		this.source = source;
 		this.destination = destination;
 		this.weight = weight;
+		if (destination != null){
+			gradient =  new GradientPaint(
+				source.getLocation().x, source.getLocation().y, new Color(127, 126, 127),
+				destination.getLocation().x, destination.getLocation().y, new Color(127, 126, 127)
+			);
+		}
 	}
 
 	public Vertex getSource() {
@@ -93,8 +99,8 @@ public class Edge {
         );
 	}
 	// nhận màu của đường đi
-	public GradientPaint getPathColor(){
-		return new GradientPaint(
+	public void setPathColor(){
+		this.gradient =  new GradientPaint(
             source.getLocation().x, source.getLocation().y, new Color(254, 185, 0),
             destination.getLocation().x, destination.getLocation().y, new Color(251, 115, 0)
         );

@@ -3,6 +3,7 @@ package controller;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -12,6 +13,7 @@ import model.Graph;
 import model.Observer;
 import model.PathFindingStrategy;
 import model.Subject;
+import model.UndirectedGraph;
 import model.Vertex;
 import view.GraphView;
 
@@ -23,6 +25,8 @@ public class GraphController implements Subject {
 
 	public GraphController() {
 		this.observers = new ArrayList<>();
+		this.view = new GraphView(this);
+		this.model = UndirectedGraph.getInstance();
 	}
 
 	public void setView(GraphView view) {
@@ -156,9 +160,9 @@ public class GraphController implements Subject {
 	public void drawPath(Vertex[] res) {
 		setDefaultGraph();
 		if (res != null) {
+			// khởi tạo danh sách các đỉnh và các cạnh của thuật toán đi qua
 			List<Vertex> vertices = new ArrayList<Vertex>();
 			List<Edge> edges = new ArrayList<Edge>();
-			view = new GraphView(this);
 
 			for (Vertex vertex : res) {
 				vertices.add(vertex);
@@ -195,7 +199,7 @@ public class GraphController implements Subject {
 			}
 			// set màu cho các cạnh đi qua
 			for (Edge edge : edges) {
-				edge.setGradient(edge.getPathColor());
+				edge.setPathColor();
 			}
 			view.updateView();
 			notifyObservers();

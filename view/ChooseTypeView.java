@@ -44,18 +44,19 @@ public class ChooseTypeView extends JPanel implements Observer, ActionListener {
 		add(undirectedButton);
 		add(directedButton);
 
-		// Thiết lập kích thước cho JRadioButton
-		// Dimension radioSize = new Dimension(120, 60);
-		// undirectedButton.setPreferredSize(radioSize);
-		// directedButton.setPreferredSize(radioSize);
 
 		// Gom nhóm hai JRadioButton lại với nhau
 		ButtonGroup group = new ButtonGroup();
 		group.add(undirectedButton);
 		group.add(directedButton);
 
-		undirectedButton.setSelected(true);
-		graphController.setModel(UndirectedGraph.getInstance());
+		// undirectedButton.setSelected(true);
+		// graphController.setModel(UndirectedGraph.getInstance());
+		if (graphController.getTypeModel() == UndirectedGraph.class) {
+			undirectedButton.setSelected(true);
+		} else {
+			directedButton.setSelected(true);
+		}
 
 		undirectedButton.addActionListener(this);
 		directedButton.addActionListener(this);

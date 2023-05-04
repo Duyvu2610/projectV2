@@ -66,7 +66,7 @@ public class EdgeController {
 			int arrowY1 = desDesY - (int) (length * Math.sin(angle - Math.PI / 6));
 			int arrowX2 = desDesX - (int) (length * Math.cos(angle + Math.PI / 6));
 			int arrowY2 = desDesY - (int) (length * Math.sin(angle + Math.PI / 6));
-			view.drawLine(g, model.getDefaultColor(), stSrcX, stSrcY, desDesX, desDesY, arrowX1, arrowY1, arrowX2, arrowY2,
+			view.drawLine(g, model.getGradient(), stSrcX, stSrcY, desDesX, desDesY, arrowX1, arrowY1, arrowX2, arrowY2,
 					String.valueOf(model.getWeight()));
 		}
 	}
