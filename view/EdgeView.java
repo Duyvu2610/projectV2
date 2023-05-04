@@ -9,11 +9,12 @@ public class EdgeView extends JPanel {
 
 	public EdgeView() {
 	}
-
-	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, String weight) {
+	// vẽ cạnh cho đồ thị vô hướng
+	public void drawLine(Graphics2D g, GradientPaint  colorPoint, int stX, int stY, int desX, int desY, String weight) {
 		Line2D.Float el = new Line2D.Float(stX, stY, desX, desY);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
-		g.setColor(colorPoint);
+		// sử dụng phương thức setPaint() để thiết lập GradientPaint
+		g.setPaint(colorPoint);
 
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(stX, stY, desX, desY);
@@ -28,16 +29,16 @@ public class EdgeView extends JPanel {
 		int yLabel = (int) (el.getY1() + (el.getY2() - el.getY1()) / 2 + fm.getAscent() / 2) - 8;
 
 		// draw label
-		g.setColor(Color.BLACK);
+		g.setPaint(colorPoint);
 		g.drawString(weight, xLabel, yLabel);
 
 	}
-
-	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, int arrowX1,
+	// vẽ cạnh cho đồ thị có hướng
+	public void drawLine(Graphics2D g, GradientPaint colorPoint, int stX, int stY, int desX, int desY, int arrowX1,
 			int arrowY1, int arrowX2, int arrowY2, String weight) {
 		Line2D.Float el = new Line2D.Float(stX, stY, desX, desY);
 		g.setFont(new Font("Arial", Font.PLAIN, 10));
-		g.setColor(colorPoint);
+		g.setPaint(colorPoint);
 
 		g.setStroke(new BasicStroke(2));
 		g.drawLine(stX, stY, desX, desY);
@@ -53,7 +54,7 @@ public class EdgeView extends JPanel {
 		int yLabel = (int) (el.getY1() + (el.getY2() - el.getY1()) / 2 + fm.getAscent() / 2) - 8;
 
 		// draw label
-		g.setColor(Color.BLACK);
+		g.setPaint(colorPoint);
 		g.drawString(weight, xLabel, yLabel);
 
 	}

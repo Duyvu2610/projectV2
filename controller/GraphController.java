@@ -3,6 +3,7 @@ package controller;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -12,6 +13,7 @@ import model.Graph;
 import model.Observer;
 import model.PathFindingStrategy;
 import model.Subject;
+import model.UndirectedGraph;
 import model.Vertex;
 import view.GraphView;
 
@@ -23,6 +25,8 @@ public class GraphController implements Subject {
 
 	public GraphController() {
 		this.observers = new ArrayList<>();
+		this.view = new GraphView(this);
+		this.model = UndirectedGraph.getInstance();
 	}
 
 	public void setView(GraphView view) {
@@ -83,9 +87,8 @@ public class GraphController implements Subject {
 		// Hiển thị hộp thoại yêu cầu nhập tên đỉnh
 		String name = JOptionPane.showInputDialog(null, "Nhập tên đỉnh:");
 		if (name != null && !name.isEmpty()) {
-			Vertex vertex = new Vertex(name, location);
+			Vertex vertex = new Vertex(name.trim(), location);
 			addVertex(vertex);
-
 		}
 	}
 
@@ -117,9 +120,7 @@ public class GraphController implements Subject {
 	}
 
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
-
 		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
-
 		if (weight != null) {
 			addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
 		}
@@ -128,9 +129,7 @@ public class GraphController implements Subject {
 
 	private void addEdge(Vertex sourcVertex, Vertex findVertex, int i) {
 		Edge edge = new Edge(sourcVertex, findVertex, i);
-
 		model.addEdge(edge);
-
 		notifyObservers();
 	}
 
@@ -161,9 +160,9 @@ public class GraphController implements Subject {
 	public void drawPath(Vertex[] res) {
 		setDefaultGraph();
 		if (res != null) {
+			// khởi tạo danh sách các đỉnh và các cạnh của thuật toán đi qua
 			List<Vertex> vertices = new ArrayList<Vertex>();
 			List<Edge> edges = new ArrayList<Edge>();
-			view = new GraphView(this);
 
 			for (Vertex vertex : res) {
 				vertices.add(vertex);
@@ -186,26 +185,24 @@ public class GraphController implements Subject {
 			}
 			// vẽ lại toàn bộ các đỉnh thành màu xanh trước khi chuyển màu đỏ
 			getVertices().forEach(vertex -> {
-				vertex.setColor(Color.GREEN);
+				vertex.setDefaultColor();
 			});
 			// vẽ lại toàn bộ các cạnh thành màu đen trước khi chuyển màu đỏ
 			getVertices().forEach(vertex -> {
 				model.getAdjacencyList().get(vertex).forEach(edge -> {
-					edge.setColor(Color.GREEN);
+					edge.setGradient(edge.getDefaultColor());
 				});
 			});
-
+			// set màu cho các đỉnh đi qua
 			for (Vertex vertex : vertices) {
-				vertex.setColor(Color.RED);
+				vertex.setColor(new Color(230, 232, 232));
 			}
-
+			// set màu cho các cạnh đi qua
 			for (Edge edge : edges) {
-				edge.setColor(Color.RED);
+				edge.setPathColor();
 			}
-
 			view.updateView();
 			notifyObservers();
-
 		}
 
 	}
@@ -217,7 +214,6 @@ public class GraphController implements Subject {
 				edge.setDefaultColor();
 			}
 		}
-
 	}
 
 	// Chọn đỉnh bắt đầu

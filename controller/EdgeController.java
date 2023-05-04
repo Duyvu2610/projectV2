@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 
 import model.DirectedGraph;
@@ -56,7 +57,7 @@ public class EdgeController {
 		int desDesY = centerSrcY <= centerDesY ? centerDesY - dy : centerDesY + dy;
 
 		if (typeOfGraph == UndirectedGraph.class) {
-			view.drawLine(g, model.getColor(), stSrcX, stSrcY, desDesX, desDesY, String.valueOf(model.getWeight()));
+			view.drawLine(g, model.getGradient(), stSrcX, stSrcY, desDesX, desDesY, String.valueOf(model.getWeight()));
 		} else if (typeOfGraph == DirectedGraph.class) {
 			// Draw the arrowhead at the end of the line
 			double angle = Math.atan2(desDesY - stSrcY, desDesX - stSrcX);
@@ -65,18 +66,19 @@ public class EdgeController {
 			int arrowY1 = desDesY - (int) (length * Math.sin(angle - Math.PI / 6));
 			int arrowX2 = desDesX - (int) (length * Math.cos(angle + Math.PI / 6));
 			int arrowY2 = desDesY - (int) (length * Math.sin(angle + Math.PI / 6));
-			view.drawLine(g, model.getColor(), stSrcX, stSrcY, desDesX, desDesY, arrowX1, arrowY1, arrowX2, arrowY2,
+			view.drawLine(g, model.getGradient(), stSrcX, stSrcY, desDesX, desDesY, arrowX1, arrowY1, arrowX2, arrowY2,
 					String.valueOf(model.getWeight()));
 		}
 	}
 
-	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, String weight) {
+	public void drawLine(Graphics2D g, GradientPaint colorPoint, int stX, int stY, int desX, int desY, String weight) {
 		view.drawLine(g, colorPoint, stX, stY, desX, desY, weight);
 	}
 
-	public void drawLine(Graphics2D g, Color colorPoint, int stX, int stY, int desX, int desY, int arrowX1, int arrowY1,
+	public void drawLine(Graphics2D g, GradientPaint colorPoint, int stX, int stY, int desX, int desY, int arrowX1, int arrowY1,
 			int arrowX2, int arrowY2, String weight) {
 		view.drawLine(g, colorPoint, stX, stY, desX, desY, arrowX1, arrowY1, arrowX2, arrowY2, weight);
 	}
+
 
 }

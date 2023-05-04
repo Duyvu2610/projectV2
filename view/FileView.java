@@ -192,7 +192,7 @@ public class FileView extends JPanel {
 					boolean isNode = true;
 					Vertex sourceNode = new Vertex(null, null);
 					Vertex desNode = new Vertex(null, null);
-					Edge edge = new Edge(sourceNode, desNode, 0);
+					
 
 					try {
 						Scanner scMatrix1 = new Scanner(vertexFile);
@@ -246,7 +246,7 @@ public class FileView extends JPanel {
 										break;
 									}
 								}
-								edge = new Edge(sourceNode, desNode, Integer.valueOf(data.split(" ")[3]));
+								Edge edge = new Edge(sourceNode, desNode, Integer.valueOf(data.split(" ")[3]));
 								list.get(sourceNode).add(edge);
 							}
 						}
