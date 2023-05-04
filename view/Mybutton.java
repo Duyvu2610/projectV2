@@ -1,7 +1,9 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -17,6 +19,7 @@ public class Mybutton extends JButton {
         setIcon(icon);
         setToolTipText(desc);
         setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        setBackground(Color.WHITE); // Thiết lập màu nền cho button
     }
 
 }

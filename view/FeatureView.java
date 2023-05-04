@@ -26,12 +26,17 @@ public class FeatureView extends JPanel {
 		setPreferredSize(new Dimension(100, 500));
 
 		// Danh sách các chức nang
-		String[] icon = { "view\\images\\plus.png", "view\\images\\remove.png",
-				"view\\images\\molecular.png", "view\\images\\edit.png",
+		String[] icon = { 
+				"view\\images\\plus.png",
+		 		"view\\images\\remove.png",
+				"view\\images\\nodes.png",
+				"view\\images\\edit.png",
+				"view\\images\\exchange.png",
+				"view\\images\\move.png" ,
 				"view\\images\\trash.png",
-				"view\\images\\move.png" };
-		String[] desc = { "Thêm đỉnh", "Xóa đỉnh", "Nối đỉnh", "Sửa tên", "Xóa đồ thị", "Di chuyển đồ thị" };
-		int[] codeExcute = { 1, 2, 3, 4, 5, 6 };
+		};
+		String[] desc = { "Thêm đỉnh", "Xóa đỉnh", "Nối đỉnh", "Sửa tên", "Sửa trọng số", "Di chuyển đồ thị", "Xóa đồ thị" };
+		int[] codeExcute = { 1, 2, 3, 4, 5, 6, 7 };
 		// Tạo 5 button và thêm vào panel
 		for (int i = 0; i < icon.length; i++) {
 			final int index = i; // Tạo biến final index và gán giá trị của i
@@ -50,7 +55,7 @@ public class FeatureView extends JPanel {
 
 					// Xử lý tác vụ khi nút được click
 					graphController.setCodeExcute(codeExcute[index]);
-					if (graphController.getCodeExcute() == 5) {
+					if (graphController.getCodeExcute() == 7) {
 						int isConfirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa không ?",
 								"Xóa đồ thị ?", JOptionPane.YES_NO_OPTION);
 						if (isConfirm == 0) {

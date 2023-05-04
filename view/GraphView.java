@@ -38,7 +38,7 @@ public class GraphView extends JPanel implements Observer {
 		this.edges = new ArrayList<EdgeController>();
 		this.controller.registerObserver(this);
 		setLayout(new BorderLayout());
-		setBackground(Color.WHITE);
+		setBackground(new Color(33, 29, 31));
 
 		// Tạo một đối tượng MouseAdapter để xử lý sự kiện click chuột
 		MouseAdapter mouseAdapter = new MouseAdapter() {
@@ -160,11 +160,10 @@ public class GraphView extends JPanel implements Observer {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-
 		super.paintComponent(g);
-
 		g2d = (Graphics2D) g;
 		vertexs.clear();
+		// vẽ các đỉnh
 		for (Vertex vertex : controller.getVertices()) {
 			vertexController = new VertexController(vertex);
 			vertexController.updateView(g2d);
@@ -172,7 +171,7 @@ public class GraphView extends JPanel implements Observer {
 		}
 
 		edges.clear();
-
+		// vẽ các cạnh
 		Map<Vertex, List<Edge>> list = new TreeMap<>(new VertexComParator());
 		list.putAll(controller.getGraph().getAdjacencyList());
 		for (Vertex vertex : list.keySet()) {
@@ -182,7 +181,7 @@ public class GraphView extends JPanel implements Observer {
 				edges.add(edgeController);
 			}
 		}
-
+		// vẽ cạnh vô hướng phụ khi di chuyển chuột 
 		if (subEdge != null && controller.getTypeModel() == UndirectedGraph.class) {
 			EdgeController test = new EdgeController(subEdge);
 			if (test.getModel().getSource() != null) {
@@ -205,10 +204,10 @@ public class GraphView extends JPanel implements Observer {
 				int desDesX = (int) test.getModel().getDestination().getLocation().getX();
 				int desDesY = (int) test.getModel().getDestination().getLocation().getY();
 	
-				test.drawLine(g2d, Color.GREEN, stSrcX, stSrcY, desDesX, desDesY, "");
+				test.drawLine(g2d, test.getModel().getDefaultColor(), stSrcX, stSrcY, desDesX, desDesY, "");
 			}
 		}
-
+		// vẽ cạnh có hướng phụ khi di chuyển chuột 
 		if (subEdge != null && controller.getTypeModel() == DirectedGraph.class) {
 			EdgeController test = new EdgeController(subEdge);
 			if (test.getModel().getSource() != null) {
@@ -238,7 +237,7 @@ public class GraphView extends JPanel implements Observer {
 				int arrowX2 = desDesX - (int) (length * Math.cos(angle + Math.PI / 6));
 				int arrowY2 = desDesY - (int) (length * Math.sin(angle + Math.PI / 6));
 	
-				test.drawLine(g2d, Color.GREEN, stSrcX, stSrcY, desDesX, desDesY, arrowX1, arrowY1, arrowX2, arrowY2, "");
+				test.drawLine(g2d, test.getModel().getDefaultColor(), stSrcX, stSrcY, desDesX, desDesY, arrowX1, arrowY1, arrowX2, arrowY2, "");
 			}
 		}
 

@@ -12,7 +12,7 @@ public class Vertex {
 	public Vertex(String name, Point location) {
 		this.name = name;
 		this.location = location;
-		this.color = Color.GREEN;
+		this.color = new Color(127, 126, 127);
 	}
 
 	public String getName() {
@@ -95,7 +95,7 @@ public class Vertex {
 	}
 
 	public void setDefaultColor() {
-		setColor(Color.GREEN);
+		setColor(new Color(127, 126, 127));
 	}
 
 }

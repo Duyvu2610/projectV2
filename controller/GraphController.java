@@ -83,9 +83,8 @@ public class GraphController implements Subject {
 		// Hiển thị hộp thoại yêu cầu nhập tên đỉnh
 		String name = JOptionPane.showInputDialog(null, "Nhập tên đỉnh:");
 		if (name != null && !name.isEmpty()) {
-			Vertex vertex = new Vertex(name, location);
+			Vertex vertex = new Vertex(name.trim(), location);
 			addVertex(vertex);
-
 		}
 	}
 
@@ -117,9 +116,7 @@ public class GraphController implements Subject {
 	}
 
 	public void handleAddEdge(Point currentClick, Vertex sourcVertex) {
-
 		String weight = JOptionPane.showInputDialog(null, "Nhập trọng số:");
-
 		if (weight != null) {
 			addEdge(sourcVertex, findVertex(currentClick), weight.equals("") ? 1 : Integer.valueOf(weight));
 		}
@@ -128,9 +125,7 @@ public class GraphController implements Subject {
 
 	private void addEdge(Vertex sourcVertex, Vertex findVertex, int i) {
 		Edge edge = new Edge(sourcVertex, findVertex, i);
-
 		model.addEdge(edge);
-
 		notifyObservers();
 	}
 
@@ -186,26 +181,24 @@ public class GraphController implements Subject {
 			}
 			// vẽ lại toàn bộ các đỉnh thành màu xanh trước khi chuyển màu đỏ
 			getVertices().forEach(vertex -> {
-				vertex.setColor(Color.GREEN);
+				vertex.setDefaultColor();
 			});
 			// vẽ lại toàn bộ các cạnh thành màu đen trước khi chuyển màu đỏ
 			getVertices().forEach(vertex -> {
 				model.getAdjacencyList().get(vertex).forEach(edge -> {
-					edge.setColor(Color.GREEN);
+					edge.setGradient(edge.getDefaultColor());
 				});
 			});
-
+			// set màu cho các đỉnh đi qua
 			for (Vertex vertex : vertices) {
-				vertex.setColor(Color.RED);
+				vertex.setColor(new Color(230, 232, 232));
 			}
-
+			// set màu cho các cạnh đi qua
 			for (Edge edge : edges) {
-				edge.setColor(Color.RED);
+				edge.setGradient(edge.getPathColor());
 			}
-
 			view.updateView();
 			notifyObservers();
-
 		}
 
 	}
@@ -217,7 +210,6 @@ public class GraphController implements Subject {
 				edge.setDefaultColor();
 			}
 		}
-
 	}
 
 	// Chọn đỉnh bắt đầu

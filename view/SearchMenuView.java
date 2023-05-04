@@ -55,7 +55,6 @@ public class SearchMenuView extends JPanel{
 					}
 				}
 			});
-
 			add(button);
 		}
 		setOpaque(false);
