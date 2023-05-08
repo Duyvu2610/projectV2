@@ -155,29 +155,35 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		for (int i = 0; i < size; i++) {
 			pastCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
 		}
+		
+		System.out.println("The graph: \t");
+		graph.printMatrix();
+		System.out.println();
+		System.out.print("the graph has edges: \t");
+		graph.printEdge(rootNode);
+		System.out.println();
+		System.out.println("algorithm implementation:");
+		System.out.println("---------------------------");
+		System.out.print("\t");
+		graph.printNode();
+		System.out.println();
+		Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String, Integer>>();
+		String s = "\t";
 
-		// System.out.println("The graph: \t" );
-		// graph.printMatrix();
-		// System.out.println();
-		// System.out.print("the graph has edges: \t" );
-		// graph.printEdge(rootNode);
-		// System.out.println();
-		// System.out.println("algorithm implementation:" );
-		// System.out.println("---------------------------" );
-		// System.out.print("\t" );
-		// graph.printNode();
-		// System.out.println();
-		// Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String,
-		// Integer>>();
-		// String s = "\t";
+		ArrayList<Integer> nodeToGetEdge = new ArrayList<>();
+
+		ArrayList<Integer> nextNode = new ArrayList<>();
+		nodeToGetEdge.add(rootNode);
 
 		// loop through all node
 		for (int numNode = 1; numNode <= size; numNode++) {
-			// s = "\t";
+			s = "\t";
+			nextNode.clear();
 			// loop through all edge the graph has
-			for (int[] edge : graph.getEdges(rootNode)) {
+			for (int[] edge : graph.getEdges(nodeToGetEdge)) {
 				int beginNode = edge[0];
 				int endNode = edge[1];
+				nextNode.add(endNode);
 				int weight = edge[2];
 				int pathCostBeginNode = pastCostOfNode[beginNode];
 				int pathCostEndNode = pastCostOfNode[endNode];
@@ -197,29 +203,32 @@ public class BellmanFordSearch implements PathFindingStrategy {
 					parentOfNode[endNode] = beginNode;
 				}
 			}
+			
+			nodeToGetEdge.addAll(nextNode);
 
-			// for (int i = 0; i < parentOfNode.length; i++) {
-			// Vertex v = (Vertex) graph.getAdjacencyList().keySet().toArray()[i];
-			// nodes.put(v.getName(), new TreeMap<>());
-			// Map<String, Integer> map = new TreeMap<String, Integer>();
-			// if (parentOfNode[i] != -1) {
-			// Vertex x = (Vertex)
-			// graph.getAdjacencyList().keySet().toArray()[parentOfNode[i]];
-			// map.put(x.getName(), pastCostOfNode[i]);
-			// } else {
-			// map.put("-1", pastCostOfNode[i]);
-			// }
-			// nodes.get(v.getName()).putAll(map);
-			// }
 
-			// String str = "";
-			// for (String v : nodes.keySet()) {
-			// str += "(" + nodes.get(v).keySet().toArray()[0] + ", "
-			// +nodes.get(v).get(nodes.get(v).keySet().toArray()[0]) + ")\t";
-			// s += str;
-			// str = "";
-			// }
-			// System.out.println(s);
+			nodes.clear();
+			for (int i = 0; i < parentOfNode.length; i++) {
+				Vertex v = (Vertex) graph.getAdjacencyList().keySet().toArray()[i];
+				nodes.put(v.getName(), new TreeMap<>());
+				Map<String, Integer> map = new TreeMap<String, Integer>();
+				if (parentOfNode[i] != -1) {
+					Vertex x = (Vertex) graph.getAdjacencyList().keySet().toArray()[parentOfNode[i]];
+					map.put(x.getName(), pastCostOfNode[i]);
+				} else {
+					map.put("-1", pastCostOfNode[i]);
+				}
+				nodes.get(v.getName()).putAll(map);
+			}
+
+			String str = "";
+			for (String v : nodes.keySet()) {
+				str += "(" + nodes.get(v).keySet().toArray()[0] + ", "
+						+ nodes.get(v).get(nodes.get(v).keySet().toArray()[0]) + ")\t";
+				s += str;
+				str = "";
+			}
+			System.out.println(s);
 
 		}
 

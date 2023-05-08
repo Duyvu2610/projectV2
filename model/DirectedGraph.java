@@ -19,10 +19,10 @@ public class DirectedGraph extends Graph {
 	}
 
 	@Override
-	public int countEdges() {
+	public int countEdges(ArrayList<Integer> nodeToGetEdge) {
 		int res = 0;
 		int sizeMatrix = this.getAdjacencyMatrix().length;
-		for (int row = 0; row < sizeMatrix; row++) {
+		for (int row: nodeToGetEdge) {
 			for (int column = 0; column < sizeMatrix; column++) {
 				if (this.getAdjacencyMatrix()[row][column] != 0) {
 					res++;
@@ -62,10 +62,11 @@ public class DirectedGraph extends Graph {
 	}
 
 	@Override
-	public int[][] getEdges(int rootNode) {
-		int[][] res = new int[this.countEdges()][3];
+	public int[][] getEdges(ArrayList<Integer> nodeToGetEdge) {
+		
+		int[][] res = new int[this.countEdges(nodeToGetEdge)][3];
 		int index = 0;
-		for (int i = 0; i < this.getAdjacencyMatrix().length; i++) {
+		for (int i: nodeToGetEdge) {
 			for (int j = 0; j < this.getAdjacencyMatrix().length; j++) {
 				if (this.getAdjacencyMatrix()[i][j] != 0) {
 					int[] edge = { i, j, this.getAdjacencyMatrix()[i][j] };

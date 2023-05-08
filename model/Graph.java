@@ -1,5 +1,6 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -99,9 +100,9 @@ public abstract class Graph {
 
 	}
 
-	public abstract int countEdges();
+	public abstract int countEdges(ArrayList<Integer> nodeToGetEdge);
 
-	public abstract int[][] getEdges(int rootNode);
+	public abstract int[][] getEdges(ArrayList<Integer> nodeToGetEdge);
 
 	public abstract void setAdjacencyMatrix();
 
@@ -209,13 +210,15 @@ public abstract class Graph {
 		String s = "";
 		String edge = "";
 
-		for (int i = 0; i < getEdges(rootNode).length; i++) {
+		ArrayList<Integer> rootNodeList = new ArrayList<>();
+		rootNodeList.add(rootNode);
+		for (int i = 0; i < getEdges(rootNodeList).length; i++) {
 			edge += "(";
-			for (int j = 0; j < getEdges(rootNode)[i].length; j++) {
-				if (j == getEdges(rootNode)[i].length - 1) {
+			for (int j = 0; j < getEdges(rootNodeList)[i].length; j++) {
+				if (j == getEdges(rootNodeList)[i].length - 1) {
 					break;
 				}
-				Vertex x = (Vertex) adjacencyList.keySet().toArray()[getEdges(rootNode)[i][j]];
+				Vertex x = (Vertex) adjacencyList.keySet().toArray()[getEdges(rootNodeList)[i][j]];
 				if (j == 0) {
 					edge += x.getName() + "-";
 				} else {

@@ -54,7 +54,14 @@ public class Test {
 
     // BellmanFordSearch search = new BellmanFordSearch();
     // search.findShortestPath(graph, a, c);
-
+    ArrayList<Integer> result = new ArrayList<Integer>();
+    ArrayList<Integer> subResult = new ArrayList<Integer>();
+    result.add(1);
+    subResult.add(2);
+    subResult.add(3);
+    subResult.add(4);
+    result.addAll(subResult);
+    System.out.println(result);
     
   }
 }

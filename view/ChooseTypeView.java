@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -86,7 +87,12 @@ public class ChooseTypeView extends JPanel implements Observer, ActionListener {
 
 		if (graphController.getGraph() != null) {
 			if (!graphController.getGraph().getAdjacencyList().isEmpty()) {
-				if (graphController.getGraph().countEdges() > 0) {
+				ArrayList<Integer> nodeToGetEdge = new ArrayList<>();
+				int indexVertex =0;
+				for (Vertex vertex: graphController.getGraph().getAdjacencyList().keySet()) {
+					nodeToGetEdge.add(indexVertex++);
+				}
+				if (graphController.getGraph().countEdges(nodeToGetEdge) > 0) {
 					int confirm = JOptionPane.showConfirmDialog(null,
 							"Nếu thay đổi dạng đồ thị thì đồ thị sẽ bị xóa. Bạn có chắc chắn xóa không?", "Thông báo",
 							JOptionPane.YES_NO_OPTION);

@@ -19,11 +19,11 @@ public class UndirectedGraph extends Graph {
 	}
 
 	@Override
-	public int countEdges() {
+	public int countEdges(ArrayList<Integer> nodeToGetEdge) {
 		int res = 0;
 		int sizeMatrix = this.getAdjacencyMatrix().length;
 		ArrayList<Integer> exceptList = new ArrayList<Integer>();
-		for (int row = 0; row < sizeMatrix; row++) {
+		for (int row: nodeToGetEdge) {
 			for (int column = 0; column < sizeMatrix; column++) {
 				if (this.getAdjacencyMatrix()[row][column] != 0 && !exceptList.contains(column)) {
 					res++;
@@ -66,33 +66,23 @@ public class UndirectedGraph extends Graph {
 	}
 
 	@Override
-	public int[][] getEdges(int rootNode) {
-		int[][] res = new int[this.countEdges()][3];
+	public int[][] getEdges(ArrayList<Integer> nodeToGetEdge) {
+		int[][] res = new int[this.countEdges(nodeToGetEdge)][3];
 		int sizeMatrix = this.getAdjacencyMatrix().length;
 		ArrayList<Integer> exceptList = new ArrayList<Integer>();
 		Queue<Integer> nextNode = new LinkedList<Integer>();
 		int index = 0;
-		for (int column = 0; column < sizeMatrix; column++) {
-			if (this.getAdjacencyMatrix()[rootNode][column] != 0) {
-				int[] edge = { rootNode, column, this.getAdjacencyMatrix()[rootNode][column] };
-				res[index++] = edge;
-				nextNode.offer(column);
-			}
-		}
-		exceptList.add(rootNode);
-
-		while (!nextNode.isEmpty()) {
-			int currentNode = nextNode.poll();
+		for (int i: nodeToGetEdge) {
 			for (int column = 0; column < sizeMatrix; column++) {
-				if (this.getAdjacencyMatrix()[currentNode][column] != 0 && !exceptList.contains(column)) {
-					int[] edge = { currentNode, column, this.getAdjacencyMatrix()[currentNode][column] };
+				if (this.getAdjacencyMatrix()[i][column] != 0 && !exceptList.contains(column)) {
+					int[] edge = { i, column, this.getAdjacencyMatrix()[i][column] };
 					res[index++] = edge;
 					if (!nextNode.contains(column)) {
 						nextNode.offer(column);
 					}
 				}
 			}
-			exceptList.add(currentNode);
+			exceptList.add(i);
 		}
 
 		return res;
