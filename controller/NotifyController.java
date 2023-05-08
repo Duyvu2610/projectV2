@@ -10,11 +10,15 @@ public class NotifyController {
 		this.view = NotifyView.getInstance();
 	}
 
-	public void setNotify(Vertex[] s, Vertex st, Vertex ds, int pathCost) {
-		view.updateNotify(s, st, ds, pathCost);
+	public void setPathNotify(Vertex[] s, Vertex st, Vertex ds, int pathCost, boolean negativeCycle) {
+		view.updatePathNotify(s, st, ds, pathCost, negativeCycle);
 	}
 
 	public void removeNotify() {
 		view.removeNotify();
 	}
+
+    public void setConnectedNotify(boolean connected) {
+		view.updateConnectedNotify(connected);
+    }
 }

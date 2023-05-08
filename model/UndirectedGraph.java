@@ -109,5 +109,5 @@ public class UndirectedGraph extends Graph {
 		this.getAdjacencyList().putAll(subList);
 		setAdjacencyMatrix();
 	}
-	
+
 }

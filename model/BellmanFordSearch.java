@@ -1,46 +1,78 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class BellmanFordSearch implements PathFindingStrategy {
+
+	private boolean isNegativeCycle = false;
+	private Vertex stV;
+	private Vertex edV;
+
+	public Vertex getStV() {
+		return stV;
+	}
+
+	public void setStV(Vertex stV) {
+		this.stV = stV;
+	}
+
+	public Vertex getEdV() {
+		return edV;
+	}
+
+	public void setEdV(Vertex edV) {
+		this.edV = edV;
+	}
+
+	public boolean isNegativeCycle() {
+		return isNegativeCycle;
+	}
+
+	public void setNegativeCycle(boolean isNegativeCycle) {
+		this.isNegativeCycle = isNegativeCycle;
+	}
+
 	@Override
 	public Vertex[] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
-		int[] listParentNode = helper(graph, startVertex, endVertex);
+		setStV(startVertex);
+		setEdV(endVertex);
+		int[] listParentNode = helper(graph, stV, edV);
+
 		Vertex[] result = null;
-		int rootNode = findNodeInMatrix(graph, startVertex);
-		int goalNode = findNodeInMatrix(graph, endVertex);
+		int rootNode = findNodeInMatrix(graph, stV);
+		int goalNode = findNodeInMatrix(graph, edV);
 
-		if (listParentNode != null) {
-			ArrayList<Integer> pathListIntType = new ArrayList<Integer>();
+		ArrayList<Integer> pathListIntType = new ArrayList<Integer>();
+		if (!isNegativeCycle) {
 			pathListIntType.add(goalNode);
-			int currentNode = listParentNode[goalNode];
-			do {
-				if (currentNode == -1) {
-					break;
-				}
+		}
+		int currentNode = listParentNode[goalNode];
+		do {
+			if (currentNode == -1) {
+				break;
+			}
+			pathListIntType.add(currentNode);
+
+			currentNode = listParentNode[currentNode];
+			if (currentNode == rootNode) {
 				pathListIntType.add(currentNode);
-				currentNode = listParentNode[currentNode];
-				if (currentNode == rootNode) {
-					pathListIntType.add(currentNode);
-				}
-			} while (currentNode != rootNode && currentNode != -1);
-
-			Collections.reverse(pathListIntType);
-			ArrayList<Vertex> pathListVertexType = new ArrayList<Vertex>();
-			for (int indexVertex : pathListIntType) {
-				pathListVertexType.add(findVertex(graph, indexVertex));
 			}
-			result = new Vertex[pathListVertexType.size()];
-			int index = 0;
-			for (Vertex v : pathListVertexType) {
-				result[index++] = v;
-			}
-
+		} while (currentNode != rootNode && currentNode != -1);
+		Collections.reverse(pathListIntType);
+		ArrayList<Vertex> pathListVertexType = new ArrayList<Vertex>();
+		for (int indexVertex : pathListIntType) {
+			pathListVertexType.add(findVertex(graph, indexVertex));
+		}
+		result = new Vertex[pathListVertexType.size()];
+		int index = 0;
+		for (Vertex v : pathListVertexType) {
+			result[index++] = v;
 		}
 
-		if (!result[0].equals(startVertex) || !result[result.length - 1].equals(endVertex)) {
-			return null;
+		if (!isNegativeCycle) {
+			if (!result[0].equals(stV) || !result[result.length - 1].equals(edV)) {
+				return null;
+			}
 		}
 		return result;
 	}
@@ -155,7 +187,11 @@ public class BellmanFordSearch implements PathFindingStrategy {
 					// check negative cycle exists
 					if (numNode == size) {
 						System.out.println("Đồ thị có chu trình âm");
-						return null;
+						setNegativeCycle(true);
+						setStV(findVertex(graph, findVertexNegativeCylce(graph, parentOfNode, beginNode)[0]));
+						setEdV(findVertex(graph, findVertexNegativeCylce(graph, parentOfNode,
+								beginNode)[findVertexNegativeCylce(graph, parentOfNode, beginNode).length - 1]));
+						return parentOfNode;
 					}
 					pastCostOfNode[endNode] = pathCostwillChange;
 					parentOfNode[endNode] = beginNode;
@@ -188,6 +224,18 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		}
 
 		return parentOfNode;
+	}
+
+	private int[] findVertexNegativeCylce(Graph graph, int[] parentOfNode, int beginNode) {
+		ArrayList<Integer> res = new ArrayList<Integer>();
+		res.add(beginNode);
+		int currentVertex = parentOfNode[beginNode];
+
+		while (!res.contains(currentVertex)) {
+			res.add(currentVertex);
+			currentVertex = parentOfNode[currentVertex];
+		}
+		return res.stream().mapToInt(x -> x).toArray();
 	}
 
 }

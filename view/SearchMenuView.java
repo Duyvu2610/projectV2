@@ -19,7 +19,7 @@ import model.BellmanFordSearch;
 import model.PathFindingStrategy;
 import model.Vertex;
 
-public class SearchMenuView extends JPanel{
+public class SearchMenuView extends JPanel {
 	ArrayList<String> data;
 	GraphController graphController;
 	PathFindingStrategy currentFind;
@@ -28,6 +28,7 @@ public class SearchMenuView extends JPanel{
 		this.graphController = graphController;
 		this.data = new ArrayList<>();
 		data.add("Bellman");
+		data.add("Check connected");
 		setLayout(new FlowLayout(FlowLayout.LEADING));
 		for (int i = 0; i < data.size(); i++) {
 			int index = i;
@@ -45,12 +46,20 @@ public class SearchMenuView extends JPanel{
 						default:
 							break;
 					}
-					// nếu như chưa chọn đỉnh bắt đầu và kết thúc thì show message 
-					if (graphController.getStartVertex() == graphController.getEndVertex()){
-						JOptionPane.showMessageDialog(null, "ĐỈnh bắt đầu và kết thúc trùng nhau vui lòng chọn lại", "Thông báo",JOptionPane.ERROR_MESSAGE, null);
-					}else{
+
+					if (e.getActionCommand().toString().equals("Check connected")) {
+						notifyController.setConnectedNotify(graphController.getGraph().isConnected());
+						return;
+					}
+					// nếu như chưa chọn đỉnh bắt đầu và kết thúc thì show message
+					if (graphController.getStartVertex() == graphController.getEndVertex()) {
+						JOptionPane.showMessageDialog(null, "ĐỈnh bắt đầu và kết thúc trùng nhau vui lòng chọn lại",
+								"Thông báo", JOptionPane.ERROR_MESSAGE, null);
+					} else {
 						Vertex[] res = graphController.pathFinding();
-						notifyController.setNotify(res, graphController.getStartVertex(), graphController.getEndVertex(), graphController.getGraph().pathCostOfFind(res));
+						notifyController.setPathNotify(res, graphController.getStartVertex(),
+								graphController.getEndVertex(), graphController.getGraph().pathCostOfFind(res),
+								((BellmanFordSearch) currentFind).isNegativeCycle());
 						graphController.drawPath(res);
 					}
 				}

@@ -1,8 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.TreeMap;
 
 import utils.VertexComParator;
@@ -91,11 +93,9 @@ public abstract class Graph {
 
 		adjacencyList = new TreeMap<Vertex, List<Edge>>(new VertexComParator());
 		adjacencyList.putAll(subList);
-		// Cập nhật adjacency matrix.
 
+		// Cập nhật adjacency matrix.
 		setAdjacencyMatrix();
-		// Nếu có view hiển thị đồ thị thì cũng cần xóa vertex view tương ứng.
-		// ...
 
 	}
 
@@ -117,7 +117,30 @@ public abstract class Graph {
 	}
 
 	public boolean isConnected() {
-		return connectedHelper();
+		if(this.getAdjacencyMatrix().length <2) {
+			return false;
+		}
+		for (int i = 0; i < this.getAdjacencyMatrix().length; i++) {
+			if (BFS(i).size()==this.getAdjacencyMatrix().length) return true;
+		}
+		return false;
+	}
+
+	public ArrayList<Integer> BFS(int vertex) {
+		Queue<Integer> queue = new LinkedList<Integer>();
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		queue.offer(vertex);
+		list.add(vertex);
+		while (!queue.isEmpty()) {
+			int currentVertex = queue.poll();
+			for (int i = 0; i < this.getAdjacencyMatrix().length; i++) {
+				if (this.getAdjacencyMatrix()[currentVertex][i] != 0 && !list.contains(i)) {
+					queue.offer(i);
+					list.add(i);
+				}
+			}
+		}
+		return list;
 	}
 
 	public int deg(int vertex) {
@@ -130,16 +153,6 @@ public abstract class Graph {
 			}
 		}
 		return res;
-
-	}
-
-	private boolean connectedHelper() {
-		int size = adjacencyMatrix.length;
-		for (int row = 0; row < size; row++) {
-			if (deg(row) == 0)
-				return false;
-		}
-		return true;
 	}
 
 	public void setGraph(Map<Vertex, List<Edge>> adjacencyList) {
@@ -151,6 +164,10 @@ public abstract class Graph {
 		this.path = path;
 	}
 
+	public PathFindingStrategy getPath() {
+		return this.path;
+	}
+	
 	public Vertex[] pathFinding() {
 		return path.findShortestPath(this, startVertex, endVertex);
 	}
