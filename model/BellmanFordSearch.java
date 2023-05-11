@@ -5,7 +5,10 @@ import java.util.*;
 public class BellmanFordSearch implements PathFindingStrategy {
 
 	private boolean isNegativeCycle = false;
+	// đỉnh bắt đầu của đường đi
 	private Vertex stV;
+
+	// đỉnh đích của đường đi
 	private Vertex edV;
 
 	public Vertex getStV() {
@@ -36,11 +39,11 @@ public class BellmanFordSearch implements PathFindingStrategy {
 	public Vertex[] findShortestPath(Graph graph, Vertex startVertex, Vertex endVertex) {
 		setStV(startVertex);
 		setEdV(endVertex);
-		int[] listParentNode = helper(graph, stV, edV);
 
+		int[] listParentNode = helper(graph, stV, edV);
 		Vertex[] result = null;
-		int rootNode = findNodeInMatrix(graph, stV);
-		int goalNode = findNodeInMatrix(graph, edV);
+		int rootNode = findIndexOfVertexInMatrix(graph, stV);
+		int goalNode = findIndexOfVertexInMatrix(graph, edV);
 
 		ArrayList<Integer> pathListIntType = new ArrayList<Integer>();
 		if (!isNegativeCycle) {
@@ -52,17 +55,18 @@ public class BellmanFordSearch implements PathFindingStrategy {
 				break;
 			}
 			pathListIntType.add(currentNode);
-
 			currentNode = listParentNode[currentNode];
 			if (currentNode == rootNode) {
 				pathListIntType.add(currentNode);
 			}
 		} while (currentNode != rootNode && currentNode != -1);
 		Collections.reverse(pathListIntType);
+
 		ArrayList<Vertex> pathListVertexType = new ArrayList<Vertex>();
 		for (int indexVertex : pathListIntType) {
-			pathListVertexType.add(findVertex(graph, indexVertex));
+			pathListVertexType.add(findVertexByIndexOfMatrix(graph, indexVertex));
 		}
+
 		result = new Vertex[pathListVertexType.size()];
 		int index = 0;
 		for (Vertex v : pathListVertexType) {
@@ -77,18 +81,20 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		return result;
 	}
 
-	private Vertex findVertex(Graph graph, int currentIndexNode) {
-		int indexNode = 0;
+	// phương thức tìm ra đỉnh thuộc đồ thị dựa vào vị trí index của ma trận trong đồ thị
+	private Vertex findVertexByIndexOfMatrix(Graph graph, int indexOfVertex) {
+		int index = 0;
 		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
-			if (indexNode == currentIndexNode) {
+			if (index == indexOfVertex) {
 				return vertex;
 			}
-			indexNode++;
+			index++;
 		}
 		return null;
 	}
 
-	private int findNodeInMatrix(Graph graph, Vertex startVertex) {
+	// phương thức tìm ra vị trí index trong ma trận (của đồ thị) của đỉnh cho trước 
+	private int findIndexOfVertexInMatrix(Graph graph, Vertex startVertex) {
 		int result = 0;
 		for (Vertex vertex : graph.getAdjacencyList().keySet()) {
 			if (vertex.equals(startVertex)) {
@@ -130,12 +136,12 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		int[] parentOfNode = new int[size];
 		/*
 		 * pastCodeOf node is contain the past cost of node
-		 * exmple pastCostOfNode: {0, 5, 3}
+		 * exmple pathCostOfNode: {0, 5, 3}
 		 * 0 (has index 0) is represent of node 0 -> the past cost of node 0 is 0
 		 * 5 (has index 1) is represent of node 1 -> the past cost of node 1 is 5
 		 * 3 (has index 2) is represent of node 2 -> the past cost of node 2 is 3
 		 */
-		int[] pastCostOfNode = new int[size];
+		int[] pathCostOfNode = new int[size];
 
 		// init parent of node (-1 means this node hasn't parent)
 		for (int i = 0; i < size; i++) {
@@ -153,7 +159,7 @@ public class BellmanFordSearch implements PathFindingStrategy {
 
 		// initial pathcost of all node (root node is 0, another is MAX_VALUE)
 		for (int i = 0; i < size; i++) {
-			pastCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
+			pathCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
 		}
 		
 		System.out.println("The graph: \t");
@@ -170,9 +176,11 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String, Integer>>();
 		String s = "\t";
 
+		// Danh sách các đỉnh để có thể lấy được các cạnh từ những đỉnh đó 
 		ArrayList<Integer> nodeToGetEdge = new ArrayList<>();
-
+		// Danh sách các đỉnh tiếp theo được thêm vào danh sách nodeToGetEdge
 		ArrayList<Integer> nextNode = new ArrayList<>();
+
 		nodeToGetEdge.add(rootNode);
 
 		// loop through all node
@@ -185,8 +193,8 @@ public class BellmanFordSearch implements PathFindingStrategy {
 				int endNode = edge[1];
 				nextNode.add(endNode);
 				int weight = edge[2];
-				int pathCostBeginNode = pastCostOfNode[beginNode];
-				int pathCostEndNode = pastCostOfNode[endNode];
+				int pathCostBeginNode = pathCostOfNode[beginNode];
+				int pathCostEndNode = pathCostOfNode[endNode];
 				int pathCostwillChange = pathCostBeginNode == Integer.MAX_VALUE ? Integer.MAX_VALUE
 						: pathCostBeginNode + weight;
 				if (pathCostwillChange < pathCostEndNode) {
@@ -194,18 +202,17 @@ public class BellmanFordSearch implements PathFindingStrategy {
 					if (numNode == size) {
 						System.out.println("Đồ thị có chu trình âm");
 						setNegativeCycle(true);
-						setStV(findVertex(graph, findVertexNegativeCylce(graph, parentOfNode, beginNode)[0]));
-						setEdV(findVertex(graph, findVertexNegativeCylce(graph, parentOfNode,
-								beginNode)[findVertexNegativeCylce(graph, parentOfNode, beginNode).length - 1]));
+						setStV(findVertexByIndexOfMatrix(graph, findVertexBelongNegativeCylce(graph, parentOfNode, beginNode)[0]));
+						setEdV(findVertexByIndexOfMatrix(graph, findVertexBelongNegativeCylce(graph, parentOfNode,
+								beginNode)[findVertexBelongNegativeCylce(graph, parentOfNode, beginNode).length - 1]));
 						return parentOfNode;
 					}
-					pastCostOfNode[endNode] = pathCostwillChange;
+					pathCostOfNode[endNode] = pathCostwillChange;
 					parentOfNode[endNode] = beginNode;
 				}
 			}
 			
 			nodeToGetEdge.addAll(nextNode);
-
 
 			nodes.clear();
 			for (int i = 0; i < parentOfNode.length; i++) {
@@ -214,17 +221,18 @@ public class BellmanFordSearch implements PathFindingStrategy {
 				Map<String, Integer> map = new TreeMap<String, Integer>();
 				if (parentOfNode[i] != -1) {
 					Vertex x = (Vertex) graph.getAdjacencyList().keySet().toArray()[parentOfNode[i]];
-					map.put(x.getName(), pastCostOfNode[i]);
+					map.put(x.getName(), pathCostOfNode[i]);
 				} else {
-					map.put("-1", pastCostOfNode[i]);
+					map.put("-1", pathCostOfNode[i]);
 				}
 				nodes.get(v.getName()).putAll(map);
 			}
 
 			String str = "";
 			for (String v : nodes.keySet()) {
+				String weight = nodes.get(v).get(nodes.get(v).keySet().toArray()[0]) != Integer.MAX_VALUE ? nodes.get(v).get(nodes.get(v).keySet().toArray()[0]).toString(): "oo";
 				str += "(" + nodes.get(v).keySet().toArray()[0] + ", "
-						+ nodes.get(v).get(nodes.get(v).keySet().toArray()[0]) + ")\t";
+						+  weight + ")    ";
 				s += str;
 				str = "";
 			}
@@ -235,15 +243,18 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		return parentOfNode;
 	}
 
-	private int[] findVertexNegativeCylce(Graph graph, int[] parentOfNode, int beginNode) {
+	// phương thức dùng để tìm các đỉnh thuộc chu trình âm (các đỉnh này ở dạng index trong ma trận của đồ thị)
+	private int[] findVertexBelongNegativeCylce(Graph graph, int[] parentOfNode, int beginNode) {
 		ArrayList<Integer> res = new ArrayList<Integer>();
-		res.add(beginNode);
 		int currentVertex = parentOfNode[beginNode];
+		
+		res.add(beginNode);
 
 		while (!res.contains(currentVertex)) {
 			res.add(currentVertex);
 			currentVertex = parentOfNode[currentVertex];
 		}
+
 		return res.stream().mapToInt(x -> x).toArray();
 	}
 
