@@ -174,7 +174,6 @@ public abstract class Graph {
 	}
 
 	public boolean checkUnGraph() {
-
 		for (int i = 0; i < adjacencyMatrix.length; i++) {
 			for (int j = 0; j < adjacencyMatrix.length; j++) {
 				if (adjacencyMatrix[i][j] != adjacencyMatrix[j][i])
@@ -182,63 +181,6 @@ public abstract class Graph {
 			}
 		}
 		return true;
-	}
-
-	public void printMatrix() {
-		int size = this.adjacencyMatrix.length + 1;
-		int index = 0;
-		int index1 = 0;
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				if (i == 0 && j == 0) {
-					System.out.print("\t");
-				} else if (i == 0 && j != 0) {
-					Vertex x = (Vertex) adjacencyList.keySet().toArray()[index++];
-					System.out.print(x.getName() + "\t");
-				} else if (i != 0 && j == 0) {
-					Vertex x = (Vertex) adjacencyList.keySet().toArray()[index1++];
-					System.out.print(x.getName() + "\t");
-				} else {
-					System.out.print(adjacencyMatrix[i - 1][j - 1] + "\t");
-				}
-			}
-			System.out.println();
-		}
-	}
-
-	public void printEdge(int rootNode) {
-		String s = "";
-		String edge = "";
-
-		ArrayList<Integer> rootNodeList = new ArrayList<>();
-		rootNodeList.add(rootNode);
-		for (int i = 0; i < getEdges(rootNodeList).length; i++) {
-			edge += "(";
-			for (int j = 0; j < getEdges(rootNodeList)[i].length; j++) {
-				if (j == getEdges(rootNodeList)[i].length - 1) {
-					break;
-				}
-				Vertex x = (Vertex) adjacencyList.keySet().toArray()[getEdges(rootNodeList)[i][j]];
-				if (j == 0) {
-					edge += x.getName() + "-";
-				} else {
-					edge += x.getName();
-				}
-
-			}
-			edge += ")";
-			s += edge + "\t";
-			edge = "";
-		}
-		System.out.println(s);
-	}
-
-	public void printNode() {
-		for (int i = 0; i < adjacencyMatrix.length; i++) {
-			Vertex x = (Vertex) adjacencyList.keySet().toArray()[i];
-
-			System.out.print(x.getName() + "\t");
-		}
 	}
 
 	public void rename(Vertex vertex, String name) {

@@ -155,18 +155,6 @@ public class BellmanFordSearch implements PathFindingStrategy {
 		for (int i = 0; i < size; i++) {
 			pastCostOfNode[i] = (i == rootNode) ? 0 : Integer.MAX_VALUE;
 		}
-		
-		System.out.println("The graph: \t");
-		graph.printMatrix();
-		System.out.println();
-		System.out.print("the graph has edges: \t");
-		graph.printEdge(rootNode);
-		System.out.println();
-		System.out.println("algorithm implementation:");
-		System.out.println("---------------------------");
-		System.out.print("\t");
-		graph.printNode();
-		System.out.println();
 		Map<String, Map<String, Integer>> nodes = new TreeMap<String, Map<String, Integer>>();
 		String s = "\t";
 

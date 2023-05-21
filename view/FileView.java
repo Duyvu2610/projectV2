@@ -49,7 +49,6 @@ public class FileView extends JPanel {
 		saveFileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				// create list node and edges
 				String verticesString = "";
 				int numNode = 0;
@@ -155,7 +154,6 @@ public class FileView extends JPanel {
 					String vertexFileLocation = "C:\\FindShortPathApp\\vertexData\\"
 							+ fileChooser.getSelectedFile().getName().replaceFirst("[.][^.]+$", "") + "_"
 							+ fileChooser.getSelectedFile().getParentFile().getName() + ".txt";
-
 					File matrixFile = new File(matrixFileLocation);
 					currentFile = matrixFile;
 					File vertexFile = new File(vertexFileLocation);
@@ -261,7 +259,6 @@ public class FileView extends JPanel {
 						controller.setModel(DirectedGraph.getInstance());
 					}
 					controller.getGraph().setGraph(list);
-
 					controller.notifyObservers();
 
 				}

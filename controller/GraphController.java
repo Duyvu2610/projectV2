@@ -163,11 +163,9 @@ public class GraphController implements Subject {
 			// khởi tạo danh sách các đỉnh và các cạnh của thuật toán đi qua
 			List<Vertex> vertices = new ArrayList<Vertex>();
 			List<Edge> edges = new ArrayList<Edge>();
-
 			for (Vertex vertex : res) {
 				vertices.add(vertex);
 			}
-
 			for (int i = 0; i < vertices.size() - 1; i++) {
 				int index = i;
 				Vertex beginNode = vertices.get(index);

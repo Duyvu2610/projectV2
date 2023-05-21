@@ -59,7 +59,6 @@ public class NotifyView extends JPanel {
 
 			} else {
 				notifyLabel.setText("Không có đường đi từ " + st.getName() + " đến " + ds.getName());
-
 			}
 
 		} else {
